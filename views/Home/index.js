@@ -13,21 +13,29 @@ const Home = () => {
                 <Text.TitleH3>PDV</Text.TitleH3>
             </Container>
             <Container style={styles.menuItem} onPress={() => {
-                navigation.navigate('Reportes')
-            }}>
-                <Text.TitleH3>Reportes</Text.TitleH3>
-            </Container>
-            <Container style={styles.menuItem} onPress={() => {
                 alert('Go to Reposicion')
             }}>
                 <Text.TitleH3>Reposicion</Text.TitleH3>
             </Container>
+            
+            
             <Container style={styles.menuItem} onPress={() => {
                 alert('Go to cierre de caja')
             }}>
                 <Text.TitleH3>Cierre</Text.TitleH3>
             </Container>
             
+            <Container style={styles.menuItem} onPress={() => {
+                navigation.navigate('Ventas')
+            }}>
+                <Text.TitleH3>Ventas</Text.TitleH3>
+            </Container>
+            <Container style={styles.menuItem} onPress={() => {
+                navigation.navigate('Inventory')
+            }}>
+                <Text.TitleH3>Inventario</Text.TitleH3>
+            </Container>
+
             <Container style={styles.menuItem} onPress={() => {
                 navigation.navigate('Ajustes')
             }}>

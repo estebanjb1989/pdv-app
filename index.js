@@ -1,6 +1,8 @@
 import React from "react";
 import { registerRootComponent } from "expo";
-
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
+import { getStore, getPersistor } from './redux/Store'
 import { DefaultTheme } from "@react-navigation/native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -11,24 +13,29 @@ const Stack = createStackNavigator();
 
 function App() {
   return (
-    <NavigationContainer
-      theme={{
-        ...DefaultTheme,
-        colors: {
-          ...light,
-        },
-      }}
-    >
-      <Stack.Navigator
-        screenOptions={{
-          gestureEnabled: false,
-        }}
-      >
-        <Stack.Screen name="Home" component={Views.Home} />
-        <Stack.Screen name="Ajustes" component={Views.Ajustes} />
-        <Stack.Screen name="PDV" component={Views.PDV} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={getStore()}>
+      <PersistGate persistor={getPersistor()}>
+        <NavigationContainer
+          theme={{
+            ...DefaultTheme,
+            colors: {
+              ...light,
+            },
+          }}
+        >
+          <Stack.Navigator
+            screenOptions={{
+              gestureEnabled: false,
+            }}
+          >
+            <Stack.Screen name="Home" component={Views.Home} />
+            <Stack.Screen name="Adjustments" component={Views.Adjustments} />
+            <Stack.Screen name="PDV" component={Views.PDV} />
+            <Stack.Screen name="Inventory" component={Views.Inventory} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
 }
 

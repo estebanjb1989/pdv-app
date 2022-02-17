@@ -1,10 +1,12 @@
 
-import Ajustes from "./Ajustes";
+import Adjustments from "./Adjustments";
 import Home from "./Home";
 import PDV from "./PDV";
+import Inventory from "./Inventory";
 
 export default {
-    Ajustes,
+    Adjustments,
     Home,
     PDV,
+    Inventory,
 }

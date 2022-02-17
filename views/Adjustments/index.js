@@ -3,7 +3,7 @@ import { Container, Button, Spacer } from '../../component'
 import { useBackButton } from '../../hook'
 import * as DocumentPicker from 'expo-document-picker'
 
-const Ajustes = () => {
+const Adjustments = () => {
     useBackButton()
 
     return (
@@ -26,4 +26,4 @@ const Ajustes = () => {
     );
 }
 
-export default Ajustes
+export default Adjustments

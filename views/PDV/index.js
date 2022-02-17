@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { FlatList } from 'react-native'
 import { Button, Container, Text, Spacer } from '../../component'
 import { useBackButton, useScanner, useHeaderTitle } from '../../hook'
+import { useDispatch, useSelector } from 'react-redux'
 
 const inventoryMock = [{
     id: 1,
@@ -18,8 +19,10 @@ const inventoryMock = [{
 }]
 
 const PDV = () => {
+    const dispatch = useDispatch()
     const [cartItems, setCartItems] = React.useState([])
     const [scanned, setScanned] = React.useState(null)
+    const inventory = useSelector(state => state.inventory.list)
 
     useHeaderTitle("Punto de venta")
     useBackButton()
@@ -92,9 +95,6 @@ const PDV = () => {
     }
 
     const handleFinish = () => {
-        if (!cartItems.length) {
-            return
-        }
         setCartItems([])
     }
 
@@ -184,10 +184,12 @@ const PDV = () => {
                 <Container>
                     <Text.Small>TOTAL</Text.Small>
                     <Text.TitleH1>{calculateTotal()} ARS</Text.TitleH1>
-                </Container>
-                <Container onPress={handleFinish}>
-                    <Button.Primary title="COBRAR" width={128}/>
-                </Container>
+                </Container>                
+                <Button.Primary 
+                    title="COBRAR" 
+                    width={128}
+                    onPress={handleFinish}
+                />
             </Container>
         </Container>
     );
