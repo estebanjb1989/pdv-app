@@ -4,22 +4,7 @@ import { Button, Container, Text, Spacer } from '../../component'
 import { useBackButton, useScanner, useHeaderTitle } from '../../hook'
 import { useDispatch, useSelector } from 'react-redux'
 
-const inventoryMock = [{
-    id: 1,
-    productId: 4,
-    barcode: '111',
-    description: 'CEPILLO',
-    price: 20,
-}, {
-    id: 2,
-    productId: 5,
-    barcode: '222',
-    description: 'JABON',
-    price: 40,
-}]
-
 const PDV = () => {
-    const dispatch = useDispatch()
     const [cartItems, setCartItems] = React.useState([])
     const [scanned, setScanned] = React.useState(null)
     const inventory = useSelector(state => state.inventory.list)
@@ -27,8 +12,8 @@ const PDV = () => {
     useHeaderTitle("Punto de venta")
     useBackButton()
     useScanner(useCallback((barcode) => {
-        const item = inventoryMock.find(item => (
-            item.barcode === barcode
+        const item = inventory.find(item => (
+            item.barcode.toString() === barcode
         ))
         if (!item) {
             alert(barcode + ' no encontrado')
@@ -95,7 +80,6 @@ const PDV = () => {
     }
 
     const handleFinish = () => {
-        
         setCartItems([])
     }
 

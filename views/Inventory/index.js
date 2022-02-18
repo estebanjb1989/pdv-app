@@ -14,10 +14,15 @@ const Inventory = () => {
             data={inventory}
             keyExtractor={(item) => item.id}
             renderItem={({item}) => (
-                <Container>
+                <Container row>
                     <Text.Small>
-                        {item.DESCRIPCION}
+                        {item.description}
                     </Text.Small>
+                    <Container style={{
+                        width: '100%',
+                        height: 1,
+                        backgroundColor: 'gold',
+                    }} />
                 </Container>
             )}
         />

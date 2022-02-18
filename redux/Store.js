@@ -4,17 +4,16 @@ import thunk from 'redux-thunk'
 import createSagaMiddleware from 'redux-saga'
 import { createLogger } from 'redux-logger'
 import { createStore, applyMiddleware } from 'redux'
-import { persistStore, persistReducer } from 'redux-persist'
-import AsyncStorage from '@react-native-community/async-storage'
+import { persistStore, /* persistReducer */} from 'redux-persist'
 import RootSaga from './RootSaga'
 
-const persistConfig = {
-  key: 'root',
-  storage: AsyncStorage,
-  whitelist: ['session', 'inventory'],
-}
+// const persistConfig = {
+//   key: 'root',
+//   storage: createElectronStorage(),
+//   whitelist: ['session', 'inventory'],
+// }
 
-const persistedReducer = persistReducer(persistConfig, RootReducer)
+//const persistedReducer = persistReducer(persistConfig, RootReducer)
 let store = null
 const saga = createSagaMiddleware()
 
@@ -31,7 +30,7 @@ export const getStore = () => {
     }
 
     store = createStore(
-      persistedReducer,
+      RootReducer,
       {},
       applyMiddleware(...middleware)
     )

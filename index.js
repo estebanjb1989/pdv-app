@@ -14,7 +14,7 @@ const Stack = createStackNavigator();
 function App() {
   return (
     <Provider store={getStore()}>
-      <PersistGate persistor={getPersistor()}>
+      {/* <PersistGate persistor={getPersistor()}> */}
         <NavigationContainer
           theme={{
             ...DefaultTheme,
@@ -34,7 +34,7 @@ function App() {
             <Stack.Screen name="Inventory" component={Views.Inventory} />
           </Stack.Navigator>
         </NavigationContainer>
-      </PersistGate>
+      {/* </PersistGate> */}
     </Provider>
   );
 }

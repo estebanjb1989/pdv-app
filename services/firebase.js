@@ -2,7 +2,7 @@ import { getApps, initializeApp } from "firebase/app";
 import {
     LogBox,
 } from "react-native";
-import Config from 'constants/config'
+import Config from '../constants/config'
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth'
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import uuid from "uuid";

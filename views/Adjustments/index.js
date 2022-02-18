@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux'
 import { Container, Button, Spacer } from '../../component'
-import { useBackButton } from '../../hook'
+import { useBackButton, useHeaderTitle } from '../../hook'
 import * as DocumentPicker from 'expo-document-picker'
 import * as XLSX from 'xlsx';
 import { InventoryTypes } from '../../redux/types'
@@ -9,6 +9,7 @@ import { InventoryTypes } from '../../redux/types'
 const Adjustments = () => {
     const [loadingExcel, setLoadingExcel] = useState(false)
     useBackButton()
+    useHeaderTitle('Ajustes')
     const dispatch = useDispatch()
 
     return (
@@ -22,7 +23,7 @@ const Adjustments = () => {
                     disabled={loadingExcel}
                     onPress={async () => {
                         const f = await DocumentPicker.getDocumentAsync({
-                            type: 'xls'
+                            type: ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
                         })
 
                         const reader = new FileReader();
@@ -38,10 +39,10 @@ const Adjustments = () => {
                             /* Update state */
                             const headers = data[0]
                             const rows = data.slice(1).map(item => ({
-                                [headers[0]]: item[0],
-                                [headers[1]]: item[1],
-                                [headers[2]]: item[2],
-                                [headers[3]]: item[3],
+                                'category': item[0],
+                                'productId': item[1],
+                                'description': item[2],
+                                'barcode': item[3],
                             }))
                             dispatch({
                                 type: InventoryTypes.SET_INVENTORY,
