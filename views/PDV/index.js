@@ -95,6 +95,7 @@ const PDV = () => {
     }
 
     const handleFinish = () => {
+        
         setCartItems([])
     }
 

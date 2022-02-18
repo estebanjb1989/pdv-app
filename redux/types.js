@@ -23,5 +23,5 @@ export const SessionTypes = {
 }
 
 export const InventoryTypes = {
-  INVENTORY_ADD: 'inventory/INVENTORY_ADD',
+  SET_INVENTORY: 'inventory/SET_INVENTORY',
 }

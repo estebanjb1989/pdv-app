@@ -15,9 +15,9 @@ const Inventory = () => {
             keyExtractor={(item) => item.id}
             renderItem={({item}) => (
                 <Container>
-                    <Text.TitleH1>
-                        ASD
-                    </Text.TitleH1>
+                    <Text.Small>
+                        {item.DESCRIPCION}
+                    </Text.Small>
                 </Container>
             )}
         />

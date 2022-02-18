@@ -11,7 +11,7 @@ import RootSaga from './RootSaga'
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['session'],
+  whitelist: ['session', 'inventory'],
 }
 
 const persistedReducer = persistReducer(persistConfig, RootReducer)

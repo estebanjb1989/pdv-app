@@ -37,7 +37,7 @@ const Home = () => {
             </Container>
 
             <Container style={styles.menuItem} onPress={() => {
-                navigation.navigate('Ajustes')
+                navigation.navigate('Adjustments')
             }}>
                 <Text.TitleH3>Ajustes</Text.TitleH3>
             </Container>

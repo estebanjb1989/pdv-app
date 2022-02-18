@@ -8,10 +8,10 @@ export const reducer = (state = initialState, action = {}) => {
   let nextState = null
 
   switch (action.type) {
-    case InventoryTypes.INVENTORY_ADD:
+    case InventoryTypes.SET_INVENTORY:
       nextState = {
         ...state,
-        list: [...state.list, action.payload],
+        list: action.payload,
       }
       break
 
