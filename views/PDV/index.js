@@ -19,7 +19,7 @@ const PDV = () => {
         if (!item) {
             alert(barcode + ' no encontrado')
             return
-        } 
+        }
 
         if (!item.price) {
             alert(barcode + ' no tiene precio')
@@ -170,16 +170,19 @@ const PDV = () => {
                     />
                 </Container>
             </Container>
-            <Container row alignEnd spaceBetween padded>
-                <Container>
-                    <Text.Small>TOTAL</Text.Small>
-                    <Text.TitleH1>{calculateTotal()} ARS</Text.TitleH1>
-                </Container>                
-                <Button.Primary 
-                    title="COBRAR" 
-                    width={128}
-                    onPress={handleFinish}
-                />
+            <Container>
+                <Container row alignEnd spaceBetween padded>
+                    <Container>
+                        <Text.Small>TOTAL</Text.Small>
+                        <Text.TitleH1>{calculateTotal()} ARS</Text.TitleH1>
+                    </Container>
+                    <Button.Primary
+                        title="COBRAR"
+                        width={128}
+                        onPress={handleFinish}
+                    />
+                </Container>
+                <Spacer.Medium />
             </Container>
         </Container>
     );

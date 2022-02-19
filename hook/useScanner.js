@@ -1,4 +1,5 @@
 import React from 'react'
+import { Platform } from 'react-native'
 
 const useScanner = (onScan) => {
     let buffer = ''
@@ -23,6 +24,9 @@ const useScanner = (onScan) => {
     }
 
     React.useEffect(() => {
+        if (Platform.OS !== 'web') {
+            return
+        }
         document.addEventListener('keypress', handleKeypress)
         return () => {
             document.removeEventListener('keypress', handleKeypress)

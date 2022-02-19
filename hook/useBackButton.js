@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Text } from '../component'
+import { Container, Text, Spacer } from '../component'
 import { useNavigation } from '@react-navigation/native'
 
 const useBackButton = () => {
@@ -9,7 +9,8 @@ const useBackButton = () => {
         navigation.setOptions({
             headerLeft: () => {
                 return (
-                    <Container onPress={navigation.goBack} padded>
+                    <Container onPress={navigation.goBack} row>
+                        <Spacer.Medium />
                         <Text.Body>⬅️</Text.Body>
                     </Container>
                 )

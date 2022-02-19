@@ -1,12 +1,13 @@
 import React, { useCallback } from 'react';
-import { FlatList } from 'react-native'
-import { Button, Container, Text, Spacer } from '../../component'
+import { TextInput } from 'react-native'
+import { Container, Text, Spacer } from '../../component'
 import { useBackButton, useScanner, useHeaderTitle } from '../../hook'
 import { useSelector } from 'react-redux'
+import { getDatabase, ref as dbRef, set } from 'firebase/database';
 
-const PDV = () => {
-    const [cartItems, setCartItems] = React.useState([])
+const Prices = () => {
     const [scanned, setScanned] = React.useState(null)
+    const [price, setPrice] = React.useState(null)
     const inventory = useSelector(state => state.inventory.list)
 
     useHeaderTitle("Precios")
@@ -19,7 +20,7 @@ const PDV = () => {
         if (!item) {
             alert(barcode + ' no encontrado')
             return
-        } 
+        }
 
         setScanned({
             ...item,
@@ -27,67 +28,44 @@ const PDV = () => {
         })
     }, [setScanned]))
 
-    React.useEffect(() => {
-        if (!scanned) {
-            return
-        }
-        updateCart(scanned)
-    }, [scanned])
-
-    const updateCart = (scannedProduct) => {
-        const existingItem = cartItems.find(item => (
-            item.productId === scannedProduct.productId
-        ))
-
-        if (existingItem) {
-            setCartItems(cartItems.map(item => (
-                item.productId === scannedProduct.productId ?
-                    { ...item, quantity: item.quantity + 1 } : item
-            )))
-        }
-        else {
-            setCartItems([
-                ...cartItems,
-                {
-                    id: cartItems.length + 1,
-                    quantity: 1,
-                    ...scannedProduct,
-                }
-            ])
-        }
+    const handleUpdate = () => {
+        const db = getDatabase();
+        const reference = dbRef(db, 'inventory/' + scanned.barcode);
+        set(reference, {
+            ...scanned,
+            price,
+        });
+        setScanned(null)
+        setPrice(null)
     }
 
-    const calculateTotal = () => {
-        return cartItems.reduce((carry, value) => {
-            return carry + (value.price * value.quantity)
-        }, 0)
-    }
-
-    const handleDelete = (item) => () => {
-        if (item.quantity === 1) {
-            setCartItems(cartItems.filter(cartItem => (
-                cartItem.productId !== item.productId
-            )))
-            return
-        }
-
-        setCartItems(
-            cartItems.map(cartItem => (
-                cartItem.productId === item.productId ?
-                    { ...cartItem, quantity: cartItem.quantity - 1 } : cartItem
-            ))
-        )
-    }
-
-    const handleFinish = () => {
-        setCartItems([])
-    }
+    const item = inventory.find(item => (
+        item.barcode.toString() === scanned?.barcode.toString()
+    ))
 
     return (
         <Container flex alignCenter justifyCenter>
-            <Text.TitleH1>Escanee un producto...</Text.TitleH1>
+            <Text.TitleH1>{item?.description || 'Escanee un producto'}</Text.TitleH1>
+            {item && (
+                <Container alignCenter>
+                    <Text.TitleH1>Precio actual: {item.price} ARS</Text.TitleH1>
+                    <Spacer.Medium />
+                    <TextInput
+                        placeholder="Nuevo precio ARS"
+                        autoFocus
+                        onChangeText={(text) => setPrice(parseFloat(text))}
+                        onSubmitEditing={handleUpdate}
+                        style={{
+                            width: 240,
+                            height: 50,
+                            paddingHorizontal: 12,
+                            backgroundColor: 'whitesmoke',
+                        }}
+                    />
+                </Container>
+            )}
         </Container>
     );
 }
 
-export default PDV
+export default Prices

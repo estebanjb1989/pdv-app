@@ -25,9 +25,14 @@ const Inventory = () => {
                                     {item.category}
                                 </Text.Small>
                             </Container>
-                            <Text.Body>
-                                {item.barcode}
-                            </Text.Body>
+                            <Container alignEnd>
+                                <Text.Body>
+                                    {item.barcode}
+                                </Text.Body>
+                                <Text.Body>
+                                    {item.price || '?'} ARS
+                                </Text.Body>
+                            </Container>
                         </Container>
                         <Container style={{
                             width: '100%',
