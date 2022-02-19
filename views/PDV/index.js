@@ -5,7 +5,7 @@ import { useBackButton, useScanner, useHeaderTitle } from '../../hook'
 import { useDispatch, useSelector } from 'react-redux'
 
 const PDV = () => {
-    const [cartItems, setCartItems] = React.useState([])
+    const [items, setItems] = React.useState([])
     const [scanned, setScanned] = React.useState(null)
     const inventory = useSelector(state => state.inventory.list)
 
@@ -15,15 +15,21 @@ const PDV = () => {
         const item = inventory.find(item => (
             item.barcode.toString() === barcode
         ))
+
         if (!item) {
             alert(barcode + ' no encontrado')
+            return
+        } 
+
+        if (!item.price) {
+            alert(barcode + ' no tiene precio')
+            return
         }
-        else {
-            setScanned({
-                ...item,
-                scannedAt: Date.now(),
-            })
-        }
+
+        setScanned({
+            ...item,
+            scannedAt: Date.now(),
+        })
     }, [setScanned]))
 
     React.useEffect(() => {
@@ -34,22 +40,21 @@ const PDV = () => {
     }, [scanned])
 
     const updateCart = (scannedProduct) => {
-        const existingItem = cartItems.find(item => (
+        const existingItem = items.find(item => (
             item.productId === scannedProduct.productId
         ))
 
         if (existingItem) {
-
-            setCartItems(cartItems.map(item => (
+            setItems(items.map(item => (
                 item.productId === scannedProduct.productId ?
                     { ...item, quantity: item.quantity + 1 } : item
             )))
         }
         else {
-            setCartItems([
-                ...cartItems,
+            setItems([
+                ...items,
                 {
-                    id: cartItems.length + 1,
+                    id: items.length + 1,
                     quantity: 1,
                     ...scannedProduct,
                 }
@@ -58,21 +63,21 @@ const PDV = () => {
     }
 
     const calculateTotal = () => {
-        return cartItems.reduce((carry, value) => {
+        return items.reduce((carry, value) => {
             return carry + (value.price * value.quantity)
         }, 0)
     }
 
     const handleDelete = (item) => () => {
         if (item.quantity === 1) {
-            setCartItems(cartItems.filter(cartItem => (
+            setItems(items.filter(cartItem => (
                 cartItem.productId !== item.productId
             )))
             return
         }
 
-        setCartItems(
-            cartItems.map(cartItem => (
+        setItems(
+            items.map(cartItem => (
                 cartItem.productId === item.productId ?
                     { ...cartItem, quantity: cartItem.quantity - 1 } : cartItem
             ))
@@ -80,7 +85,7 @@ const PDV = () => {
     }
 
     const handleFinish = () => {
-        setCartItems([])
+        setItems([])
     }
 
     return (
@@ -89,7 +94,7 @@ const PDV = () => {
                 <Container fullWidth>
                     <FlatList
                         keyExtractor={(item) => item.id}
-                        data={cartItems}
+                        data={items}
                         ListHeaderComponent={
                             <Container>
                                 <Container row spaceBetween>
@@ -120,7 +125,7 @@ const PDV = () => {
                                     marginVertical: 12,
                                     backgroundColor: 'gold',
                                 }} />
-                                {!cartItems.length &&
+                                {!items.length &&
                                     <Container>
                                         <Spacer.Medium />
                                         <Text.BodyBold>Comience a escanear...</Text.BodyBold>

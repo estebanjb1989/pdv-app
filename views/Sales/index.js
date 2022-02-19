@@ -5,14 +5,14 @@ import { useBackButton, useHeaderTitle } from '../../hook'
 import { useSelector } from 'react-redux'
 
 const Inventory = () => {
-    const inventory = useSelector(state => state.inventory.list)
+    const sales = []
     useBackButton()
-    useHeaderTitle('Inventario')
+    useHeaderTitle('Ventas')
 
     return (
         <FlatList
-            data={inventory}
-            keyExtractor={(item) => item.productId}
+            data={sales}
+            keyExtractor={(item) => item.id}
             renderItem={({ item }) => {
                 return (
                     <Container padded>
