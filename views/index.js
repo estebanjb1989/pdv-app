@@ -5,6 +5,7 @@ import PDV from "./PDV";
 import Prices from "./Prices";
 import Inventory from "./Inventory";
 import Sales from "./Sales";
+import Onboarding from './Onboarding'
 
 export default {
     Adjustments,
@@ -13,4 +14,5 @@ export default {
     Inventory,
     Prices,
     Sales,
+    Onboarding,
 }

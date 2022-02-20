@@ -1,8 +1,7 @@
 import React from "react";
 import { registerRootComponent } from "expo";
 import { Provider } from 'react-redux'
-//import { PersistGate } from 'redux-persist/integration/react'
-import { getStore, /*getPersistor*/ } from './redux/Store'
+import { getStore } from './redux/Store'
 import { DefaultTheme } from "@react-navigation/native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -16,7 +15,6 @@ initFirebase()
 function App() {
   return (
     <Provider store={getStore()}>
-      {/* <PersistGate persistor={getPersistor()}> */}
       <NavigationContainer
         theme={{
           ...DefaultTheme,
@@ -26,6 +24,7 @@ function App() {
         }}
       >
         <Stack.Navigator
+          initialRouteName="Onboarding/SignIn"
           screenOptions={{
             gestureEnabled: false,
           }}
@@ -36,9 +35,9 @@ function App() {
           <Stack.Screen name="Inventory" component={Views.Inventory} />
           <Stack.Screen name="Prices" component={Views.Prices} />
           <Stack.Screen name="Sales" component={Views.Sales} />
+          <Stack.Screen name="Onboarding/SignIn" component={Views.Onboarding.SignIn} />
         </Stack.Navigator>
       </NavigationContainer>
-      {/* </PersistGate> */}
     </Provider>
   );
 }
