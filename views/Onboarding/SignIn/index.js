@@ -1,21 +1,54 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { Container, Text } from '../../../component'
-import { useHeaderHidden } from '../../../hook'
+import React from 'react';
 import { useNavigation } from '@react-navigation/native'
-import { getDatabase, ref as dbRef, onValue } from 'firebase/database';
-import { useDispatch } from 'react-redux'
+import { Button, Container, Text, Input, Spacer } from '../../../component'
+import { useHeaderHidden } from '../../../hook'
 
 const SignIn = () => {
-    const navigation = useNavigation()
-    const dispatch = useDispatch()
     useHeaderHidden()
 
+    const navigation = useNavigation()
+
+    const handleSignIn = () => {
+
+    }
+
     return (
-        <Container flex alignCenter justifyCenter>
-            <Text.TitleH1>
-                PDV App
+        <Container
+            flex
+            alignCenter
+            spaceBetween
+        >
+            <Container>
+                <Spacer.Medium />
+                <Text.TitleH1>
+                    PDV App
             </Text.TitleH1>
+            </Container>
+            <Container>
+                <Input
+                    label="EMAIL"
+                    autoFocus
+                    placeholder="user@email.com"
+                />
+                <Input
+                    label="PASSWORD"
+                    secure
+                />
+                <Spacer.Large />
+                <Button.Primary
+                    width={240}
+                    title="Ingresar"
+                    onPress={handleSignIn}
+                />
+            </Container>
+            <Container>
+
+                <Button.Tertiary 
+                    title="Nuevo usuario? Registrate" 
+                    onPress={() => navigation.navigate('Onboarding/SignUp')}
+                />
+                <Spacer.Medium />
+            </Container>
         </Container>
     );
 }

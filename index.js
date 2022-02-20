@@ -36,6 +36,7 @@ function App() {
           <Stack.Screen name="Prices" component={Views.Prices} />
           <Stack.Screen name="Sales" component={Views.Sales} />
           <Stack.Screen name="Onboarding/SignIn" component={Views.Onboarding.SignIn} />
+          <Stack.Screen name="Onboarding/SignUp" component={Views.Onboarding.SignUp} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
