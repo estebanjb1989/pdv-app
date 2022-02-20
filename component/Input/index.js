@@ -9,6 +9,7 @@ const Input = ({
     autoFocus,
     secure,
     placeholder,
+    onChange,
 }) => {
     return (
         <Container>
@@ -26,6 +27,7 @@ const Input = ({
                     borderRadius: 6,
                     paddingHorizontal: 12,
                 }}
+                onChangeText={onChange}
             />
         </Container>
     )

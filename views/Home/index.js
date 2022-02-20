@@ -68,6 +68,11 @@ const Home = () => {
             }}>
                 <Text.TitleH3>Ajustes</Text.TitleH3>
             </Container>
+            <Container style={styles.menuItem} onPress={() => {
+                navigation.navigate('Onboarding/SignIn')
+            }}>
+                <Text.TitleH3>Salir</Text.TitleH3>
+            </Container>
         </Container>
     );
 }
