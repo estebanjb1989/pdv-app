@@ -1,14 +1,26 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { DefaultTheme } from "@react-navigation/native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { light } from "./constants/theme";
 import Views from './views'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Navigator = () => {
     const Stack = createStackNavigator();
-    const credentials = useSelector(state => state.session.credentials)
+    const [credentials, setCredentials] = useState(null)
+    const [loading, setLoading] = useState(true)
+
+    useEffect(async () => {
+        const creds = await AsyncStorage.getItem('@credentials')
+        setCredentials(JSON.parse(creds))
+        setLoading(false)
+    }, [])
+
+    if (loading) {
+        return null
+    }
 
     return (
         <NavigationContainer
@@ -17,10 +29,10 @@ const Navigator = () => {
                 colors: {
                     ...light,
                 },
-            }}
+            }} 
         >
             <Stack.Navigator
-                initialRouteName={credentials ? "Home" : "Onboarding/SignIn"}
+                initialRouteName={credentials?.user ? "Home" : "Onboarding/SignIn"}
                 screenOptions={{
                     gestureEnabled: false,
                 }}

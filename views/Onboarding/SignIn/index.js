@@ -5,6 +5,7 @@ import { Button, Container, Text, Input, Spacer } from '../../../component'
 import { useHeaderHidden } from '../../../hook'
 import { getAuth, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail } from 'firebase/auth'
 import { SessionTypes } from '../../../redux/types'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignIn = () => {
     useHeaderHidden()
@@ -53,6 +54,7 @@ const SignIn = () => {
                 type: SessionTypes.SET_USER,
                 payload: credentials,
             })
+            await AsyncStorage.setItem('@credentials', JSON.stringify(credentials))
             navigation.navigate('Home')
         }
         catch (err) {

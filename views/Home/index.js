@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import { getDatabase, ref as dbRef, onValue } from 'firebase/database';
 import { InventoryTypes, SalesTypes } from '../../redux/types'
 import { useDispatch } from 'react-redux'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home = () => {
     const navigation = useNavigation()
@@ -68,7 +69,8 @@ const Home = () => {
             }}>
                 <Text.TitleH3>Ajustes</Text.TitleH3>
             </Container>
-            <Container style={styles.menuItem} onPress={() => {
+            <Container style={styles.menuItem} onPress={async () => {
+                await AsyncStorage.setItem('@credentials', null)
                 navigation.navigate('Onboarding/SignIn')
             }}>
                 <Text.TitleH3>Salir</Text.TitleH3>
@@ -91,15 +93,3 @@ const styles = StyleSheet.create({
 });
 
 export default Home
-/*
-<LinearGradient colors={["white", "#3423ca"]} style={styles.container}>
-            <Button
-                onPress={() => {
-                DocumentPicker.getDocumentAsync({
-                    type: 'xls'
-                })
-                }}
-                title="Importar Excel"
-            />
-            <Text>Open up App.tsx to start working on your app!!!</Text>
-        </LinearGradient>*/
