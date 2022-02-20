@@ -3,6 +3,8 @@ import { FlatList } from 'react-native'
 import { Button, Container, Text, Spacer } from '../../component'
 import { useBackButton, useScanner, useHeaderTitle } from '../../hook'
 import { useDispatch, useSelector } from 'react-redux'
+import { getDatabase, ref as dbRef, push } from 'firebase/database';
+const dialog = require('electron').remote.dialog 
 
 const PDV = () => {
     const [items, setItems] = React.useState([])
@@ -84,8 +86,21 @@ const PDV = () => {
         )
     }
 
-    const handleFinish = () => {
-        setItems([])
+    const handleFinish = async () => {
+        let options = {
+            buttons: ["Si", "No"],
+            message: "Confirma la venta?"
+        }
+        const response = await dialog.showMessageBoxSync(options)
+        if (response === 0) {
+            const db = getDatabase();
+            const reference = dbRef(db, 'sales');
+            push(reference, {
+                items,
+                soldOutAt: Date.now(),
+            });
+            setItems([])
+        }
     }
 
     return (
@@ -177,6 +192,7 @@ const PDV = () => {
                         <Text.TitleH1>{calculateTotal()} ARS</Text.TitleH1>
                     </Container>
                     <Button.Primary
+                        disabled={items.length === 0}
                         title="COBRAR"
                         width={128}
                         onPress={handleFinish}

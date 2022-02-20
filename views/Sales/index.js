@@ -5,29 +5,23 @@ import { useBackButton, useHeaderTitle } from '../../hook'
 import { useSelector } from 'react-redux'
 
 const Inventory = () => {
-    const sales = []
+    const sales = useSelector(state => state.sales.list)
     useBackButton()
     useHeaderTitle('Ventas')
 
     return (
         <FlatList
             data={sales}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.soldOutAt}
             renderItem={({ item }) => {
                 return (
                     <Container padded>
                         <Container row spaceBetween>
                             <Container>
                                 <Text.Body>
-                                    {item.description}
+                                    {new Date(item.soldOutAt).toLocaleString()}
                                 </Text.Body>
-                                <Text.Small>
-                                    {item.category}
-                                </Text.Small>
                             </Container>
-                            <Text.Body>
-                                {item.barcode}
-                            </Text.Body>
                         </Container>
                         <Container style={{
                             width: '100%',

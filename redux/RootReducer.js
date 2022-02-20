@@ -31,6 +31,11 @@ import {
   initialState as inventoryInitialState,
 } from './modules/inventory'
 
+import {
+  reducer as salesReducer,
+  initialState as salesInitialState,
+} from './modules/sales'
+
 const RootState = {
   error: errorInitialState,
   fetching: fetchingInitialState,
@@ -39,6 +44,7 @@ const RootState = {
   msgBox: msgBoxInitialState,
 
   inventory: inventoryInitialState,
+  sales: salesInitialState,
 }
 
 const RootReducer = combineReducers({
@@ -49,6 +55,7 @@ const RootReducer = combineReducers({
   msgBox: msgBoxReducer,
 
   inventory: inventoryReducer,
+  sales: salesReducer,
 })
 
 export { RootReducer, RootState }

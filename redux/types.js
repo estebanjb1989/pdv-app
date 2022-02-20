@@ -25,3 +25,7 @@ export const SessionTypes = {
 export const InventoryTypes = {
   SET_INVENTORY: 'inventory/SET_INVENTORY',
 }
+
+export const SalesTypes = {
+  SET_SALES: 'sales/SET_SALES',
+}
