@@ -1,15 +1,18 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { FlatList } from 'react-native'
 import { Button, Container, Text, Spacer } from '../../component'
 import { useBackButton, useScanner, useHeaderTitle } from '../../hook'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { getDatabase, ref as dbRef, push } from 'firebase/database';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const dialog = require('electron').remote.dialog 
 
 const PDV = () => {
-    const [items, setItems] = React.useState([])
-    const [scanned, setScanned] = React.useState(null)
+    const [items, setItems] = useState([])
+    const [scanned, setScanned] = useState(null)
     const inventory = useSelector(state => state.inventory.list)
+    const [credentials, setCredentials] = useState(null)
 
     useHeaderTitle("Punto de venta")
     useBackButton()
@@ -34,7 +37,12 @@ const PDV = () => {
         })
     }, [setScanned]))
 
-    React.useEffect(() => {
+    useEffect(async () => {
+        const creds = await AsyncStorage.getItem('@credentials')
+        setCredentials(JSON.parse(creds))
+    }, [])
+
+    useEffect(() => {
         if (!scanned) {
             return
         }
@@ -96,7 +104,9 @@ const PDV = () => {
             const db = getDatabase();
             const reference = dbRef(db, 'sales');
             push(reference, {
+                credentials,
                 items,
+                total: calculateTotal(),
                 soldOutAt: Date.now(),
             });
             setItems([])

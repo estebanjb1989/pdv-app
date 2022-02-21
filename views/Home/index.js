@@ -51,7 +51,7 @@ const Home = () => {
             <Container style={styles.menuItem} onPress={() => {
                 navigation.navigate('Sales')
             }}>
-                <Text.TitleH3>Ventas</Text.TitleH3>
+                <Text.TitleH3>Ventas WIP</Text.TitleH3>
             </Container>
             <Container style={styles.menuItem} onPress={() => {
                 navigation.navigate('Prices')

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList } from 'react-native'
-import { Container, Text } from '../../component'
+import { Container, Text, Spacer } from '../../component'
 import { useBackButton, useHeaderTitle } from '../../hook'
 import { useSelector } from 'react-redux'
 
@@ -11,7 +11,7 @@ const Inventory = () => {
 
     return (
         <FlatList
-            data={sales}
+            data={sales.sort((a, b) => b.soldOutAt - a.soldOutAt)}
             keyExtractor={(item) => item.soldOutAt}
             renderItem={({ item }) => {
                 return (
@@ -22,6 +22,33 @@ const Inventory = () => {
                                     {new Date(item.soldOutAt).toLocaleString()}
                                 </Text.Body>
                             </Container>
+                            <Container>
+                                <Text.Body>
+                                    {item.credentials.user.email}
+                                </Text.Body>
+                            </Container>
+                        </Container>
+                        <Spacer.Medium />
+                        {item.items.map(line => (
+                            <Container row spaceBetween>
+                                <Text.Body>
+                                    - {line.description}
+                                </Text.Body>
+                                <Text.Body>
+                                    {line.quantity} x {line.price} ARS = {line.quantity * line.price} ARS
+                                </Text.Body>
+                            </Container>
+                        ))}
+                        <Container style={{
+                            width: '100%',
+                            height: 1,
+                            backgroundColor: 'gold',
+                            opacity: .5
+                        }} />
+                        <Container row justifyEnd>
+                            <Text.TitleH3>
+                                {item.total} ARS
+                            </Text.TitleH3>
                         </Container>
                         <Container style={{
                             width: '100%',
