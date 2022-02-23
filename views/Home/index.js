@@ -1,49 +1,71 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ActivityIndicator, Platform } from 'react-native';
 import { Container, Text, Spacer } from '../../component'
 import { useNavigation } from '@react-navigation/native'
-import { getDatabase, ref as dbRef, onValue } from 'firebase/database';
+import { getDatabase, ref, onValue, get, child } from 'firebase/database';
 import { InventoryTypes, SalesTypes } from '../../redux/types'
 import menu from '../../constants/menu'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHeaderTitle } from '../../hook';
 
 const Home = () => {
+    const [loadingInventory, setLoadingInventory] = useState(false)
+    const [loadingSales, setLoadingSales] = useState(false)
     const credentials = useSelector(state => state.session.credentials)
     const navigation = useNavigation()
     const dispatch = useDispatch()
 
     useHeaderTitle('PDV App')
 
-    useEffect(() => {
-        const db = getDatabase();
-        const path = 'inventory'
-        const reference = dbRef(db, path);
-        onValue(reference, (snapshot) => {
-            const data = snapshot.val();
-            if (!data) return
-            /* Update in memory array */
-            dispatch({
-                type: InventoryTypes.SET_INVENTORY,
-                payload: Object.keys(data).map(key => data[key])
-            })
-        })
+    useEffect(async () => {
+        const dbRef = ref(getDatabase());
+        setLoadingInventory(true)
+        try {
+            const snapshot = await get(child(dbRef, `inventory`))
+            if (snapshot.exists()) {
+                const data = snapshot.val()
+                dispatch({
+                    type: InventoryTypes.SET_INVENTORY,
+                    payload: Object.keys(data).map(key => data[key])
+                })
+            } else {
+                console.log("No data available");
+            }
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setLoadingInventory(false)
+        }
     }, [])
 
-    useEffect(() => {
-        const db = getDatabase();
-        const path = 'sales'
-        const reference = dbRef(db, path);
-        onValue(reference, (snapshot) => {
-            const data = snapshot.val();
-            if (!data) return
-            /* Update in memory array */
-            dispatch({
-                type: SalesTypes.SET_SALES,
-                payload: Object.keys(data).map(key => data[key])
-            })
-        })
+    useEffect(async () => {
+        const dbRef = ref(getDatabase());
+        setLoadingSales(true)
+        try {
+            const snapshot = await get(child(dbRef, `sales`))
+            if (snapshot.exists()) {
+                const data = snapshot.val()
+                dispatch({
+                    type: SalesTypes.SET_SALES,
+                    payload: Object.keys(data).map(key => data[key])
+                })
+            } else {
+                console.log("No data available");
+            }
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setLoadingSales(false)
+        }
     }, [])
+
+    if (loadingInventory || loadingSales) {
+        return (
+            <Container flex alignCenter justifyCenter>
+                <ActivityIndicator color="gold" />
+            </Container>
+        )
+    }
 
     return (
         <Container flex spaceBetween alignCenter>
