@@ -1,21 +1,36 @@
 export default [{
-    titulo: 'Home',
-    pantalla: 'Home',
+    title: 'PDV',
+    route: 'PDV',
     visible: true,
-    orden: 0,
+    order: 10,
 }, {
-    titulo: 'Modelo',
-    pantalla: 'Model/Root',
+    title: 'Reposicion',
+    route: 'Reposition',
     visible: true,
-    orden: 10,
+    order: 10,
 }, {
-    titulo: 'Contenido',
-    pantalla: 'Contenido',
+    title: 'Ventas',
+    route: 'Sales',
     visible: true,
-    orden: 20,
+    order: 20,
 }, {
-    titulo: 'Cuenta',
-    pantalla: 'Cuenta',
+    title: 'Precios',
+    route: 'Prices',
     visible: true,
-    orden: 30,
+    order: 30,
+}, {
+    title: 'Inventario',
+    route: 'Inventory',
+    order: 40,
+    visible: true,
+}, {
+    title: 'Ajustes',
+    route: 'Adjustments',
+    order: 40,
+    visible: true,
+}, {
+    title: 'Salir',
+    route: 'Onboarding/SignIn',
+    order: 40,
+    visible: true,
 }]

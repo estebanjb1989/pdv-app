@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { Container, Text } from '../../component'
+import { Container, Text, Spacer } from '../../component'
 import { useNavigation } from '@react-navigation/native'
 import { getDatabase, ref as dbRef, onValue } from 'firebase/database';
 import { InventoryTypes, SalesTypes } from '../../redux/types'
-import { useDispatch } from 'react-redux'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import menu from '../../constants/menu'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHeaderTitle } from '../../hook';
 
 const Home = () => {
+    const credentials = useSelector(state => state.session.credentials)
     const navigation = useNavigation()
     const dispatch = useDispatch()
-    
+
+    useHeaderTitle('PDV App')
+
     useEffect(() => {
         const db = getDatabase();
         const path = 'inventory'
@@ -42,38 +46,22 @@ const Home = () => {
     }, [])
 
     return (
-        <Container row justifyCenter alignCenter wrap>
-            <Container style={styles.menuItem} onPress={() => {
-                navigation.navigate('PDV')
-            }}>
-                <Text.TitleH3>PDV</Text.TitleH3>
+        <Container flex spaceBetween alignCenter>
+            <Container />
+            <Container row justifyCenter alignCenter wrap>
+                {menu.sort((a, b) => a.order - b.order).map((menuItem, index) => (
+                    <Container style={styles.menuItem} onPress={() => {
+                        navigation.navigate(menuItem.route)
+                    }}>
+                        <Text.TitleH3>{menuItem.title}</Text.TitleH3>
+                    </Container>
+                ))}
             </Container>
-            <Container style={styles.menuItem} onPress={() => {
-                navigation.navigate('Sales')
-            }}>
-                <Text.TitleH3>Ventas WIP</Text.TitleH3>
-            </Container>
-            <Container style={styles.menuItem} onPress={() => {
-                navigation.navigate('Prices')
-            }}>
-                <Text.TitleH3>Precios</Text.TitleH3>
-            </Container>
-            <Container style={styles.menuItem} onPress={() => {
-                navigation.navigate('Inventory')
-            }}>
-                <Text.TitleH3>Inventario</Text.TitleH3>
-            </Container>
-
-            <Container style={styles.menuItem} onPress={() => {
-                navigation.navigate('Adjustments')
-            }}>
-                <Text.TitleH3>Ajustes</Text.TitleH3>
-            </Container>
-            <Container style={styles.menuItem} onPress={async () => {
-                await AsyncStorage.setItem('@credentials', null)
-                navigation.navigate('Onboarding/SignIn')
-            }}>
-                <Text.TitleH3>Salir</Text.TitleH3>
+            <Container>
+                <Text.BodyBold>
+                    {credentials?.user?.email}
+                </Text.BodyBold>
+                <Spacer.Medium />
             </Container>
         </Container>
     );

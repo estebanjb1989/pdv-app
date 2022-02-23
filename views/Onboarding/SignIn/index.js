@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import { Button, Container, Text, Input, Spacer } from '../../../component'
-import { useHeaderHidden } from '../../../hook'
+import { useHeaderHidden, useHeaderTitle } from '../../../hook'
 import { getAuth, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail } from 'firebase/auth'
 import { SessionTypes } from '../../../redux/types'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignIn = () => {
     useHeaderHidden()
+
     const dispatch = useDispatch()
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(null)

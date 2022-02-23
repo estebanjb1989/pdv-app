@@ -45,7 +45,7 @@ const Adjustments = () => {
 
                             /* Update Firebase realtime database */
                             const db = getDatabase();
-                            for(const row of rows) {
+                            for (const row of rows) {
                                 const reference = dbRef(db, 'inventory/' + row.barcode);
                                 set(reference, row);
                             }
@@ -64,7 +64,7 @@ const Adjustments = () => {
             <Text.Small>Formato: xls, xlsx</Text.Small>
             <Text.Small>Columnas: categoria | codigo | descripcion | barcode</Text.Small>
             <Spacer.Large />
-            <Container style={{
+            {/*<Container style={{
                 width: 240,
                 height: 44
             }}>
@@ -74,9 +74,9 @@ const Adjustments = () => {
                     }}
                     title="Importar Contenful"
                 />
-            </Container>
+                </Container>*/}
         </Container>
-    );
+    );7791234199198
 }
 
 export default Adjustments

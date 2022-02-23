@@ -5,14 +5,13 @@ export const Theme = {
   Light: "light",
 };
 
-// cambiar los colores y ver como cambia en el resto de la app
 export const light = {
   primary: colors.primary,
   primaryDark: colors.primary,
   secondary: colors.primary,
   tertiary: colors.primary,
-  background: colors.dark, // ALL SCREENS
-  card: colors.dark, // TOP NAVBAR
+  background: colors.dark,
+  card: colors.dark,
   text: colors.text,
   textLight: colors.white,
   border: colors.text,

@@ -36,7 +36,7 @@ const SignIn = () => {
         try {
             const auth = getAuth()
             const credentials = await createUserWithEmailAndPassword(auth, email, password1)
-            sendEmailVerification(credentials.user)
+            await sendEmailVerification(credentials.user)
             alert('Te has registrado en PDV App! Por favor verifica tu email para ingresar')
             navigation.navigate('Onboarding/SignIn')
         } catch(err) {

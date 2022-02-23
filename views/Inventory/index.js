@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList } from 'react-native'
-import { Container, Text } from '../../component'
+import { Container, Text, Spacer } from '../../component'
 import { useBackButton, useHeaderTitle } from '../../hook'
 import { useSelector } from 'react-redux'
 
@@ -23,7 +23,7 @@ const Inventory = () => {
                                 </Text.Body>
                                 <Text.Small>
                                     {item.category}
-                                </Text.Small>
+                                </Text.Small>                                
                             </Container>
                             <Container alignEnd>
                                 <Text.Body>
@@ -32,8 +32,12 @@ const Inventory = () => {
                                 <Text.Body>
                                     {item.price || '?'} ARS
                                 </Text.Body>
+                                <Text.Body>
+                                    Stock: {item.stock || 0}
+                                </Text.Body>
                             </Container>
                         </Container>
+                        <Spacer.Small />
                         <Container style={{
                             width: '100%',
                             height: 1,
