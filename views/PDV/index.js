@@ -1,15 +1,16 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { FlatList, Image } from 'react-native'
-import { Button, Container, Text, Spacer, Input } from '../../component'
+import { Button, Container, Text, Spacer } from '../../component'
 import { useBackButton, useScanner, useHeaderTitle } from '../../hook'
-import { useSelector } from 'react-redux'
-import { getDatabase, ref as dbRef, push } from 'firebase/database';
+import { useSelector, useDispatch } from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BarcodeAsset from '../../assets/barcode.png'
+import { SalesTypes } from '../../redux/types'
 
 const dialog = require('electron').remote.dialog
 
 const PDV = () => {
+    const dispatch = useDispatch()
     const [items, setItems] = useState([])
     const [scanned, setScanned] = useState(null)
     const inventory = useSelector(state => state.inventory.list)
@@ -108,7 +109,7 @@ const PDV = () => {
         const response = await dialog.showMessageBoxSync(options)
         if (response === 0) {
             const db = getDatabase();
-            const reference = dbRef(db, 'sales');
+            const reference = ref(db, 'sales');
             push(reference, {
                 credentials,
                 items,
@@ -215,7 +216,7 @@ const PDV = () => {
                                     }}
                                         onPress={handleDelete(item)}
                                     >
-                                        ❌
+                                        <Text.Body>❌</Text.Body>
                                     </Container>
                                 </Container>
                                 <Container style={{

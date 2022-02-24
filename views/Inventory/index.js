@@ -12,7 +12,7 @@ const Inventory = () => {
     return (
         <FlatList
             data={inventory}
-            keyExtractor={(item) => item.productId}
+            keyExtractor={(item) => item.barcode}
             renderItem={({ item }) => {
                 return (
                     <Container padded>

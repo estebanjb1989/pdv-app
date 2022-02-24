@@ -2,10 +2,13 @@ import React, { useCallback } from 'react';
 import { TextInput } from 'react-native'
 import { Container, Text, Spacer } from '../../component'
 import { useBackButton, useScanner, useHeaderTitle } from '../../hook'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { getDatabase, ref as dbRef, set } from 'firebase/database';
+import { fetchInventory } from '../../services/firebase'
+import { InventoryTypes } from '../../redux/types';
 
 const Prices = () => {
+    const dispatch = useDispatch()
     const [scanned, setScanned] = React.useState(null)
     const [price, setPrice] = React.useState(null)
     const inventory = useSelector(state => state.inventory.list)
@@ -28,13 +31,21 @@ const Prices = () => {
         })
     }, [setScanned]))
 
-    const handleUpdate = () => {
+    const handleUpdate = async () => {
         const db = getDatabase();
         const reference = dbRef(db, 'inventory/' + scanned.barcode);
-        set(reference, {
+        await set(reference, {
             ...scanned,
             price,
         });
+        await fetchInventory(
+            (data) => {
+                dispatch({
+                    type: InventoryTypes.SET_INVENTORY,
+                    payload: Object.keys(data).map(key => data[key]), 
+                })
+            }
+        )
         setScanned(null)
         setPrice(null)
     }

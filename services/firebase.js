@@ -5,12 +5,13 @@ import {
 import Config from '../constants/config'
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth'
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getDatabase, ref as dbRef, get, child } from 'firebase/database';
 import uuid from "uuid";
 
 const firebaseConfig = Config.Firebase;
 
 LogBox.ignoreLogs([
-    `Setting a timer for a long period`, 
+    `Setting a timer for a long period`,
     'RFC',
     'Require cycle',
     'children'
@@ -55,3 +56,30 @@ export const uploadImageAsync = async (uri) => {
     return await getDownloadURL(fileRef);
 }
 
+export const fetchInventory = async (onSuccess, onError) => {
+    const _dbRef = dbRef(getDatabase());
+    try {
+        const snapshot = await get(child(_dbRef, 'inventory'))
+        if (snapshot.exists()) {
+            onSuccess?.(snapshot.val())
+        } else {
+            onSuccess?.({})
+        }
+    } catch (err) {
+        onError?.(err)
+    }
+}
+
+export const fetchSales = async (onSuccess, onError) => {
+    const _dbRef = dbRef(getDatabase());
+    try {
+        const snapshot = await get(child(_dbRef, 'sales'))
+        if (snapshot.exists()) {
+            onSuccess?.(snapshot.val())
+        } else {
+            onSuccess?.({})
+        }
+    } catch (err) {
+        onError?.(err)
+    }
+}

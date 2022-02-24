@@ -19,35 +19,4 @@ const fetchContentful = (contentModel, onSuccess, onError) => {
     });
 }
 
-const getAnuncios = (onSuccess, onError) => {
-    fetchContentful('anuncios', onSuccess, onError)
-}
-
-const getDevocionales = (onSuccess, onError) => {
-    fetchContentful('devocional', onSuccess, onError)
-}
-
-const getPalabrasDiarias = (onSuccess, onError) => {
-    fetchContentful('palabraDiaria', onSuccess, onError)
-}
-
-const getPredicas = (onSuccess, onError) => {
-    fetchContentful('predica', onSuccess, onError)
-}
-
-const getDrawerItems = (onSuccess, onError) => {
-    fetchContentful('drawerItem', onSuccess, onError)
-}
-
-const getIglesias = (onSuccess, onError) => {
-    fetchContentful('iglesia', onSuccess, onError)
-}
-
-export default {
-    getAnuncios,
-    getDevocionales,
-    getPalabrasDiarias,
-    getPredicas,
-    getDrawerItems,
-    getIglesias,
-}
+export default fetchContentful

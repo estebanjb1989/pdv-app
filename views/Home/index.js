@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, ActivityIndicator, Platform } from 'react-native';
+import { StyleSheet, ActivityIndicator } from 'react-native';
 import { Container, Text, Spacer } from '../../component'
 import { useNavigation } from '@react-navigation/native'
-import { getDatabase, ref, onValue, get, child } from 'firebase/database';
 import { InventoryTypes, SalesTypes } from '../../redux/types'
 import menu from '../../constants/menu'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHeaderTitle } from '../../hook';
+import { fetchInventory, fetchSales } from '../../services/firebase'
 import colors from '../../constants/colors'
 
 const Home = () => {
@@ -18,46 +18,20 @@ const Home = () => {
 
     useHeaderTitle('𓃰    PDV App')
 
-    useEffect(async () => {
-        const dbRef = ref(getDatabase());
+    useEffect(() => {
         setLoadingInventory(true)
-        try {
-            const snapshot = await get(child(dbRef, `inventory`))
-            if (snapshot.exists()) {
-                const data = snapshot.val()
+        fetchInventory(
+            (data) => {
                 dispatch({
                     type: InventoryTypes.SET_INVENTORY,
                     payload: Object.keys(data).map(key => data[key])
                 })
-            } else {
-                console.log("No inventory available");
+                setLoadingInventory(false)
+            },
+            (err) => {
+                setLoadingInventory(false)
             }
-        } catch (err) {
-            console.log(err)
-        } finally {
-            setLoadingInventory(false)
-        }
-    }, [])
-
-    useEffect(async () => {
-        const dbRef = ref(getDatabase());
-        setLoadingSales(true)
-        try {
-            const snapshot = await get(child(dbRef, `sales`))
-            if (snapshot.exists()) {
-                const data = snapshot.val()
-                dispatch({
-                    type: SalesTypes.SET_SALES,
-                    payload: Object.keys(data).map(key => data[key])
-                })
-            } else {
-                console.log("No sales available");
-            }
-        } catch (err) {
-            console.log(err)
-        } finally {
-            setLoadingSales(false)
-        }
+        )
     }, [])
 
     if (loadingInventory || loadingSales) {
@@ -74,6 +48,22 @@ const Home = () => {
             <Container row justifyCenter alignCenter wrap>
                 {menu.sort((a, b) => a.order - b.order).map((menuItem) => (
                     <Container key={menuItem.title} style={styles.menuItem} onPress={() => {
+                        if (menuItem.route === 'Sales') {
+                            setLoadingSales(true)
+                            fetchSales(
+                                (data) => {
+                                    setLoadingSales(false)
+                                    dispatch({
+                                        type: SalesTypes.SET_SALES,
+                                        payload: Object.keys(data).map(key => data[key])
+                                    })
+                                },
+                                (err) => {
+                                    setLoadingSales(false)
+                                    console.log(err)
+                                }
+                            )
+                        }
                         navigation.navigate(menuItem.route)
                     }}>
                         <Text.TitleH3>{menuItem.title}</Text.TitleH3>

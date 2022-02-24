@@ -2,9 +2,10 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { FlatList, Image } from 'react-native'
 import { Button, Container, Text, Spacer } from '../../component'
 import { useBackButton, useScanner, useHeaderTitle } from '../../hook'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { getDatabase, ref as dbRef, set } from 'firebase/database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { fetchInventory } from '../../services/firebase'
 import BarcodeAsset from '../../assets/barcode.png'
 
 const dialog = require('electron').remote.dialog
@@ -14,6 +15,7 @@ const Reception = () => {
     const [scanned, setScanned] = useState(null)
     const inventory = useSelector(state => state.inventory.list)
     const [credentials, setCredentials] = useState(null)
+    const dispatch = useDispatch()
 
     useHeaderTitle("Recepcion")
     useBackButton()
@@ -94,16 +96,16 @@ const Reception = () => {
             const db = getDatabase();
             for (const item of items) {
                 const reference = dbRef(db, 'inventory/' + item.barcode);
-                console.log(item)
-                set(reference, {
+                await set(reference, {
                     barcode: item.barcode,
                     category: item.category,
                     stock: (item.stock || 0) + item.quantity,
                     description: item.description,
-                    price: item.price,
+                    price: item.price || 0,
                     productId: item.productId,
                 });
             }
+            await fetchInventory()
             setItems([])
         }
     }
@@ -170,7 +172,7 @@ const Reception = () => {
                                 }}
                                     onPress={handleDelete(item)}
                                 >
-                                    ❌
+                                    <Text.Body>❌</Text.Body>
                                 </Container>
                             </Container>
                         )}
