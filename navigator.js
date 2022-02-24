@@ -47,7 +47,7 @@ const Navigator = () => {
                 <Stack.Screen name="Home" component={Views.Home} />
                 <Stack.Screen name="Adjustments" component={Views.Adjustments} />
                 <Stack.Screen name="PDV" component={Views.PDV} />
-                <Stack.Screen name="Reposition" component={Views.Reposition} />
+                <Stack.Screen name="Reception" component={Views.Reception} />
                 <Stack.Screen name="Inventory" component={Views.Inventory} />
                 <Stack.Screen name="Prices" component={Views.Prices} />
                 <Stack.Screen name="Sales" component={Views.Sales} />

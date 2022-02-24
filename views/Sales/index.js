@@ -23,7 +23,7 @@ const Inventory = () => {
                                 </Text.Body>
                             </Container>
                             <Container>
-                                <Text.Body>
+                            <Text.Body>
                                     {item.credentials.user.email}
                                 </Text.Body>
                             </Container>
@@ -42,7 +42,7 @@ const Inventory = () => {
                         <Container style={{
                             width: '100%',
                             height: 1,
-                            backgroundColor: 'gold',
+                            backgroundColor: 'grey',
                             opacity: .5
                         }} />
                         <Container row justifyEnd>
@@ -52,8 +52,9 @@ const Inventory = () => {
                         </Container>
                         <Container style={{
                             width: '100%',
-                            height: 1,
-                            backgroundColor: 'gold',
+                            height: 1.5,
+                            backgroundColor: 'grey',
+                            borderRadius: 5
                         }} />
                     </Container>
                 )

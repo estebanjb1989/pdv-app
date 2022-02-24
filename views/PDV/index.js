@@ -1,12 +1,13 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { FlatList } from 'react-native'
-import { Button, Container, Text, Spacer } from '../../component'
+import { FlatList, Image } from 'react-native'
+import { Button, Container, Text, Spacer, Input } from '../../component'
 import { useBackButton, useScanner, useHeaderTitle } from '../../hook'
 import { useSelector } from 'react-redux'
 import { getDatabase, ref as dbRef, push } from 'firebase/database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import BarcodeAsset from '../../assets/barcode.png'
 
-const dialog = require('electron').remote.dialog 
+const dialog = require('electron').remote.dialog
 
 const PDV = () => {
     const [items, setItems] = useState([])
@@ -14,7 +15,7 @@ const PDV = () => {
     const inventory = useSelector(state => state.inventory.list)
     const [credentials, setCredentials] = useState(null)
 
-    useHeaderTitle("Punto de venta")
+    useHeaderTitle("PDV")
     useBackButton()
     useScanner(useCallback((barcode) => {
         const item = inventory.find(item => (
@@ -120,7 +121,9 @@ const PDV = () => {
 
     return (
         <Container flex spaceBetween>
-            <Container row spaceBetween padded>
+            <Container row spaceBetween style={{
+                paddingTop: 12,
+            }}>
                 <Container fullWidth>
                     <FlatList
                         keyExtractor={(item) => item.id}
@@ -129,91 +132,126 @@ const PDV = () => {
                             <Container>
                                 <Container row spaceBetween>
                                     <Container style={{
-                                        width: '15%',
+                                        width: '10%',
                                     }}>
-                                        <Text.Small>CANTIDAD</Text.Small>
+
                                     </Container>
                                     <Container style={{
-                                        width: '45%',
+                                        width: '40%',
                                     }}>
-                                        <Text.Small>PRODUCTO</Text.Small>
+
                                     </Container>
                                     <Container style={{
                                         width: '20%',
                                     }}>
-                                        <Text.Small>PRECIO</Text.Small>
+                                        <Text.Small>P/U</Text.Small>
                                     </Container>
                                     <Container style={{
                                         width: '20%'
                                     }}>
                                         <Text.Small>IMPORTE</Text.Small>
                                     </Container>
+                                    <Container style={{
+                                        width: '10%'
+                                    }} />
                                 </Container>
                                 <Container style={{
                                     height: 1,
                                     width: '100%',
                                     marginVertical: 12,
-                                    backgroundColor: 'gold',
+                                    backgroundColor: 'lightgrey',
                                 }} />
                                 {!items.length &&
-                                    <Container>
+                                    <Container flex alignCenter justifyCenter>
                                         <Spacer.Medium />
-                                        <Text.BodyBold>Comience a escanear...</Text.BodyBold>
+                                        <Image source={BarcodeAsset} style={{
+                                            width: 128,
+                                            height: 128,
+                                            opacity: 0.5
+                                        }} />
                                     </Container>}
                             </Container>
                         }
                         renderItem={({ item }) => (
-                            <Container row spaceBetween>
-                                <Container style={{
-                                    width: '15%',
-                                }} alignCenter>
-                                    <Text.TitleH2>{item.quantity}</Text.TitleH2>
-                                </Container>
-                                <Container style={{
-                                    width: '45%',
-                                }}>
-                                    <Text.TitleH2>
-                                        {item.description}
-                                    </Text.TitleH2>
-                                </Container>
-                                <Container style={{
-                                    width: '20%'
-                                }}>
-                                    <Container row alignCenter>
-                                        <Text.TitleH2>
-                                            {item.price} ARS
-                                        </Text.TitleH2>
+                            <Container>
+                                <Container row spaceBetween alignCenter>
+                                    <Container style={{
+                                        width: '10%',
+                                    }} alignCenter>
+                                        <Text.BodyBold>{item.quantity}</Text.BodyBold>
                                     </Container>
-                                </Container>
-                                <Container style={{
-                                    width: '20%'
-                                }}>
-                                    <Container row alignCenter>
-                                        <Text.TitleH2>
-                                            {item.price * item.quantity} ARS
-                                    </Text.TitleH2>
+                                    <Container style={{
+                                        width: '40%',
+                                        paddingHorizontal: 2,
+                                    }}>
+                                        <Text.Body>
+                                            {item.description}
+                                        </Text.Body>
+                                    </Container>
+                                    <Container style={{
+                                        width: '20%',
+                                        paddingHorizontal: 2,
 
+                                    }}>
+                                        <Container row alignCenter>
+                                            <Text.Body>
+                                                {item.price} ARS
+                                            </Text.Body>
+                                        </Container>
+                                    </Container>
+                                    <Container style={{
+                                        width: '20%',
+                                        paddingHorizontal: 2,
+                                    }}>
+                                        <Container row alignCenter>
+                                            <Text.BodyBold>
+                                                {item.price * item.quantity} ARS
+                                        </Text.BodyBold>
+
+                                        </Container>
+                                    </Container>
+                                    <Container style={{
+                                        width: '10%',
+                                    }}
+                                        onPress={handleDelete(item)}
+                                    >
+                                        ❌
                                     </Container>
                                 </Container>
+                                <Container style={{
+                                    height: 1,
+                                    width: '100%',
+                                    marginVertical: 12,
+                                    backgroundColor: 'lightgrey',
+                                    opacity: 0.25
+                                }} />
+
                             </Container>
                         )}
                     />
                 </Container>
             </Container>
             <Container>
-                <Container row alignEnd spaceBetween padded>
-                    <Container>
-                        <Text.Small>TOTAL</Text.Small>
-                        <Text.TitleH1>{calculateTotal()} ARS</Text.TitleH1>
-                    </Container>
+                <Container alignEnd padded>
+                    <Container style={{
+                        height: 1,
+                        width: '100%',
+                        marginVertical: 12,
+                        backgroundColor: 'lightgrey',
+                        opacity: 0.25
+                    }} />
+                    <Text.Small>TOTAL</Text.Small>
+                    <Text.BodyBold fontSize={24}>{calculateTotal()} ARS</Text.BodyBold>
+                </Container>
+                <Container alignCenter>
                     <Button.Primary
                         disabled={items.length === 0}
-                        title="COBRAR"
-                        width={128}
+                        title="COBRAR PEDIDO"
+                        width={196}
                         onPress={handleFinish}
                     />
+                    <Spacer.Medium />
                 </Container>
-                <Spacer.Medium />
             </Container>
         </Container>
     );

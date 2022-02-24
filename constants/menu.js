@@ -4,8 +4,8 @@ export default [{
     visible: true,
     order: 10,
 }, {
-    title: 'Reposicion',
-    route: 'Reposition',
+    title: 'Recepcion',
+    route: 'Reception',
     visible: true,
     order: 10,
 }, {

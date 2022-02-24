@@ -41,7 +41,7 @@ const Inventory = () => {
                         <Container style={{
                             width: '100%',
                             height: 1,
-                            backgroundColor: 'gold',
+                            backgroundColor: 'lightgrey',
                         }} />
                     </Container>
                 )

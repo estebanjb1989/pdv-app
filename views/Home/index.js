@@ -7,6 +7,7 @@ import { InventoryTypes, SalesTypes } from '../../redux/types'
 import menu from '../../constants/menu'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHeaderTitle } from '../../hook';
+import colors from '../../constants/colors'
 
 const Home = () => {
     const [loadingInventory, setLoadingInventory] = useState(false)
@@ -15,7 +16,7 @@ const Home = () => {
     const navigation = useNavigation()
     const dispatch = useDispatch()
 
-    useHeaderTitle('PDV App')
+    useHeaderTitle('𓃰    PDV App')
 
     useEffect(async () => {
         const dbRef = ref(getDatabase());
@@ -29,7 +30,7 @@ const Home = () => {
                     payload: Object.keys(data).map(key => data[key])
                 })
             } else {
-                console.log("No data available");
+                console.log("No inventory available");
             }
         } catch (err) {
             console.log(err)
@@ -50,7 +51,7 @@ const Home = () => {
                     payload: Object.keys(data).map(key => data[key])
                 })
             } else {
-                console.log("No data available");
+                console.log("No sales available");
             }
         } catch (err) {
             console.log(err)
@@ -62,7 +63,7 @@ const Home = () => {
     if (loadingInventory || loadingSales) {
         return (
             <Container flex alignCenter justifyCenter>
-                <ActivityIndicator color="gold" />
+                <ActivityIndicator size="large" color={colors.text} />
             </Container>
         )
     }
@@ -71,8 +72,8 @@ const Home = () => {
         <Container flex spaceBetween alignCenter>
             <Container />
             <Container row justifyCenter alignCenter wrap>
-                {menu.sort((a, b) => a.order - b.order).map((menuItem, index) => (
-                    <Container style={styles.menuItem} onPress={() => {
+                {menu.sort((a, b) => a.order - b.order).map((menuItem) => (
+                    <Container key={menuItem.title} style={styles.menuItem} onPress={() => {
                         navigation.navigate(menuItem.route)
                     }}>
                         <Text.TitleH3>{menuItem.title}</Text.TitleH3>
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
     menuItem: {
         width: 128,
         height: 128,
-        borderColor: 'gold',
+        borderColor: 'lightgrey',
         borderWidth: 1,
         borderRadius: 16,
         margin: 12,

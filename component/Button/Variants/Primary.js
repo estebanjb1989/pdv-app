@@ -25,6 +25,7 @@ const Primary = ({
     title={title}
     containerStyle={StyleSheet.flatten([
       styles.primary,
+      disabled && { borderWidth: 0 },
       inverted && styles.primaryInvertedButton,
       bordered && styles.bordered,
       { paddingHorizontal: 12 },

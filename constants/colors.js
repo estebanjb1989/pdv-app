@@ -4,6 +4,6 @@ export default {
     secondary: "#EDEAFB",
     tertiary: "#809AB1",
     dark: "#272821",
-    text: "gold",
+    text: "lightgrey",
   };
   

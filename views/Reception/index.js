@@ -1,20 +1,21 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { FlatList } from 'react-native'
+import { FlatList, Image } from 'react-native'
 import { Button, Container, Text, Spacer } from '../../component'
 import { useBackButton, useScanner, useHeaderTitle } from '../../hook'
 import { useSelector } from 'react-redux'
 import { getDatabase, ref as dbRef, set } from 'firebase/database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import BarcodeAsset from '../../assets/barcode.png'
 
-const dialog = require('electron').remote.dialog 
+const dialog = require('electron').remote.dialog
 
-const Reposition = () => {
+const Reception = () => {
     const [items, setItems] = useState([])
     const [scanned, setScanned] = useState(null)
     const inventory = useSelector(state => state.inventory.list)
     const [credentials, setCredentials] = useState(null)
 
-    useHeaderTitle("Reposicion")
+    useHeaderTitle("Recepcion")
     useBackButton()
     useScanner(useCallback((barcode) => {
         const item = inventory.find(item => (
@@ -86,12 +87,12 @@ const Reposition = () => {
     const handleFinish = async () => {
         let options = {
             buttons: ["Si", "No"],
-            message: "Confirma la reposicion?"
+            message: "Confirma la Recepcion?"
         }
         const response = await dialog.showMessageBoxSync(options)
         if (response === 0) {
             const db = getDatabase();
-            for(const item of items) {
+            for (const item of items) {
                 const reference = dbRef(db, 'inventory/' + item.barcode);
                 console.log(item)
                 set(reference, {
@@ -120,24 +121,33 @@ const Reposition = () => {
                                     <Container style={{
                                         width: '15%',
                                     }}>
-                                        <Text.Small>CANTIDAD</Text.Small>
+                                        <Text.Small>CANT.</Text.Small>
                                     </Container>
                                     <Container style={{
-                                        width: '45%',
+                                        width: '35%',
                                     }}>
                                         <Text.Small>PRODUCTO</Text.Small>
+                                    </Container>
+                                    <Container style={{
+                                        width: '10%',
+                                    }}>
+
                                     </Container>
                                 </Container>
                                 <Container style={{
                                     height: 1,
                                     width: '100%',
                                     marginVertical: 12,
-                                    backgroundColor: 'gold',
+                                    backgroundColor: 'lightgrey',
                                 }} />
                                 {!items.length &&
-                                    <Container>
+                                    <Container flex alignCenter justifyCenter>
                                         <Spacer.Medium />
-                                        <Text.BodyBold>Comience a escanear...</Text.BodyBold>
+                                        <Image source={BarcodeAsset} style={{
+                                            width: 128,
+                                            height: 128,
+                                            opacity: 0.5
+                                        }} />
                                     </Container>}
                             </Container>
                         }
@@ -146,26 +156,33 @@ const Reposition = () => {
                                 <Container style={{
                                     width: '15%',
                                 }} alignCenter>
-                                    <Text.TitleH2>{item.quantity}</Text.TitleH2>
+                                    <Text.Body>{item.quantity}</Text.Body>
                                 </Container>
                                 <Container style={{
-                                    width: '45%',
+                                    width: '35%',
                                 }}>
-                                    <Text.TitleH2>
+                                    <Text.Body>
                                         {item.description}
-                                    </Text.TitleH2>
-                                </Container>                                
+                                    </Text.Body>
+                                </Container>
+                                <Container style={{
+                                    width: '10%',
+                                }}
+                                    onPress={handleDelete(item)}
+                                >
+                                    ❌
+                                </Container>
                             </Container>
                         )}
                     />
                 </Container>
             </Container>
             <Container>
-                <Container row alignEnd justifyEnd padded>
+                <Container alignCenter>
                     <Button.Primary
                         disabled={items.length === 0}
-                        title="FINALIZAR"
-                        width={128}
+                        title="FINALIZAR RECEPCION"
+                        width={256}
                         onPress={handleFinish}
                     />
                 </Container>
@@ -175,4 +192,4 @@ const Reposition = () => {
     );
 }
 
-export default Reposition
+export default Reception

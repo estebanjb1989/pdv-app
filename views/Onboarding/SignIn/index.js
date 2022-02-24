@@ -69,8 +69,8 @@ const SignIn = () => {
             alignCenter
             spaceBetween
         >
+            <Container />
             <Container>
-                <Spacer.Medium />
                 <Text.TitleH1>
                     PDV App
             </Text.TitleH1>
