@@ -5,7 +5,9 @@ import { useBackButton, useScanner, useHeaderTitle } from '../../hook'
 import { useSelector, useDispatch } from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BarcodeAsset from '../../assets/barcode.png'
-import { SalesTypes } from '../../redux/types'
+import { InventoryTypes } from '../../redux/types'
+import { fetchInventory } from '../../services/firebase';
+import { getDatabase, ref, push, set } from 'firebase/database';
 
 const dialog = require('electron').remote.dialog
 
@@ -42,7 +44,7 @@ const PDV = () => {
             ...item,
             scannedAt: Date.now(),
         })
-    }, [setScanned]))
+    }, [setScanned, items]))
 
     useEffect(async () => {
         const creds = await AsyncStorage.getItem('@credentials')
@@ -109,13 +111,33 @@ const PDV = () => {
         const response = await dialog.showMessageBoxSync(options)
         if (response === 0) {
             const db = getDatabase();
-            const reference = ref(db, 'sales');
-            push(reference, {
+            let reference = ref(db, 'sales');
+            await push(reference, {
                 credentials,
                 items,
                 total: calculateTotal(),
                 soldOutAt: Date.now(),
             });
+
+            // WIP
+            for(const item of items) {
+                reference = ref(db, 'inventory/' + item.barcode);
+                await set (reference, {
+                    ...item,
+                    stock: item.stock - item.quantity
+                });
+            }
+            fetchInventory((data) => {
+                dispatch({
+                    type: InventoryTypes.SET_INVENTORY,
+                    payload: Object.keys(data).map(key => data[key])
+                })
+            })
+            // steps to update stock
+            // fetch inventory by id
+
+            // set inventory by id
+            // fetch inventory by id and dispatch
             setItems([])
         }
     }
@@ -186,7 +208,7 @@ const PDV = () => {
                                         paddingHorizontal: 2,
                                     }}>
                                         <Text.Body>
-                                            {item.description}
+                                            {item.description} (stock {item.stock || 0})
                                         </Text.Body>
                                     </Container>
                                     <Container style={{

@@ -56,10 +56,10 @@ export const uploadImageAsync = async (uri) => {
     return await getDownloadURL(fileRef);
 }
 
-export const fetchInventory = async (onSuccess, onError) => {
+export const fetchInventory = async (onSuccess, onError, id = null) => {
     const _dbRef = dbRef(getDatabase());
     try {
-        const snapshot = await get(child(_dbRef, 'inventory'))
+        const snapshot = await get(child(_dbRef, 'inventory/' + (id || '')))
         if (snapshot.exists()) {
             onSuccess?.(snapshot.val())
         } else {

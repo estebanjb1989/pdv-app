@@ -1,11 +1,12 @@
 import React, { useCallback } from 'react';
-import { TextInput } from 'react-native'
+import { TextInput, Image } from 'react-native'
 import { Container, Text, Spacer } from '../../component'
 import { useBackButton, useScanner, useHeaderTitle } from '../../hook'
 import { useSelector, useDispatch } from 'react-redux'
 import { getDatabase, ref as dbRef, set } from 'firebase/database';
 import { fetchInventory } from '../../services/firebase'
 import { InventoryTypes } from '../../redux/types';
+import BarcodeAsset from '../../assets/barcode.png'
 
 const Prices = () => {
     const dispatch = useDispatch()
@@ -42,7 +43,7 @@ const Prices = () => {
             (data) => {
                 dispatch({
                     type: InventoryTypes.SET_INVENTORY,
-                    payload: Object.keys(data).map(key => data[key]), 
+                    payload: Object.keys(data).map(key => data[key]),
                 })
             }
         )
@@ -56,10 +57,18 @@ const Prices = () => {
 
     return (
         <Container flex alignCenter justifyCenter>
-            <Text.TitleH1>{item?.description || 'Escanee un producto'}</Text.TitleH1>
+            {!item && <Container flex alignCenter justifyCenter>
+                <Image source={BarcodeAsset} style={{
+                     width: 128,
+                     height: 128,
+                     opacity: 0.5
+                }} />
+            </Container>}
             {item && (
                 <Container alignCenter>
-                    <Text.TitleH1>Precio actual: {item.price} ARS</Text.TitleH1>
+                    <Text.TitleH3>{item.description}</Text.TitleH3>
+                    <Spacer.Small />
+                    <Text.TitleH3>Precio actual: {item.price} ARS</Text.TitleH3>
                     <Spacer.Medium />
                     <TextInput
                         placeholder="Nuevo precio ARS"

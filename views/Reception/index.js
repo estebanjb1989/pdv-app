@@ -7,6 +7,7 @@ import { getDatabase, ref as dbRef, set } from 'firebase/database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { fetchInventory } from '../../services/firebase'
 import BarcodeAsset from '../../assets/barcode.png'
+import { InventoryTypes } from '../../redux/types'
 
 const dialog = require('electron').remote.dialog
 
@@ -14,7 +15,6 @@ const Reception = () => {
     const [items, setItems] = useState([])
     const [scanned, setScanned] = useState(null)
     const inventory = useSelector(state => state.inventory.list)
-    const [credentials, setCredentials] = useState(null)
     const dispatch = useDispatch()
 
     useHeaderTitle("Recepcion")
@@ -35,10 +35,10 @@ const Reception = () => {
         })
     }, [setScanned]))
 
-    useEffect(async () => {
+   /* useEffect(async () => {
         const creds = await AsyncStorage.getItem('@credentials')
         setCredentials(JSON.parse(creds))
-    }, [])
+    }, [])*/
 
     useEffect(() => {
         if (!scanned) {
@@ -105,7 +105,15 @@ const Reception = () => {
                     productId: item.productId,
                 });
             }
-            await fetchInventory()
+
+            await fetchInventory(
+                (data) => {
+                    dispatch({
+                        type: InventoryTypes.SET_INVENTORY,
+                        payload: Object.keys(data).map(key => data[key]),
+                    })
+                }
+            )
             setItems([])
         }
     }

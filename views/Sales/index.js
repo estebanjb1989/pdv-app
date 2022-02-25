@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList } from 'react-native'
+import { FlatList, useWindowDimensions } from 'react-native'
 import { Container, Text, Spacer } from '../../component'
 import { useBackButton, useHeaderTitle } from '../../hook'
 import { useSelector } from 'react-redux'
@@ -8,6 +8,7 @@ const Inventory = () => {
     const sales = useSelector(state => state.sales.list)
     useBackButton()
     useHeaderTitle('Ventas')
+    const { width } = useWindowDimensions()
 
     return (
         <FlatList
@@ -16,14 +17,14 @@ const Inventory = () => {
             renderItem={({ item }) => {
                 return (
                     <Container padded>
-                        <Container row spaceBetween>
+                        <Container row={width > 400} spaceBetween>
                             <Container>
                                 <Text.Body>
                                     {new Date(item.soldOutAt).toLocaleString()}
                                 </Text.Body>
                             </Container>
                             <Container>
-                            <Text.Body>
+                                <Text.Body>
                                     {item.credentials.user.email}
                                 </Text.Body>
                             </Container>
@@ -32,11 +33,17 @@ const Inventory = () => {
                         {item.items.map(line => (
                             <Container row spaceBetween>
                                 <Text.Body>
-                                    - {line.description}
+                                    {line.description}
                                 </Text.Body>
-                                <Text.Body>
-                                    {line.quantity} x {line.price} ARS = {line.quantity * line.price} ARS
+                                <Container alignEnd>
+                                    <Text.Body>
+                                        {line.quantity} x {line.price} ARS =
+
                                 </Text.Body>
+                                    <Text.Body>
+                                        {line.quantity * line.price} ARS
+                                </Text.Body>
+                                </Container>
                             </Container>
                         ))}
                         <Container style={{
