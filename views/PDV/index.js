@@ -122,9 +122,11 @@ const PDV = () => {
             // WIP
             for(const item of items) {
                 reference = ref(db, 'inventory/' + item.barcode);
+                const qty = item.quantity
+                delete item.quantity
                 await set (reference, {
                     ...item,
-                    stock: item.stock - item.quantity
+                    stock: item.stock - qty
                 });
             }
             fetchInventory((data) => {

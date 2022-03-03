@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, ActivityIndicator, useWindowDimensions } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import { Container, Text, Spacer } from '../../component'
 import { useNavigation } from '@react-navigation/native'
-import { InventoryTypes, SalesTypes } from '../../redux/types'
+import { InventoryTypes, SalesTypes, SessionTypes } from '../../redux/types'
 import menu from '../../constants/menu'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHeaderTitle, useKeyboardListener } from '../../hook';
+import { useHeaderTitle, useIsMobile } from '../../hook';
 import { fetchInventory, fetchSales } from '../../services/firebase'
 import colors from '../../constants/colors'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import styles from './styles'
 
 const Home = () => {
     const [loadingInventory, setLoadingInventory] = useState(false)
@@ -15,7 +17,7 @@ const Home = () => {
     const credentials = useSelector(state => state.session.credentials)
     const navigation = useNavigation()
     const dispatch = useDispatch()
-    const { width } = useWindowDimensions()
+    const isMobile = useIsMobile()
 
     useHeaderTitle('𓃰    PDV App')
 
@@ -38,7 +40,7 @@ const Home = () => {
     if (loadingInventory || loadingSales) {
         return (
             <Container flex alignCenter justifyCenter>
-                <ActivityIndicator size="large" color={colors.text} />
+                <ActivityIndicator size="large" color={colors.tertiary} />
             </Container>
         )
     }
@@ -50,8 +52,8 @@ const Home = () => {
                 {menu.sort((a, b) => a.order - b.order).map((menuItem) => (
                     <Container
                         key={menuItem.title}
-                        style={width > 400 ? styles.menuItem : styles.menuItemMobile}
-                        onPress={() => {
+                        style={isMobile ? styles.menuItemMobile : styles.menuItem}
+                        onPress={async () => {
                             if (menuItem.route === 'Sales') {
                                 setLoadingSales(true)
                                 fetchSales(
@@ -83,6 +85,13 @@ const Home = () => {
                                     }
                                 )
                             }
+                            if (menuItem.route === 'Onboarding/SignIn') {
+                                dispatch({
+                                    type: SessionTypes.SET_USER,
+                                    payload: null,
+                                })
+                                await AsyncStorage.setItem('@credentials', null)
+                            }
                             navigation.navigate(menuItem.route)
                         }}>
                         <Text.TitleH3>{menuItem.title.toLocaleUpperCase()}</Text.TitleH3>
@@ -98,28 +107,5 @@ const Home = () => {
         </Container>
     );
 }
-
-const styles = StyleSheet.create({
-    menuItem: {
-        width: 128,
-        height: 128,
-        borderColor: 'lightgrey',
-        borderWidth: 1,
-        borderRadius: 16,
-        margin: 12,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    menuItemMobile: {
-        width: '80%',
-        height: 96,
-        borderColor: 'lightgrey',
-        borderWidth: 1,
-        marginBottom: 16,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 4
-    }
-});
 
 export default Home

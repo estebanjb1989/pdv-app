@@ -1,8 +1,10 @@
+import config from './Config'
+
 export default {
     transparent: "rgba(0,0,0,0)",
-    primary: "#21273D",
-    secondary: "#EDEAFB",
-    tertiary: "#809AB1",
+    primary: config.primaryColor,
+    secondary: config.secondaryColor,
+    tertiary: config.tertiaryColor,
     dark: "#272821",
     text: "lightgrey",
   };

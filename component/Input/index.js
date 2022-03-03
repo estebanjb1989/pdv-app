@@ -3,6 +3,7 @@ import { TextInput } from 'react-native'
 import Container from '../Container'
 import Text from '../Text'
 import Spacer from '../Spacer'
+import styles from './styles'
 
 const Input = ({
     label,
@@ -20,13 +21,7 @@ const Input = ({
                 placeholder={placeholder}
                 secureTextEntry={secure}
                 autoFocus={autoFocus}
-                style={{
-                    width: 240,
-                    height: 50,
-                    backgroundColor: 'whitesmoke',
-                    borderRadius: 6,
-                    paddingHorizontal: 12,
-                }}
+                style={styles.input}
                 onChangeText={onChange}
             />
         </Container>

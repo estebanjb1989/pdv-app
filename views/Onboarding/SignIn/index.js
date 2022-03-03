@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import { Button, Container, Text, Input, Spacer } from '../../../component'
-import { useHeaderHidden, useHeaderTitle } from '../../../hook'
+import { useHeaderHidden } from '../../../hook'
 import { getAuth, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail } from 'firebase/auth'
 import { SessionTypes } from '../../../redux/types'
+import config from '../../../constants/Config'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignIn = () => {
@@ -28,7 +29,7 @@ const SignIn = () => {
         } catch (err) {
             alert(err.message)
         }
-        
+
     }
 
     const handleSignIn = async () => {
@@ -72,8 +73,8 @@ const SignIn = () => {
             <Container />
             <Container>
                 <Text.TitleH1>
-                    PDV App
-            </Text.TitleH1>
+                    {config.appName}
+                </Text.TitleH1>
             </Container>
             <Container>
                 <Input
@@ -87,16 +88,17 @@ const SignIn = () => {
                     secure
                     onChange={(text) => setPassword(text)}
                 />
-                <Spacer.Small />
-                <Button.Tertiary
-                    title="Reset password"
-                    onPress={handleForgot}
-                />
                 <Spacer.Large />
                 <Button.Primary
                     width={240}
                     title="Ingresar"
                     onPress={handleSignIn}
+                />
+            </Container>
+            <Container>
+                <Button.Tertiary
+                    title="Reset password"
+                    onPress={handleForgot}
                 />
             </Container>
             <Container>

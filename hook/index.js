@@ -4,6 +4,7 @@ import useHeaderTitle from './useHeaderTitle'
 import useHeaderHidden from './useHeaderHidden'
 import useScanner from './useScanner'
 import useKeyboardListener from './useKeyboardListener'
+import useIsMobile from './useIsMobile'
 
 export {
     useBackButton,
@@ -11,4 +12,5 @@ export {
     useHeaderTitle,
     useHeaderHidden,
     useKeyboardListener,
+    useIsMobile,
 }

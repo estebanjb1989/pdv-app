@@ -1,60 +1,61 @@
 import { StyleSheet } from "react-native";
-import colors from "../../../constants/colors"
+import config from "../../../constants/Config"
+import colors from '../../../constants/colors'
 
 const styles = StyleSheet.create({
   small: {
     fontSize: 14,
     fontWeight: "400",
-    color: 'lightgrey',
+    color: config.tertiaryColor,
   },
 
   body: {
     fontSize: 16,
     fontWeight: "400",
     lineHeight: 20.8,
-    color: 'lightgrey',
+    color: config.tertiaryColor,
   },
 
   bodyBold: {
     fontWeight: "600",
     fontSize: 16,
-    color: 'lightgrey',
+    color: config.tertiaryColor,
   },
 
   huge: {
     fontSize: 72,
-    color: 'lightgrey',
+    color: config.tertiaryColor,
     paddingTop: 32,
     lineHeight: 64,
   },
 
   titleH1: {
     fontSize: 34,
-    color: 'lightgrey',
+    color: config.tertiaryColor,
     lineHeight: 40,
   },
 
   titleH2: {
     fontSize: 24,
-    color: 'lightgrey',
+    color: config.tertiaryColor,
   },
 
   titleH3: {
     fontSize: 20,
-    color: 'lightgrey',
+    color: config.tertiaryColor,
   },
 
   titleH4: {
     fontSize: 18,
     fontWeight: "600",
     lineHeight: 22.32,
-    color: 'lightgrey',
+    color: config.tertiaryColor,
   },
 
   titleH5: {
     fontSize: 13,
     lineHeight: 28,
-    color: 'lightgrey',
+    color: config.tertiaryColor,
   },
 
   bold: {
@@ -62,16 +63,16 @@ const styles = StyleSheet.create({
   },
 
   light: {
-    color: colors.white,
+    color: config.tertiaryColor,
   },
 
   lighter: {
-    color: colors.white,
+    color: config.tertiaryColor,
     fontWeight: "500",
   },
 
   regular: {
-    color: 'lightgrey',
+    color: config.tertiaryColor,
   },
 
   centered: {

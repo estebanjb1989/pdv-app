@@ -1,14 +1,14 @@
 import React from 'react';
-import { FlatList, useWindowDimensions } from 'react-native'
+import { FlatList } from 'react-native'
 import { Container, Text, Spacer } from '../../component'
-import { useBackButton, useHeaderTitle } from '../../hook'
+import { useBackButton, useHeaderTitle, useIsMobile } from '../../hook'
 import { useSelector } from 'react-redux'
 
 const Inventory = () => {
     const inventory = useSelector(state => state.inventory.list)
     useBackButton()
     useHeaderTitle('Inventario')
-    const { width } = useWindowDimensions()
+    const isMobile = useIsMobile()
 
     return (
         <FlatList
@@ -17,7 +17,7 @@ const Inventory = () => {
             renderItem={({ item }) => {
                 return (
                     <Container padded>
-                        <Container row={width > 400} spaceBetween>
+                        <Container row={isMobile} spaceBetween>
                             <Container>
                                 <Text.Body>
                                     {item.description}

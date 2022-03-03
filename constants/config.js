@@ -1,4 +1,5 @@
 module.exports = {
+  "appName": "PDV App",
   "apiUrl": "",
   "env": "development",
   "Firebase": {
@@ -10,5 +11,8 @@ module.exports = {
     "appId": "1:642130872366:web:7e189d1813350ae208b7bf",
     "databaseUrl": "https://pdv-app-39291-default-rtdb.firebaseio.com/"
   },
-  "facebookId": ""
+  "facebookId": "",
+  "primaryColor": "whitesmoke",
+  "secondaryColor": "whitesmoke",
+  "tertiaryColor": "darkorange"
 }
