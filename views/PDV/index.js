@@ -58,6 +58,7 @@ const PDV = () => {
             return
         }
 
+        setBarcodeScanned(null)
         setInventoryItemScanned({
             ...item,
             scannedAt: Date.now(),
@@ -75,6 +76,13 @@ const PDV = () => {
         const existingItem = items.find(item => (
             item.productId === scannedProduct.productId
         ))
+
+        const qty = (existingItem?.quantity || 0) + 1
+        const inventoryItem = inventory.find(item => item.productId === scannedProduct.productId)
+        if (inventoryItem.stock - qty < 0) {
+            alert('No hay stock suficiente')
+            return
+        }
 
         if (existingItem) {
             setItems(items.map(item => (
@@ -220,7 +228,7 @@ const PDV = () => {
                                         paddingHorizontal: 2,
                                     }}>
                                         <Text.Body>
-                                            {item.description} (stock {item.stock || 0})
+                                            {item.description} (Quedan {item.stock - item.quantity || 0})
                                         </Text.Body>
                                     </Container>
                                     <Container style={{

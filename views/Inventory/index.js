@@ -11,7 +11,9 @@ const Inventory = () => {
     const {
         loadingInventory,
         inventory,
-    } = useInventory(true)
+    } = useInventory({
+        refreshOnLoad: true,
+    })
 
     if (loadingInventory) {
         return <Loading />

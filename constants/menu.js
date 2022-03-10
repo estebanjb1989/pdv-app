@@ -24,7 +24,7 @@ export default [{
     order: 40,
     visible: true,
 }, {
-    title: 'Control',
+    title: 'Control (WIP)',
     route: 'Control',
     order: 45,
     visible: true,
