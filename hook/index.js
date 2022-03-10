@@ -5,6 +5,7 @@ import useHeaderHidden from './useHeaderHidden'
 import useScanner from './useScanner'
 import useKeyboardListener from './useKeyboardListener'
 import useIsMobile from './useIsMobile'
+import useInventory from './useInventory'
 
 export {
     useBackButton,
@@ -13,4 +14,5 @@ export {
     useHeaderHidden,
     useKeyboardListener,
     useIsMobile,
+    useInventory,
 }

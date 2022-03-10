@@ -1,14 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native'
-import { Container, Text, Spacer } from '../../component'
+import { Container, Text, Spacer, Loading, Divider } from '../../component'
 import { useBackButton, useHeaderTitle, useIsMobile } from '../../hook'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { SalesTypes } from '../../redux/types'
+import { fetchSales } from '../../services/firebase'
 
-const Inventory = () => {
+const Sales = () => {
+    const [loadingSales, setLoadingSales] = useState(false)
     const sales = useSelector(state => state.sales.list)
+    const dispatch = useDispatch()
     useBackButton()
     useHeaderTitle('Ventas')
     const isMobile = useIsMobile()
+
+    useEffect(() => {
+        setLoadingSales(true)
+        fetchSales(
+            (data) => {
+                setLoadingSales(false)
+                dispatch({
+                    type: SalesTypes.SET_SALES,
+                    payload: Object.keys(data).map(key => data[key])
+                })
+            },
+            (err) => {
+                setLoadingSales(false)
+                console.log(err)
+            }
+        )
+    }, [])
+
+    if (loadingSales) {
+        return <Loading />
+    }
 
     return (
         <FlatList
@@ -46,23 +71,13 @@ const Inventory = () => {
                                 </Container>
                             </Container>
                         ))}
-                        <Container style={{
-                            width: '100%',
-                            height: 1,
-                            backgroundColor: 'grey',
-                            opacity: .5
-                        }} />
+                        <Divider />
                         <Container row justifyEnd>
                             <Text.TitleH3>
                                 {item.total} ARS
                             </Text.TitleH3>
                         </Container>
-                        <Container style={{
-                            width: '100%',
-                            height: 1.5,
-                            backgroundColor: 'grey',
-                            borderRadius: 5
-                        }} />
+                        <Divider />
                     </Container>
                 )
             }}
@@ -70,4 +85,4 @@ const Inventory = () => {
     );
 }
 
-export default Inventory
+export default Sales

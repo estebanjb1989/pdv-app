@@ -1,6 +1,6 @@
 
 import React from 'react'
-import Container from '../index'
+import { Container } from '../index'
 import colors from '../../constants/colors'
 
 const Divider = () => {
@@ -9,7 +9,7 @@ const Divider = () => {
             {
                 width: "90%",
                 height: 1,
-                backgroundColor: colors.text,
+                backgroundColor: colors.primary,
                 opacity: 0.5,
             }
         }>

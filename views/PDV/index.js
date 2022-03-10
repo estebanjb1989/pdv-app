@@ -1,22 +1,23 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { FlatList, Image } from 'react-native'
-import { Button, Container, Text, Spacer } from '../../component'
-import { useBackButton, useScanner, useHeaderTitle } from '../../hook'
-import { useSelector, useDispatch } from 'react-redux'
+import { Button, Container, Text, Spacer, Loading } from '../../component'
+import { useBackButton, useScanner, useHeaderTitle, useInventory } from '../../hook'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import BarcodeAsset from '../../assets/barcode.png'
-import { InventoryTypes } from '../../redux/types'
-import { fetchInventory } from '../../services/firebase';
 import { getDatabase, ref, push, set } from 'firebase/database';
+
+import BarcodeAsset from '../../assets/barcode.png'
 
 const dialog = require('electron').remote.dialog
 
 const PDV = () => {
-    const dispatch = useDispatch()
     const [items, setItems] = useState([])
     const [scanned, setScanned] = useState(null)
-    const inventory = useSelector(state => state.inventory.list)
     const [credentials, setCredentials] = useState(null)
+    const {
+        loadingInventory,
+        inventory,
+        refreshInventory,
+    } = useInventory()
 
     useHeaderTitle("PDV")
     useBackButton()
@@ -108,8 +109,8 @@ const PDV = () => {
             buttons: ["Si", "No"],
             message: "Confirma la venta?"
         }
-        const response = await dialog.showMessageBoxSync(options)
-        if (response === 0) {
+        const response = dialog.showMessageBoxSync(options)
+        if (response === 0) { // si dice que si
             const db = getDatabase();
             let reference = ref(db, 'sales');
             await push(reference, {
@@ -129,12 +130,7 @@ const PDV = () => {
                     stock: item.stock - qty
                 });
             }
-            fetchInventory((data) => {
-                dispatch({
-                    type: InventoryTypes.SET_INVENTORY,
-                    payload: Object.keys(data).map(key => data[key])
-                })
-            })
+            refreshInventory()
             // steps to update stock
             // fetch inventory by id
 
@@ -142,6 +138,10 @@ const PDV = () => {
             // fetch inventory by id and dispatch
             setItems([])
         }
+    }
+
+    if (loadingInventory) {
+        return <Loading />
     }
 
     return (

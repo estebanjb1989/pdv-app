@@ -1,14 +1,21 @@
 import React from 'react';
 import { FlatList } from 'react-native'
-import { Container, Text, Spacer } from '../../component'
-import { useBackButton, useHeaderTitle, useIsMobile } from '../../hook'
-import { useSelector } from 'react-redux'
+import { Container, Text, Spacer, Divider, Loading } from '../../component'
+import { useBackButton, useHeaderTitle, useIsMobile, useInventory } from '../../hook'
 
 const Inventory = () => {
-    const inventory = useSelector(state => state.inventory.list)
     useBackButton()
     useHeaderTitle('Inventario')
     const isMobile = useIsMobile()
+
+    const {
+        loadingInventory,
+        inventory,
+    } = useInventory()
+
+    if (loadingInventory) {
+        return <Loading />
+    }
 
     return (
         <FlatList
@@ -24,7 +31,7 @@ const Inventory = () => {
                                 </Text.Body>
                                 <Text.Small>
                                     {item.category}
-                                </Text.Small>                                
+                                </Text.Small>
                             </Container>
                             <Container alignEnd>
                                 <Text.Body>
@@ -39,11 +46,7 @@ const Inventory = () => {
                             </Container>
                         </Container>
                         <Spacer.Small />
-                        <Container style={{
-                            width: '100%',
-                            height: 1,
-                            backgroundColor: 'lightgrey',
-                        }} />
+                        <Divider />
                     </Container>
                 )
             }}

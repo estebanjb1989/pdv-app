@@ -4,6 +4,7 @@ import Divider from './Divider'
 import Spacer from './Spacer'
 import Text from './Text'
 import Input from './Input'
+import Loading from './Loading'
 
 export {
     Button,
@@ -12,4 +13,5 @@ export {
     Spacer,
     Text,
     Input,
+    Loading,
 }

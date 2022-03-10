@@ -12146,6 +12146,11 @@ wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
+webcamjs@^1.0.26:
+  version "1.0.26"
+  resolved "https://registry.yarnpkg.com/webcamjs/-/webcamjs-1.0.26.tgz#74b81cda13da61fcbb07f6e8658b403a3056821b"
+  integrity sha512-ruUdzb7MV4QUxO1TfIdAjzeEhB8+Y1GY6HhQTytij+rB98972XZ+mbMUGrjBvWRb975loKjqgELdYjVNMNRfFQ==
+
 webidl-conversions@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-3.0.1.tgz#24534275e2a7bc6be7bc86611cc16ae0a5654871"
