@@ -1,51 +1,58 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FlatList, Image } from 'react-native'
-import { Button, Container, Text, Spacer } from '../../component'
-import { useBackButton, useScanner, useHeaderTitle } from '../../hook'
-import { useSelector, useDispatch } from 'react-redux'
+import { Button, Container, Text, Spacer, Loading } from '../../component'
+import { useBackButton, useScanner, useHeaderTitle, useInventory } from '../../hook'
 import { getDatabase, ref as dbRef, set } from 'firebase/database';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { fetchInventory } from '../../services/firebase'
 import BarcodeAsset from '../../assets/barcode.png'
-import { InventoryTypes } from '../../redux/types'
 
 const dialog = require('electron').remote.dialog
 
 const Reception = () => {
     const [items, setItems] = useState([])
-    const [scanned, setScanned] = useState(null)
-    const inventory = useSelector(state => state.inventory.list)
-    const dispatch = useDispatch()
+    const [barcodeScanned, setBarcodeScanned] = useState(null)
+    const [inventoryItemScanned, setInventoryItemScanned] = useState(null)
+
+    const {
+        loadingInventory,
+        inventory,
+        refreshInventory,
+    } = useInventory({
+        refreshOnLoad: true,
+    })
 
     useHeaderTitle("Recepcion")
     useBackButton()
-    useScanner(useCallback((barcode) => {
+    useScanner((barcode) => {
+        setBarcodeScanned(barcode)
+    })
+
+    useEffect(() => {
+        if (!barcodeScanned || !inventory?.length) {
+            return
+        }  
+
         const item = inventory.find(item => (
-            item.barcode.toString() === barcode
+            item.barcode.toString() === barcodeScanned
         ))
 
         if (!item) {
-            alert(barcode + ' no encontrado')
+            alert(barcodeScanned + ' no encontrado')
             return
         }
 
-        setScanned({
+        setInventoryItemScanned({
             ...item,
             scannedAt: Date.now(),
         })
-    }, [setScanned]))
-
-   /* useEffect(async () => {
-        const creds = await AsyncStorage.getItem('@credentials')
-        setCredentials(JSON.parse(creds))
-    }, [])*/
+        setBarcodeScanned(null)
+    }, [barcodeScanned, inventory])
 
     useEffect(() => {
-        if (!scanned) {
+        if (!inventoryItemScanned) {
             return
         }
-        updateItems(scanned)
-    }, [scanned])
+        updateItems(inventoryItemScanned)
+    }, [inventoryItemScanned])
 
     const updateItems = (scannedProduct) => {
         const existingItem = items.find(item => (
@@ -106,16 +113,16 @@ const Reception = () => {
                 });
             }
 
-            await fetchInventory(
-                (data) => {
-                    dispatch({
-                        type: InventoryTypes.SET_INVENTORY,
-                        payload: Object.keys(data).map(key => data[key]),
-                    })
-                }
-            )
+            refreshInventory()
+            setInventoryItemScanned(null)
             setItems([])
         }
+    }
+
+    if (loadingInventory) {
+        return (
+            <Loading />
+        )
     }
 
     return (

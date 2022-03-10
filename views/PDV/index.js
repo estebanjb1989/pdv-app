@@ -1,63 +1,75 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FlatList, Image } from 'react-native'
 import { Button, Container, Text, Spacer, Loading } from '../../component'
 import { useBackButton, useScanner, useHeaderTitle, useInventory } from '../../hook'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getDatabase, ref, push, set } from 'firebase/database';
-
+import styles from './styles'
 import BarcodeAsset from '../../assets/barcode.png'
 
 const dialog = require('electron').remote.dialog
 
 const PDV = () => {
     const [items, setItems] = useState([])
-    const [scanned, setScanned] = useState(null)
+    const [barcodeScanned, setBarcodeScanned] = useState(null)
+    const [inventoryItemScanned, setInventoryItemScanned] = useState(null)
     const [credentials, setCredentials] = useState(null)
-    const {
-        loadingInventory,
-        inventory,
-        refreshInventory,
-    } = useInventory()
-
-    useHeaderTitle("PDV")
-    useBackButton()
-    useScanner(useCallback((barcode) => {
-        const item = inventory.find(item => (
-            item.barcode.toString() === barcode
-        ))
-
-        if (!item) {
-            alert(barcode + ' no encontrado')
-            return
-        }
-
-        if (!item.price) {
-            alert(barcode + ' no tiene precio')
-            return
-        }
-
-        if (!item.stock) {
-            alert(barcode + ' no tiene stock')
-            return
-        }
-
-        setScanned({
-            ...item,
-            scannedAt: Date.now(),
-        })
-    }, [setScanned, items]))
 
     useEffect(async () => {
         const creds = await AsyncStorage.getItem('@credentials')
         setCredentials(JSON.parse(creds))
     }, [])
 
+    const {
+        loadingInventory,
+        refreshInventory,
+        inventory,
+    } = useInventory({
+        refreshOnLoad: true,
+    })
+
+    useHeaderTitle("PDV")
+    useBackButton()
+    useScanner((barcode) => {
+        setBarcodeScanned(barcode)
+    })
+
     useEffect(() => {
-        if (!scanned) {
+        if (!barcodeScanned || !inventory?.length) {
             return
         }
-        updateCart(scanned)
-    }, [scanned])
+
+        const item = inventory.find(item => (
+            item.barcode.toString() === barcodeScanned
+        ))
+
+        if (!item) {
+            alert(barcodeScanned + ' no encontrado')
+            return
+        }
+
+        if (!item.price) {
+            alert(barcodeScanned + ' no tiene precio')
+            return
+        }
+
+        if (!item.stock) {
+            alert(barcodeScanned + ' no tiene stock')
+            return
+        }
+
+        setInventoryItemScanned({
+            ...item,
+            scannedAt: Date.now(),
+        })
+    }, [barcodeScanned, inventory])
+
+    useEffect(() => {
+        if (!inventoryItemScanned) {
+            return
+        }
+        updateCart(inventoryItemScanned)
+    }, [inventoryItemScanned])
 
     const updateCart = (scannedProduct) => {
         const existingItem = items.find(item => (
@@ -121,11 +133,11 @@ const PDV = () => {
             });
 
             // WIP
-            for(const item of items) {
+            for (const item of items) {
                 reference = ref(db, 'inventory/' + item.barcode);
                 const qty = item.quantity
                 delete item.quantity
-                await set (reference, {
+                await set(reference, {
                     ...item,
                     stock: item.stock - qty
                 });
@@ -146,9 +158,7 @@ const PDV = () => {
 
     return (
         <Container flex spaceBetween>
-            <Container row spaceBetween style={{
-                paddingTop: 12,
-            }}>
+            <Container row spaceBetween style={styles.container}>
                 <Container fullWidth>
                     <FlatList
                         keyExtractor={(item) => item.id}

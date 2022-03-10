@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FlatList } from 'react-native'
 import { Container, Text, Spacer, Divider, Loading } from '../../component'
 import { useBackButton, useHeaderTitle, useIsMobile, useInventory } from '../../hook'
@@ -11,7 +11,7 @@ const Inventory = () => {
     const {
         loadingInventory,
         inventory,
-    } = useInventory()
+    } = useInventory(true)
 
     if (loadingInventory) {
         return <Loading />

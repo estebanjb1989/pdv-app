@@ -8,7 +8,7 @@ const useScanner = (onScan) => {
         if (buffer.length === 0 && ev.key !== '[') {
             return
         }
-        
+
         if (ev.key === '[') {
             buffer = ''
         }

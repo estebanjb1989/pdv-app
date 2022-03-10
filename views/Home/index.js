@@ -14,10 +14,10 @@ const Home = () => {
     const dispatch = useDispatch()
     const isMobile = useIsMobile()
 
-    useHeaderTitle('𓃰    PDV App')
+    useHeaderTitle('PDV App')
 
     return (
-        <Container flex spaceBetween alignCenter>
+        <Container flex spaceBetween alignCenter padded>
             <Container />
             <Container row justifyCenter alignCenter wrap>
                 {menu.sort((a, b) => a.order - b.order).map((menuItem) => (

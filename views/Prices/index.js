@@ -1,74 +1,83 @@
-import React, { useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { TextInput, Image } from 'react-native'
-import { Container, Text, Spacer } from '../../component'
-import { useBackButton, useScanner, useHeaderTitle } from '../../hook'
-import { useSelector, useDispatch } from 'react-redux'
+import { Container, Text, Spacer, Loading } from '../../component'
+import { useBackButton, useScanner, useHeaderTitle, useInventory } from '../../hook'
+import { useDispatch } from 'react-redux'
 import { getDatabase, ref as dbRef, set } from 'firebase/database';
-import { fetchInventory } from '../../services/firebase'
-import { InventoryTypes } from '../../redux/types';
 import BarcodeAsset from '../../assets/barcode.png'
 
 const Prices = () => {
-    const dispatch = useDispatch()
-    const [scanned, setScanned] = React.useState(null)
+    const [barcodeScanned, setBarcodeScanned] = React.useState(null)
+    const [inventoryItemScanned, setInventoryItemScanned] = React.useState(null)
     const [price, setPrice] = React.useState(null)
-    const inventory = useSelector(state => state.inventory.list)
+
+    const {
+        loadingInventory,
+        inventory,
+        refreshInventory,
+    } = useInventory({
+        refreshOnLoad: true,
+    })
 
     useHeaderTitle("Precios")
     useBackButton()
-    useScanner(useCallback((barcode) => {
-        const item = inventory.find(item => (
-            item.barcode.toString() === barcode
-        ))
+    useScanner((barcode) => {
+        setBarcodeScanned(barcode)
+    })
 
-        if (!item) {
-            alert(barcode + ' no encontrado')
+    useEffect(() => {
+        if (!barcodeScanned || !inventory?.length) {
             return
         }
 
-        setScanned({
+        const item = inventory.find(item => (
+            item.barcode.toString() === barcodeScanned
+        ))
+
+        if (!item) {
+            alert(barcodeScanned + ' no encontrado')
+            return
+        }
+
+        setInventoryItemScanned({
             ...item,
             scannedAt: Date.now(),
         })
-    }, [setScanned]))
+    }, [barcodeScanned, inventory])
 
     const handleUpdate = async () => {
         const db = getDatabase();
-        const reference = dbRef(db, 'inventory/' + scanned.barcode);
+        const reference = dbRef(db, 'inventory/' + inventoryItemScanned.barcode);
         await set(reference, {
-            ...scanned,
+            ...inventoryItemScanned,
             price,
         });
-        await fetchInventory(
-            (data) => {
-                dispatch({
-                    type: InventoryTypes.SET_INVENTORY,
-                    payload: Object.keys(data).map(key => data[key]),
-                })
-            }
-        )
-        setScanned(null)
+        refreshInventory()
+        setBarcodeScanned(null)
+        setInventoryItemScanned(null)
         setPrice(null)
     }
 
-    const item = inventory.find(item => (
-        item.barcode.toString() === scanned?.barcode.toString()
-    ))
+    if (loadingInventory) {
+        return (
+            <Loading />
+        )
+    }
 
     return (
         <Container flex alignCenter justifyCenter>
-            {!item && <Container flex alignCenter justifyCenter>
+            {!inventoryItemScanned && <Container flex alignCenter justifyCenter>
                 <Image source={BarcodeAsset} style={{
-                     width: 128,
-                     height: 128,
-                     opacity: 0.5
+                    width: 128,
+                    height: 128,
+                    opacity: 0.5
                 }} />
             </Container>}
-            {item && (
+            {inventoryItemScanned && (
                 <Container alignCenter>
-                    <Text.TitleH3>{item.description}</Text.TitleH3>
+                    <Text.TitleH3>{inventoryItemScanned.description}</Text.TitleH3>
                     <Spacer.Small />
-                    <Text.TitleH3>Precio actual: {item.price} ARS</Text.TitleH3>
+                    <Text.TitleH3>Precio actual: {inventoryItemScanned.price} ARS</Text.TitleH3>
                     <Spacer.Medium />
                     <TextInput
                         placeholder="Nuevo precio ARS"

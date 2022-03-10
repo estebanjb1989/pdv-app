@@ -3,30 +3,29 @@ import { fetchInventory } from '../services/firebase'
 import { InventoryTypes } from '../redux/types'
 import { useSelector, useDispatch } from 'react-redux'
 
-const useInventory = () => {
+const useInventory = (options) => {
     const [loadingInventory, setLoadingInventory] = useState(false)
     const dispatch = useDispatch()
     const inventory = useSelector(state => state.inventory.list)
 
-    const refreshInventory = async () => {
+    const refreshInventory = () => {
         setLoadingInventory(true)
-        try {
-            const data = await fetchInventory()
+        fetchInventory((data) => {
             dispatch({
                 type: InventoryTypes.SET_INVENTORY,
                 payload: Object.keys(data).map(key => data[key])
             })
-            return data.filter(item => item !== null)
-        } catch (error) {
-            return null
-            // lo manejamos dsp
-        } finally {
             setLoadingInventory(false)
-        }
+        }, (err) => {
+            console.error(err)
+            setLoadingInventory(false)
+        })
     }
 
-    useEffect(() => {
-        refreshInventory()
+    React.useEffect(() => {
+        if (options?.refreshOnLoad) {
+            refreshInventory()
+        }
     }, [])
 
     return {
