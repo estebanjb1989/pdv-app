@@ -9,11 +9,19 @@ export const reducer = (state = initialState, action = {}) => {
   let nextState = null
 
   switch (action.type) {
-    case BottomSheetTypes.TOGGLE:
+    case BottomSheetTypes.NAVIGATE:
       nextState = {
         ...state,
-        open: !state.open,
-        ...(action.payload || {}),
+        open: true,
+        route: action.payload.route,
+      }
+      break
+
+    case BottomSheetTypes.CLOSE:
+      nextState = {
+        ...state,
+        open: false,
+        route: null,
       }
       break
 
@@ -24,11 +32,20 @@ export const reducer = (state = initialState, action = {}) => {
   return nextState
 }
 
-const toggle = () => (dispatch) =>
+const open = (route) => (dispatch) =>
   dispatch({
-    type: BottomSheetTypes.TOGGLE,
+    type: BottomSheetTypes.NAVIGATE,
+    payload: {
+      route,
+    }
+  })
+
+const close = () => (dispatch) =>
+  dispatch({
+    type: BottomSheetTypes.CLOSE,
   })
 
 export default {
-  toggle,
+  open,
+  close,
 }

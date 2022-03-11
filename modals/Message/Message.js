@@ -1,11 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Container, Spacer, Text, Button } from 'component'
+import { Container, Spacer, Text, Button } from '../../component'
 import styles from "./styles";
-import useStore from "services/store";
 
 const Message = ({ text }) => {
-  const closeModal = useStore(state => state.closeModal)
   return (
     <Container padded style={styles.container}>
       <Container alignCenter>
@@ -16,7 +14,7 @@ const Message = ({ text }) => {
           justifyCenter
           title="OK"
           onPress={() => {
-            closeModal()
+            alert(1)
           }}
         />
         <Spacer.Huge />

@@ -58,7 +58,7 @@ const DeliveryProduct = () => {
                     <Container
                         style={styles.menuItem}
                         onPress={() => {
-                            dispatch(bsActions.toggle())
+                            dispatch(bsActions.open('Message'))
                         }}
                     >
                         <Text.Small>

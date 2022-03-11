@@ -1,6 +1,6 @@
 
 export const BottomSheetTypes = {
-  TOGGLE: `bottomSheet/TOGGLE`,
+  CLOSE: `bottomSheet/CLOSE`,
   NAVIGATE: `bottomSheet/NAVIGATE`,
 }
 

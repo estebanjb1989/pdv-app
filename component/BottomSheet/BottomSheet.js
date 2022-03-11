@@ -1,16 +1,24 @@
 import React, { useEffect } from "react";
 import { Keyboard, KeyboardAvoidingView, Platform, View } from "react-native";
-import Container from "../Container";
+import {
+  useSelector,
+  useDispatch,
+} from 'react-redux'
 import Modal from "react-native-modal";
+import Container from "../Container";
+import bsActions from '../../redux/modules/bottomSheet'
 import Routes from "../../modals"
 import styles from "./styles";
-import useStore from "services/store";
 
 const BottomSheet = () => {
-  const [modalOpen, modalProps, closeModal] = useStore(state => [state.modalOpen, state.modalProps, state.closeModal])
+  const modalOpen = useSelector(state => state.bottomSheet.open)
+  const modalProps = useSelector(state => state.bottomSheet.props)
+  const modalRoute = useSelector(state => state.bottomSheet.route)
+
+  const dispatch = useDispatch()
 
   const handleClose = () => {
-    closeModal()
+    dispatch(bsActions.close())
   };
 
   useEffect(() => {
@@ -19,7 +27,7 @@ const BottomSheet = () => {
     }
   }, [modalOpen]);
 
-  const ModalComponent = Routes.find((cmp) => cmp.route === modalOpen)
+  const ModalComponent = Routes.find((cmp) => cmp.route === modalRoute)
     ?.component;
   const behavior = Platform.OS === "ios" ? "padding" : "height";
   const keyboardVerticalOffset = Platform.OS === "ios" ? undefined : 100;

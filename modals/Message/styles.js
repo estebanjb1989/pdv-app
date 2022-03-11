@@ -1,17 +1,16 @@
 import { StyleSheet } from "react-native";
-import colors from 'constants/colors'
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.transparent,
+
   },
   toggle: {
-    backgroundColor: colors.white,
+    backgroundColor: 'white',
     borderRadius: 24,
     padding: 16,
   },
   selected: {
-    backgroundColor: colors.primaryBrand,
+    backgroundColor: 'blue',
   },
 });
 
