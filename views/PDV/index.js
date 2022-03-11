@@ -130,17 +130,16 @@ const PDV = () => {
             message: "Confirma la venta?"
         }
         const response = dialog.showMessageBoxSync(options)
-        if (response === 0) { // si dice que si
+        if (response === 0) {
             const db = getDatabase();
             let reference = ref(db, 'sales');
             await push(reference, {
-                credentials,
+                userEmail: credentials.user.email,
                 items,
                 total: calculateTotal(),
                 soldOutAt: Date.now(),
             });
 
-            // WIP
             for (const item of items) {
                 reference = ref(db, 'inventory/' + item.barcode);
                 const qty = item.quantity
@@ -151,11 +150,6 @@ const PDV = () => {
                 });
             }
             refreshInventory()
-            // steps to update stock
-            // fetch inventory by id
-
-            // set inventory by id
-            // fetch inventory by id and dispatch
             setItems([])
         }
     }

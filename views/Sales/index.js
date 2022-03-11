@@ -26,9 +26,16 @@ const Sales = () => {
             keyField="soldOutAt"
             dataSource={salesSorted}
             columns={[{
-                key: 'credentials.user.email',
+                key: 'soldOutAt',
+                title: 'Fecha',
+                width: '20%',
+                render: (original) => {
+                    return new Date(original.soldOutAt).toLocaleDateString()
+                }
+            }, {
+                key: 'userEmail',
                 title: 'Vendedor',
-                width: '80%',
+                width: '60%',
             }, {
                 key: 'total',
                 title: 'Total (ARS)',
@@ -42,8 +49,17 @@ const Sales = () => {
                     columns={[{
                         key: 'description',
                         title: 'Producto',
-                        width: '20%',
+                        width: '33.33%',
+                    }, {
+                        key: 'price',
+                        title: 'Precio (ARS)',
+                        width: '33.33%',
+                    }, {
+                        key: 'quantity',
+                        title: 'Cantidad',
+                        width: '33.33%'
                     }]}
+                    allowPagination={false}
                 />
             )}
         />

@@ -11,7 +11,10 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'grey',
         padding: 2,
-    }
+    },
+    detailContainer: {
+        paddingLeft: 32,
+    },
 })
 
 export default styles

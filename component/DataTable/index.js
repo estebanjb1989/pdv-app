@@ -11,6 +11,7 @@ const DataTable = ({
     columns,
     itemsPerPage,
     detail,
+    allowPagination,
 }) => {
     const [currentPage, setCurrentPage] = useState(1)
     const [detailVisible, setDetailVisible] = useState(null)
@@ -19,13 +20,21 @@ const DataTable = ({
         Math.ceil(dataSource.length / itemsPerPage)
     ), [dataSource, itemsPerPage])
 
+    const data = useMemo(() => {
+        if (allowPagination) {
+            return dataSource.slice(itemsPerPage * (currentPage - 1),
+                (itemsPerPage * (currentPage - 1)) + itemsPerPage)
+        }
+        return dataSource
+    }, [dataSource, itemsPerPage, allowPagination, currentPage])
+
     return (
-        <Container padded>
+        <Container>
             <FlatList
                 keyExtractor={(item) => item[keyField]}
-                data={dataSource.slice(itemsPerPage * (currentPage - 1), (itemsPerPage * (currentPage - 1)) + itemsPerPage)}
+                data={data}
                 ListHeaderComponent={(
-                    <Container row spaceBetween>
+                    <Container row>
                         {columns.map(col => (
                             <Container
                                 key={col.key}
@@ -40,60 +49,78 @@ const DataTable = ({
                         ))}
                     </Container>
                 )}
-                renderItem={({ item }) => (
-                    <Container>
-                        <Container row spaceBetween>
-                            {columns.map(col => {
-                                return (
-                                    <Container
-                                        key={col.key}
-                                        style={{
-                                            width: col.width,
-                                            ...StyleSheet.flatten(styles.rowCell),
-                                        }}
-                                        alignEnd={col.alignEnd}
-                                        onPress={() => {
-                                            if (!detail) {
-                                                return
-                                            }
+                renderItem={({ item }) => {
+                    return (
+                        <Container>
+                            <Container row>
+                                {columns.map(col => {
+                                    return (
+                                        <Container
+                                            key={col.key}
+                                            style={{
+                                                width: col.width,
+                                                ...StyleSheet.flatten(styles.rowCell),
+                                            }}
+                                            alignEnd={col.alignEnd}
+                                            onPress={detail && (() => {
+                                                if (detailVisible === item[keyField]) {
+                                                    setDetailVisible(null)
+                                                    return
+                                                }
 
-                                            if (detailVisible === item[keyField]) {
-                                                setDetailVisible(null)
-                                                return
-                                            }
-
-                                            setDetailVisible(item[keyField])
-                                        }}
-                                    >
-                                        <Text.Small>{item[col.key]}</Text.Small>
-                                    </Container>
-                                )
-                            })}
-                        </Container>
-                        {detailVisible === item[keyField] && (
-                            <Container>
-                                {detail(item)}
+                                                setDetailVisible(item[keyField])
+                                            })}
+                                        >
+                                            <Text.Small>{col.render?.(item) || item[col.key]}</Text.Small>
+                                        </Container>
+                                    )
+                                })}
                             </Container>
-                        )}
-                    </Container>
-                )}
+                            {detailVisible === item[keyField] && (
+                                <Container style={styles.detailContainer}>
+                                    {detail(item)}
+                                </Container>
+                            )}
+                        </Container>
+                    )
+                }}
             />
-            <Container padded row justifyCenter alignCenter>
-                {currentPage > 1 && <TouchableOpacity onPress={() => {
-                    setCurrentPage(currentPage - 1)
-                }}>
-                    <Text.Small>Ant.</Text.Small>
-                </TouchableOpacity>}
-                <Spacer.Medium />
-                <Text.Small>Pag. {currentPage}/{pageCount}</Text.Small>
-                <Spacer.Medium />
-                {currentPage < pageCount &&
-                    <TouchableOpacity onPress={() => {
-                        setCurrentPage(currentPage + 1)
-                    }}>
-                        <Text.Small>Prox.</Text.Small>
-                    </TouchableOpacity>}
-            </Container>
+            {(allowPagination && pageCount > 1) &&
+                <Container padded row justifyCenter alignCenter>
+                    {currentPage > 1 && (
+                        <Container row>
+                            <TouchableOpacity onPress={() => {
+                                setCurrentPage(1)
+                            }}>
+                                <Text.Small>◄◄</Text.Small>
+                            </TouchableOpacity>
+                            <Spacer.Medium />
+                            <TouchableOpacity onPress={() => {
+                                setCurrentPage(currentPage - 1)
+                            }}>
+                                <Text.Small>◄</Text.Small>
+                            </TouchableOpacity>
+                        </Container>
+                    )}
+                    <Spacer.Medium />
+                    <Text.Small>{currentPage}/{pageCount}</Text.Small>
+                    <Spacer.Medium />
+                    {currentPage < pageCount && (
+                        <Container row>
+                            <TouchableOpacity onPress={() => {
+                                setCurrentPage(currentPage + 1)
+                            }}>
+                                <Text.Small>►</Text.Small>
+                            </TouchableOpacity>
+                            <Spacer.Medium />
+                            <TouchableOpacity onPress={() => {
+                                setCurrentPage(pageCount)
+                            }}>
+                                <Text.Small>►►</Text.Small>
+                            </TouchableOpacity>
+                        </Container>
+                    )}
+                </Container>}
         </Container>
     )
 }
@@ -107,12 +134,14 @@ DataTable.propTypes = {
         width: PropTypes.string,
     })).isRequired,
     itemsPerPage: PropTypes.number,
-    detail: PropTypes.object,
+    detail: PropTypes.func,
+    allowPagination: PropTypes.bool,
 }
 
 DataTable.defaultProps = {
-    itemsPerPage: 15,
+    itemsPerPage: 12,
     detail: null,
+    allowPagination: true,
 }
 
 export default DataTable
