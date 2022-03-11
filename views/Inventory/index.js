@@ -6,7 +6,6 @@ import { useBackButton, useHeaderTitle, useIsMobile, useInventory } from '../../
 const Inventory = () => {
     useBackButton()
     useHeaderTitle('Inventario')
-    const isMobile = useIsMobile()
 
     const {
         loadingInventory,

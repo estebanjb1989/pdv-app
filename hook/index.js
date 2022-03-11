@@ -6,6 +6,7 @@ import useScanner from './useScanner'
 import useKeyboardListener from './useKeyboardListener'
 import useIsMobile from './useIsMobile'
 import useInventory from './useInventory'
+import useSales from './useSales'
 
 export {
     useBackButton,
@@ -15,4 +16,5 @@ export {
     useKeyboardListener,
     useIsMobile,
     useInventory,
+    useSales,
 }

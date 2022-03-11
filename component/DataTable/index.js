@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { TouchableOpacity, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { Container, Text, Spacer } from '../index'
@@ -10,10 +10,15 @@ const DataTable = ({
     dataSource,
     columns,
     itemsPerPage,
+    detail,
 }) => {
     const [currentPage, setCurrentPage] = useState(1)
+    const [detailVisible, setDetailVisible] = useState(null)
 
-    const pageCount = Math.ceil(dataSource.length / itemsPerPage)
+    const pageCount = useMemo(() => (
+        Math.ceil(dataSource.length / itemsPerPage)
+    ), [dataSource, itemsPerPage])
+
     return (
         <Container padded>
             <FlatList
@@ -22,25 +27,54 @@ const DataTable = ({
                 ListHeaderComponent={(
                     <Container row spaceBetween>
                         {columns.map(col => (
-                            <Container key={col.key} style={{
-                                width: col.width,
-                                ...StyleSheet.flatten(styles.headerCell),
-                            }} alignCenter>
+                            <Container
+                                key={col.key}
+                                style={{
+                                    width: col.width,
+                                    ...StyleSheet.flatten(styles.headerCell),
+                                }}
+                                alignCenter
+                            >
                                 <Text.Small>{col.title}</Text.Small>
                             </Container>
                         ))}
                     </Container>
                 )}
                 renderItem={({ item }) => (
-                    <Container row spaceBetween>
-                        {columns.map(col => (
-                            <Container key={col.key} style={{
-                                width: col.width,
-                                ...StyleSheet.flatten(styles.rowCell),
-                            }} alignEnd={col.alignEnd}>
-                                <Text.Small>{item[col.key]}</Text.Small>
+                    <Container>
+                        <Container row spaceBetween>
+                            {columns.map(col => {
+                                return (
+                                    <Container
+                                        key={col.key}
+                                        style={{
+                                            width: col.width,
+                                            ...StyleSheet.flatten(styles.rowCell),
+                                        }}
+                                        alignEnd={col.alignEnd}
+                                        onPress={() => {
+                                            if (!detail) {
+                                                return
+                                            }
+
+                                            if (detailVisible === item[keyField]) {
+                                                setDetailVisible(null)
+                                                return
+                                            }
+
+                                            setDetailVisible(item[keyField])
+                                        }}
+                                    >
+                                        <Text.Small>{item[col.key]}</Text.Small>
+                                    </Container>
+                                )
+                            })}
+                        </Container>
+                        {detailVisible === item[keyField] && (
+                            <Container>
+                                {detail(item)}
                             </Container>
-                        ))}
+                        )}
                     </Container>
                 )}
             />
@@ -73,10 +107,12 @@ DataTable.propTypes = {
         width: PropTypes.string,
     })).isRequired,
     itemsPerPage: PropTypes.number,
+    detail: PropTypes.object,
 }
 
 DataTable.defaultProps = {
     itemsPerPage: 15,
+    detail: null,
 }
 
 export default DataTable

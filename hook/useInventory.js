@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { fetchInventory } from '../services/firebase'
 import { InventoryTypes } from '../redux/types'
 import { useSelector, useDispatch } from 'react-redux'
