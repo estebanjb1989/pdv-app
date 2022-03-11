@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { FlatList } from 'react-native'
-import { Container, Text, Spacer, Divider, Loading } from '../../component'
+import { Container, Text, Spacer, Divider, DataTable, Loading } from '../../component'
 import { useBackButton, useHeaderTitle, useIsMobile, useInventory } from '../../hook'
 
 const Inventory = () => {
@@ -20,40 +20,34 @@ const Inventory = () => {
     }
 
     return (
-        <FlatList
-            data={inventory}
-            keyExtractor={(item) => item.barcode}
-            renderItem={({ item }) => {
-                return (
-                    <Container padded>
-                        <Container row={isMobile} spaceBetween>
-                            <Container>
-                                <Text.Body>
-                                    {item.description}
-                                </Text.Body>
-                                <Text.Small>
-                                    {item.category}
-                                </Text.Small>
-                            </Container>
-                            <Container alignEnd>
-                                <Text.Body>
-                                    {item.barcode}
-                                </Text.Body>
-                                <Text.Body>
-                                    {item.price || '?'} ARS
-                                </Text.Body>
-                                <Text.Body>
-                                    Stock: {item.stock || 0}
-                                </Text.Body>
-                            </Container>
-                        </Container>
-                        <Spacer.Small />
-                        <Divider />
-                    </Container>
-                )
-            }}
+        <DataTable 
+            keyField="barcode"
+            dataSource={inventory}
+            columns={[{
+                key: 'description',
+                title: 'Descripcion',
+                width: '20%',
+            }, {
+                key: 'productId',
+                title: 'Cod. Producto',
+                width: '20%',
+            }, {
+                key: 'barcode',
+                title: 'Cod. Barra',
+                width: '20%'
+            }, {
+                key: 'price',
+                title: 'Precio (ARS)',
+                width: '20%',
+                alignEnd: true,
+            }, {
+                key: 'stock',
+                title: 'Stock',
+                width: '20%',
+                alignEnd: true,
+            }]}
         />
-    );
+    )
 }
 
 export default Inventory
