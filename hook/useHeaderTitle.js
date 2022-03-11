@@ -1,6 +1,6 @@
 import React from 'react'
-import { Container, Text } from '../component'
 import { useNavigation } from '@react-navigation/native'
+import colors from '../constants/colors'
 
 const useHeaderTitle = (title) => {
     const navigation = useNavigation()
@@ -8,6 +8,9 @@ const useHeaderTitle = (title) => {
     React.useEffect(() => {
         navigation.setOptions({
             title,
+            headerTitleStyle: {
+                color: colors.text
+            }
         })
     }, [navigation])
 

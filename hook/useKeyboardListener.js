@@ -1,7 +1,11 @@
 import React from 'react'
 import { Platform } from 'react-native'
 
-const useScanner = (onKeypress) => {    
+/*
+TODO ? Fix para que solo escuche el componente activo
+*/
+
+const useScanner = (onKeypress) => {
     const handleKeypress = (ev) => {
         onKeypress(ev.key)
     }

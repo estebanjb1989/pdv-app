@@ -6,6 +6,6 @@ export default {
     secondary: config.secondaryColor,
     tertiary: config.tertiaryColor,
     dark: "#272821",
-    text: "black",
+    text: config.primaryColor,
   };
   

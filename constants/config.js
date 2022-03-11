@@ -13,6 +13,6 @@ module.exports = {
   },
   "facebookId": "",
   "primaryColor": "whitesmoke",
-  "secondaryColor": "grey",
+  "secondaryColor": "limegreen",
   "tertiaryColor": "black"
 }

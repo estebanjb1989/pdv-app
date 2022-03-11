@@ -2,16 +2,16 @@ import React from 'react'
 import { Container, Text, Spacer } from '../component'
 import { useNavigation } from '@react-navigation/native'
 
-const useBackButton = () => {
+const useBackButton = (icon = undefined) => {
     const navigation = useNavigation()
 
     React.useEffect(() => {
         navigation.setOptions({
-            headerLeft: () => {
+            headerLeft: icon === null ? null : () => {
                 return (
                     <Container onPress={navigation.goBack} row>
                         <Spacer.Medium />
-                        <Text.Body>⬅️</Text.Body>
+                        <Text.Body>{icon || '⬅️'}</Text.Body>
                     </Container>
                 )
             }

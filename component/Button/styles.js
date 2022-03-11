@@ -4,7 +4,7 @@ import layout from "../../styles/layout";
 
 const styles = StyleSheet.create({
   primary: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.secondary,
 
     minHeight: 48,
     alignItems: "center",
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
 
   secondary: {
-    backgroundColor: colors.secondaryBrand,
+    backgroundColor: colors.secondary,
     width: "100%",
     minHeight: 48,
     flexDirection: "row",
@@ -58,12 +58,12 @@ const styles = StyleSheet.create({
     height: 24,
     justifyContent: "center",
     borderBottomWidth: 1,
-    borderColor: colors.tertiary
+    borderColor: colors.primary
   },
 
   tertiaryTitle: {
     
-    color: colors.tertiary,
+    color: colors.primary,
     fontWeight: "600",
   },
 

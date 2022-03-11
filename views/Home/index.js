@@ -3,7 +3,7 @@ import { Container, Text, Spacer } from '../../component'
 import { useNavigation } from '@react-navigation/native'
 import menu from '../../constants/menu'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHeaderTitle, useIsMobile } from '../../hook';
+import { useHeaderTitle, useIsMobile, useBackButton } from '../../hook';
 import { SessionTypes } from '../../redux/types'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './styles'
@@ -15,6 +15,7 @@ const Home = () => {
     const isMobile = useIsMobile()
 
     useHeaderTitle('PDV App')
+    useBackButton(null)
 
     return (
         <Container flex spaceBetween alignCenter padded>

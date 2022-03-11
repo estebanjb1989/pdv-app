@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
     headerCell: {
         borderWidth: 1,
         borderColor: 'grey',
-        backgroundColor: 'lightgrey',
+        backgroundColor: '#4c5265',
         padding: 2,
     },
     rowCell: {

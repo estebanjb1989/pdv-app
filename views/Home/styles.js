@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native'
 import colors from '../../constants/colors'
 
 const shadow = {
-    shadowColor: "#000",
+    shadowColor: "lightgrey",
     shadowOffset: {
         width: 0,
         height: 2,
