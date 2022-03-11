@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
     },
     detailContainer: {
         paddingLeft: 32,
+        paddingBottom: 12,
     },
 })
 

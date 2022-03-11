@@ -2,6 +2,8 @@ const fs = require('fs')
 
 const {
   REACT_APP_NAME,
+  REACT_APP_MODE,
+
   REACT_APP_API_URL,
   REACT_APP_ENV,
 
@@ -22,6 +24,7 @@ const {
 
 const config = {
   appName: REACT_APP_NAME,
+  mode: REACT_APP_MODE,
 
   apiUrl: REACT_APP_API_URL,
   env: REACT_APP_ENV,

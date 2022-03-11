@@ -4,6 +4,7 @@ import { DefaultTheme } from "@react-navigation/native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { light } from "./constants/theme";
+import config from './constants/Config'
 import Views from './views'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SessionTypes } from './redux/types'
@@ -14,6 +15,9 @@ const Navigator = () => {
     const dispatch = useDispatch()    
     const [credentials, setCredentials] = useState(null)
     const [loading, setLoading] = useState(true)
+
+    const initialRoute = config.mode === 'CLIENT' ?
+        'DeliveryCategory' : 'Home'
 
     useEffect(async () => {
         const creds = await AsyncStorage.getItem('@credentials')
@@ -39,7 +43,7 @@ const Navigator = () => {
             }} 
         >
             <Stack.Navigator
-                initialRouteName={credentials?.user ? "Home" : "Onboarding/SignIn"}
+                initialRouteName={credentials?.user ? initialRoute : "Onboarding/SignIn"}
                 screenOptions={{
                     gestureEnabled: false,
                 }}
@@ -47,6 +51,8 @@ const Navigator = () => {
                 <Stack.Screen name="Home" component={Views.Home} />
                 <Stack.Screen name="Adjustments" component={Views.Adjustments} />
                 <Stack.Screen name="Control" component={Views.Control} />
+                <Stack.Screen name="DeliveryCategory" component={Views.DeliveryCategory} />
+                <Stack.Screen name="DeliveryProduct" component={Views.DeliveryProduct} />
                 <Stack.Screen name="PDV" component={Views.PDV} />
                 <Stack.Screen name="Reception" component={Views.Reception} />
                 <Stack.Screen name="Inventory" component={Views.Inventory} />

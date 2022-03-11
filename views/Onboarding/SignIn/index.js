@@ -11,6 +11,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const SignIn = () => {
     useHeaderHidden()
 
+    const initialRoute = config.mode === 'CLIENT' ?
+        'DeliveryCategory' : 'Home'
+
     const dispatch = useDispatch()
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(null)
@@ -57,7 +60,7 @@ const SignIn = () => {
                 payload: credentials,
             })
             await AsyncStorage.setItem('@credentials', JSON.stringify(credentials))
-            navigation.navigate('Home')
+            navigation.navigate(initialRoute)
         }
         catch (err) {
             alert(err.message)

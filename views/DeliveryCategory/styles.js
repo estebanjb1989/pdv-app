@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         ...shadow,
     },
     menuItemMobile: {
-        width: '80%',
+        width: 240,
         height: 96,
         marginBottom: 16,
         alignItems: 'center',
