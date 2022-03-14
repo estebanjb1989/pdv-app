@@ -34,8 +34,13 @@ export default [{
     order: 50,
     visible: true,
 }, {
+    title: 'Delivery',
+    route: 'DeliveryCategory',
+    order: 60,
+    visible: true,
+}, {
     title: 'Salir',
     route: 'Onboarding/SignIn',
-    order: 55,
+    order: 70,
     visible: true,
 }]

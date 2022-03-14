@@ -14,6 +14,7 @@ export const reducer = (state = initialState, action = {}) => {
         ...state,
         open: true,
         route: action.payload.route,
+        props: action.payload.props,
       }
       break
 
@@ -32,11 +33,12 @@ export const reducer = (state = initialState, action = {}) => {
   return nextState
 }
 
-const open = (route) => (dispatch) =>
+const open = (route, props) => (dispatch) =>
   dispatch({
     type: BottomSheetTypes.NAVIGATE,
     payload: {
       route,
+      props,
     }
   })
 

@@ -58,7 +58,11 @@ const DeliveryProduct = () => {
                     <Container
                         style={styles.menuItem}
                         onPress={() => {
-                            dispatch(bsActions.open('Message'))
+                            dispatch(bsActions.open('Cart', {
+                                sale: {
+                                    id: 1,
+                                }
+                            }))
                         }}
                     >
                         <Text.Small>
