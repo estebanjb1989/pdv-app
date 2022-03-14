@@ -1,5 +1,9 @@
 module.exports = {
+<<<<<<< HEAD
   "appName": "PediloAppDev",
+=======
+  "appName": "PDV App",
+>>>>>>> 8b61e01 (Cambios)
   "mode": "PROVIDER",
   "apiUrl": "",
   "env": "development",
