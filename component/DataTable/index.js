@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import { TouchableOpacity, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
+import { useIsMobile } from '../../hook'
 import { Container, Text, Spacer } from '../index'
 import { FlatList } from 'react-native'
 import styles from './styles'
@@ -13,6 +14,7 @@ const DataTable = ({
     detail,
     allowPagination,
 }) => {
+    const isMobile = useIsMobile()
     const [currentPage, setCurrentPage] = useState(1)
     const [detailVisible, setDetailVisible] = useState(null)
 
@@ -33,7 +35,7 @@ const DataTable = ({
             <FlatList
                 keyExtractor={(item) => item[keyField]}
                 data={data}
-                ListHeaderComponent={(
+                ListHeaderComponent={!isMobile && (
                     <Container row>
                         {columns.map(col => (
                             <Container
@@ -52,29 +54,46 @@ const DataTable = ({
                 renderItem={({ item }) => {
                     return (
                         <Container>
-                            <Container row>
+                            <Container row={!isMobile}>
                                 {columns.map(col => {
                                     return (
-                                        <Container
-                                            key={col.key}
-                                            style={{
-                                                width: col.width,
-                                                ...StyleSheet.flatten(styles.rowCell),
-                                            }}
-                                            alignEnd={col.alignEnd}
-                                            onPress={detail && (() => {
-                                                if (detailVisible === item[keyField]) {
-                                                    setDetailVisible(null)
-                                                    return
-                                                }
+                                        <Container style={{
+                                            width: isMobile ? '100%' : col.width,
+                                        }}>
+                                            <Container
+                                                key={col.key}
+                                                fullWidth
+                                                onPress={detail && (() => {
+                                                    if (detailVisible === item[keyField]) {
+                                                        setDetailVisible(null)
+                                                        return
+                                                    }
 
-                                                setDetailVisible(item[keyField])
-                                            })}
-                                        >
-                                            <Text.Small>{col.render?.(item) || item[col.key]}</Text.Small>
+                                                    setDetailVisible(item[keyField])
+                                                })}
+                                            >
+                                                <Container row={isMobile}>
+                                                    {isMobile && (
+                                                        <Container style={styles.headerCellMobile}>
+                                                            <Text.Small>{col.title}</Text.Small>
+                                                        </Container>
+                                                    )}
+                                                    <Container 
+                                                        style={[
+                                                            styles.rowCell,
+                                                            !isMobile && styles.fixedHeight,
+                                                        ]} 
+                                                        fullWidth
+                                                        alignEnd={!isMobile && col.alignEnd}
+                                                    >
+                                                        <Text.Small>{col.render?.(item) || item[col.key]}</Text.Small>
+                                                    </Container>
+                                                </Container>
+                                            </Container>
                                         </Container>
                                     )
                                 })}
+                                {(!detailVisible && isMobile) && <Spacer.Medium />}
                             </Container>
                             {detailVisible === item[keyField] && (
                                 <Container style={styles.detailContainer}>

@@ -13,7 +13,10 @@ const useSales = (options) => {
         fetchSales((data) => {
             dispatch({
                 type: SalesTypes.SET_SALES,
-                payload: Object.keys(data).map(key => data[key])
+                payload: Object.keys(data).map(key => ({
+                    id: key,
+                    ...data[key]
+                }))
             })
             setLoadingSales(false)
         }, (err) => {

@@ -1,8 +1,9 @@
+import moment from 'moment';
 import React, { useMemo } from 'react';
 import { Loading, DataTable } from '../../component'
 import { useBackButton, useHeaderTitle, useSales } from '../../hook'
 
-const Sales = () => {    
+const Sales = () => {
     useBackButton()
     useHeaderTitle('Ventas')
 
@@ -20,27 +21,34 @@ const Sales = () => {
     if (loadingSales) {
         return <Loading />
     }
-    
+
     return (
         <DataTable
             keyField="soldOutAt"
             dataSource={salesSorted}
             columns={[{
+                key: 'id',
+                title: 'ID',
+                width: '10%',
+            }, {
                 key: 'soldOutAt',
                 title: 'Fecha',
                 width: '20%',
                 render: (original) => {
-                    return new Date(original.soldOutAt).toLocaleDateString()
+                    return moment(original.soldOutAt).format('DD/MM/YYYY HH:mm')
                 }
             }, {
                 key: 'userEmail',
                 title: 'Vendedor',
-                width: '60%',
+                width: '50%',
             }, {
                 key: 'total',
-                title: 'Total (ARS)',
+                title: 'Total',
                 width: '20%',
                 alignEnd: true,
+                render: (original) => {
+                    return original.total + " ARS"
+                }
             }]}
             detail={(item) => (
                 <DataTable
@@ -49,15 +57,25 @@ const Sales = () => {
                     columns={[{
                         key: 'description',
                         title: 'Producto',
-                        width: '33.33%',
+                        width: '25%',
                     }, {
                         key: 'price',
-                        title: 'Precio (ARS)',
-                        width: '33.33%',
+                        title: 'Precio',
+                        width: '25%',
+                        render: (original) => {
+                            return original.price + " ARS"
+                        }
                     }, {
                         key: 'quantity',
                         title: 'Cantidad',
-                        width: '33.33%'
+                        width: '25%'
+                    }, {
+                        key: 'amount',
+                        title: 'Importe',
+                        width: '25%',
+                        render: (original) => {
+                            return (original.price * original.quantity) + " ARS"
+                        }
                     }]}
                     allowPagination={false}
                 />

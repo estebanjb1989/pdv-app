@@ -36,6 +36,11 @@ import {
   initialState as salesInitialState,
 } from './modules/sales'
 
+import {
+  reducer as cartReducer,
+  initialState as cartInitialState,
+} from './modules/cart'
+
 const RootState = {
   error: errorInitialState,
   fetching: fetchingInitialState,
@@ -45,6 +50,7 @@ const RootState = {
 
   inventory: inventoryInitialState,
   sales: salesInitialState,
+  cart: cartInitialState,
 }
 
 const RootReducer = combineReducers({
@@ -56,6 +62,7 @@ const RootReducer = combineReducers({
 
   inventory: inventoryReducer,
   sales: salesReducer,
+  cart: cartReducer,
 })
 
 export { RootReducer, RootState }
