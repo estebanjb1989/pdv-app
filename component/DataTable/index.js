@@ -93,7 +93,7 @@ const DataTable = ({
                                         </Container>
                                     )
                                 })}
-                                {(!detailVisible && isMobile) && <Spacer.Medium />}
+                                <Spacer.Medium />
                             </Container>
                             {detailVisible === item[keyField] && (
                                 <Container style={styles.detailContainer}>
