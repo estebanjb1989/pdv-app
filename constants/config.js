@@ -1,6 +1,5 @@
 module.exports = {
   "appName": "PDV App",
-  "mode": "PROVIDER",
   "apiUrl": "",
   "env": "development",
   "Firebase": {

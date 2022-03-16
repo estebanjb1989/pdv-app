@@ -19,6 +19,11 @@ export default [{
     visible: true,
     order: 30,
 }, {
+    title: 'Control',
+    route: 'Control',
+    visible: true,
+    order: 35,
+}, {
     title: 'Inventario',
     route: 'Inventory',
     order: 40,
