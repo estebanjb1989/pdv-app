@@ -59,24 +59,9 @@ const Adjustments = () => {
                     }}
                     title="Importar Excel"
                 />
-            </Container>
-            <Spacer.Medium />
-            <Text.Small>Formato: xls, xlsx</Text.Small>
-            <Text.Small>Columnas: categoria | codigo | descripcion | barcode</Text.Small>
-            <Spacer.Large />
-            {/*<Container style={{
-                width: 240,
-                height: 44
-            }}>
-                <Button.Primary
-                    onPress={async () => {
-                        alert('WIP')
-                    }}
-                    title="Importar Contenful"
-                />
-                </Container>*/}
+            </Container>           
         </Container>
-    );7791234199198
+    );
 }
 
 export default Adjustments

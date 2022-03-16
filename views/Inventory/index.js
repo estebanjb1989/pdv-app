@@ -23,10 +23,6 @@ const Inventory = () => {
             keyField="barcode"
             dataSource={inventory}
             columns={[{
-                key: 'description',
-                title: 'Descripcion',
-                width: '20%',
-            }, {
                 key: 'productId',
                 title: 'Cod. Producto',
                 width: '20%',
@@ -34,6 +30,10 @@ const Inventory = () => {
                 key: 'barcode',
                 title: 'Cod. Barra',
                 width: '20%'
+            }, {
+                key: 'description',
+                title: 'Descripcion',
+                width: '20%',
             }, {
                 key: 'price',
                 title: 'Precio (ARS)',

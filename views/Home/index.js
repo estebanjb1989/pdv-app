@@ -18,7 +18,7 @@ const Home = () => {
     useBackButton(null)
 
     return (
-        <Container flex spaceBetween alignCenter padded>
+        <Container flex spaceBetween alignCenter>
             <Container />
             <Container row justifyCenter alignCenter wrap>
                 {menu.sort((a, b) => a.order - b.order).map((menuItem) => (

@@ -3,11 +3,15 @@ import { FlatList, Image } from 'react-native'
 import { Button, Container, Text, Spacer, Loading } from '../../component'
 import { useBackButton, useScanner, useHeaderTitle, useInventory } from '../../hook'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getDatabase, ref, push, set } from 'firebase/database';
+import {
+    updateCart,
+    handleDelete,
+    handleFinish,
+    calculateTotal,
+    validateBarcode,
+} from '../../business/cart'
 import styles from './styles'
 import BarcodeAsset from '../../assets/barcode.png'
-
-const dialog = require('electron').remote.dialog
 
 const PDV = () => {
     const [items, setItems] = useState([])
@@ -39,22 +43,8 @@ const PDV = () => {
             return
         }
 
-        const item = inventory.find(item => (
-            item.barcode.toString() === barcodeScanned
-        ))
-
+        const item = validateBarcode(barcodeScanned, inventory)
         if (!item) {
-            alert(barcodeScanned + ' no encontrado')
-            return
-        }
-
-        if (!item.price) {
-            alert(barcodeScanned + ' no tiene precio')
-            return
-        }
-
-        if (!item.stock) {
-            alert(barcodeScanned + ' no tiene stock')
             return
         }
 
@@ -69,90 +59,8 @@ const PDV = () => {
         if (!inventoryItemScanned) {
             return
         }
-        updateCart(inventoryItemScanned)
+        updateCart(inventoryItemScanned, items, setItems, inventory)
     }, [inventoryItemScanned])
-
-    const updateCart = (scannedProduct) => {
-        const existingItem = items.find(item => (
-            item.productId === scannedProduct.productId
-        ))
-
-        const qty = (existingItem?.quantity || 0) + 1
-        const inventoryItem = inventory.find(item => item.productId === scannedProduct.productId)
-        if (inventoryItem.stock - qty < 0) {
-            alert('No hay stock suficiente')
-            return
-        }
-
-        if (existingItem) {
-            setItems(items.map(item => (
-                item.productId === scannedProduct.productId ?
-                    { ...item, quantity: item.quantity + 1 } : item
-            )))
-        }
-        else {
-            setItems([
-                ...items,
-                {
-                    id: items.length + 1,
-                    quantity: 1,
-                    ...scannedProduct,
-                }
-            ])
-        }
-    }
-
-    const calculateTotal = () => {
-        return items.reduce((carry, value) => {
-            return carry + (value.price * value.quantity)
-        }, 0)
-    }
-
-    const handleDelete = (item) => () => {
-        if (item.quantity === 1) {
-            setItems(items.filter(cartItem => (
-                cartItem.productId !== item.productId
-            )))
-            return
-        }
-
-        setItems(
-            items.map(cartItem => (
-                cartItem.productId === item.productId ?
-                    { ...cartItem, quantity: cartItem.quantity - 1 } : cartItem
-            ))
-        )
-    }
-
-    const handleFinish = async () => {
-        let options = {
-            buttons: ["Si", "No"],
-            message: "Confirma la venta?"
-        }
-        const response = dialog.showMessageBoxSync(options)
-        if (response === 0) {
-            const db = getDatabase();
-            let reference = ref(db, 'sales');
-            await push(reference, {
-                userEmail: credentials.user.email,
-                items,
-                total: calculateTotal(),
-                soldOutAt: Date.now(),
-            });
-
-            for (const item of items) {
-                reference = ref(db, 'inventory/' + item.barcode);
-                const qty = item.quantity
-                delete item.quantity
-                await set(reference, {
-                    ...item,
-                    stock: item.stock - qty
-                });
-            }
-            refreshInventory()
-            setItems([])
-        }
-    }
 
     if (loadingInventory) {
         return <Loading />
@@ -250,7 +158,7 @@ const PDV = () => {
                                     <Container style={{
                                         width: '10%',
                                     }}
-                                        onPress={handleDelete(item)}
+                                        onPress={handleDelete(items, item, setItems)}
                                     >
                                         <Text.Body>❌</Text.Body>
                                     </Container>
@@ -278,14 +186,14 @@ const PDV = () => {
                         opacity: 0.25
                     }} />
                     <Text.Small>TOTAL</Text.Small>
-                    <Text.BodyBold fontSize={24}>{calculateTotal()} ARS</Text.BodyBold>
+                    <Text.BodyBold fontSize={24}>{calculateTotal(items)} ARS</Text.BodyBold>
                 </Container>
                 <Container alignCenter>
                     <Button.Primary
                         disabled={items.length === 0}
                         title="COBRAR PEDIDO"
                         width={196}
-                        onPress={handleFinish}
+                        onPress={() => handleFinish(credentials, items, setItems, refreshInventory)}
                     />
                     <Spacer.Medium />
                 </Container>

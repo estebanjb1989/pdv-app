@@ -18,6 +18,10 @@ export const SessionTypes = {
   SET_USER: 'session/SET_USER',
 }
 
+export const CartTypes = {
+  SET_CART: 'cart/SET_CART',
+}
+
 export const InventoryTypes = {
   SET_INVENTORY: 'inventory/SET_INVENTORY',
 }

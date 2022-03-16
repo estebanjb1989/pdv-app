@@ -8,7 +8,8 @@ import {
     useRoute
 } from '@react-navigation/native'
 import {
-    useDispatch
+    useDispatch,
+    useSelector,
 } from 'react-redux'
 import {
     useInventory,
@@ -22,10 +23,12 @@ import {
 } from '../../component'
 import bsActions from '../../redux/modules/bottomSheet'
 import styles from './styles'
+import { CartTypes } from '../../redux/types'
 
 const DeliveryProduct = () => {
     const route = useRoute()
     const selectedCategory = route.params?.category
+    const cart = useSelector(state => state.cart.list)
 
     const dispatch = useDispatch()
     useBackButton()
@@ -58,11 +61,14 @@ const DeliveryProduct = () => {
                     <Container
                         style={styles.menuItem}
                         onPress={() => {
-                            dispatch(bsActions.open('Cart', {
-                                sale: {
-                                    id: 1,
-                                }
-                            }))
+                            dispatch({
+                                type: CartTypes.SET_CART,
+                                payload: [
+                                    ...cart,
+                                    item,
+                                ]
+                            })
+                            dispatch(bsActions.open('Cart'))
                         }}
                     >
                         <Text.Small>
