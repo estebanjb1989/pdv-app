@@ -10,6 +10,7 @@ const Control = () => {
     const [barcodeScanned, setBarcodeScanned] = React.useState(null)
     const [inventoryItemScanned, setInventoryItemScanned] = React.useState(null)
     const [control, setControl] = React.useState(null)
+    const [description, setDescription] = React.useState(null)
 
     const {
         loadingInventory,
@@ -77,12 +78,25 @@ const Control = () => {
                 <Container alignCenter>
                     <Text.TitleH3>{inventoryItemScanned.description}</Text.TitleH3>
                     <Spacer.Small />
-                    <Text.TitleH3>Stock actual: {inventoryItemScanned.control} </Text.TitleH3>
+                    <Text.TitleH3>Stock actual:  
+                         {inventoryItemScanned.control} </Text.TitleH3>
                     <Spacer.Medium />
                     <TextInput
                         placeholder="Nuevo stock"
                         autoFocus
                         onChangeText={(text) => setControl(parseFloat(text))}
+                        onSubmitEditing={handleUpdate}
+                        style={{
+                            width: 240,
+                            height: 50,
+                            paddingHorizontal: 12,
+                            backgroundColor: 'whitesmoke',
+                        }}
+                    />
+                    <TextInput
+                        placeholder="Nueva descripción"
+                        autoFocus
+                        onChangeText={(text) => setDescription(parseFloat(text))}
                         onSubmitEditing={handleUpdate}
                         style={{
                             width: 240,
