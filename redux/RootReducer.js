@@ -41,6 +41,11 @@ import {
   initialState as cartInitialState,
 } from './modules/cart'
 
+import {
+  reducer as workingDayReducer,
+  initialState as workingDayInitialState,
+} from './modules/workingDay'
+
 const RootState = {
   error: errorInitialState,
   fetching: fetchingInitialState,
@@ -51,6 +56,7 @@ const RootState = {
   inventory: inventoryInitialState,
   sales: salesInitialState,
   cart: cartInitialState,
+  workingDay: workingDayInitialState,
 }
 
 const RootReducer = combineReducers({
@@ -63,6 +69,7 @@ const RootReducer = combineReducers({
   inventory: inventoryReducer,
   sales: salesReducer,
   cart: cartReducer,
+  workingDay: workingDayReducer,
 })
 
 export { RootReducer, RootState }

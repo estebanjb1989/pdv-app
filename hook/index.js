@@ -7,6 +7,7 @@ import useKeyboardListener from './useKeyboardListener'
 import useIsMobile from './useIsMobile'
 import useInventory from './useInventory'
 import useSales from './useSales'
+import useWorkingDay from './useWorkingDay'
 
 export {
     useBackButton,
@@ -17,4 +18,5 @@ export {
     useIsMobile,
     useInventory,
     useSales,
+    useWorkingDay,
 }

@@ -16,9 +16,6 @@ const Navigator = () => {
     const [credentials, setCredentials] = useState(null)
     const [loading, setLoading] = useState(true)
 
-    const initialRoute = config.mode === 'CLIENT' ?
-        'DeliveryCategory' : 'Home'
-
     useEffect(async () => {
         const creds = await AsyncStorage.getItem('@credentials')
         setCredentials(JSON.parse(creds))
@@ -43,7 +40,7 @@ const Navigator = () => {
             }} 
         >
             <Stack.Navigator
-                initialRouteName={credentials?.user ? initialRoute : "Onboarding/SignIn"}
+                initialRouteName={credentials?.user ? 'Home' : "Onboarding/SignIn"}
                 screenOptions={{
                     gestureEnabled: false,
                 }}
@@ -58,6 +55,7 @@ const Navigator = () => {
                 <Stack.Screen name="Inventory" component={Views.Inventory} />
                 <Stack.Screen name="Prices" component={Views.Prices} />
                 <Stack.Screen name="Sales" component={Views.Sales} />
+                <Stack.Screen name="WorkingDay" component={Views.WorkingDay} />
                 <Stack.Screen name="Onboarding/SignIn" component={Views.Onboarding.SignIn} />
                 <Stack.Screen name="Onboarding/SignUp" component={Views.Onboarding.SignUp} />
             </Stack.Navigator>

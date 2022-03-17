@@ -1,7 +1,8 @@
 import React from 'react';
 import { Container, Text, Spacer } from '../../component'
 import { useNavigation } from '@react-navigation/native'
-import menu from '../../constants/menu'
+import { MenuProvider, MenuClient, MenuProviderWorkingDay } from '../../constants/menu'
+import Config from '../../constants/Config'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHeaderTitle, useIsMobile, useBackButton } from '../../hook';
 import { SessionTypes } from '../../redux/types'
@@ -10,12 +11,19 @@ import styles from './styles'
 
 const Home = () => {
     const credentials = useSelector(state => state.session.credentials)
+    const workingDay = useSelector(state => state.workingDay.data)
     const navigation = useNavigation()
     const dispatch = useDispatch()
     const isMobile = useIsMobile()
 
-    useHeaderTitle('PDV App')
+    useHeaderTitle(Config.appName)
     useBackButton(null)
+
+    let menu = Config.mode === 'PROVIDER' ? MenuProvider : MenuClient
+    console.log(workingDay)
+    if (!workingDay?.started) {
+        menu = MenuProviderWorkingDay
+    }
 
     return (
         <Container flex spaceBetween alignCenter>
@@ -38,9 +46,6 @@ const Home = () => {
                         <Text.TitleH3>{menuItem.title.toLocaleUpperCase()}</Text.TitleH3>
                     </Container>
                 ))}
-                <div id="cam">
-
-                </div>
             </Container>
             <Container>
                 <Text.BodyBold>

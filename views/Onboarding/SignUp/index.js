@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native'
 import { Button, Container, Text, Input, Spacer } from '../../../component'
 import { useHeaderHidden } from '../../../hook'
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
+import Config from '../../../constants/Config';
 
 const SignIn = () => {
     useHeaderHidden()
@@ -37,7 +38,7 @@ const SignIn = () => {
             const auth = getAuth()
             const credentials = await createUserWithEmailAndPassword(auth, email, password1)
             await sendEmailVerification(credentials.user)
-            alert('Te has registrado en PDV App! Por favor verifica tu email para ingresar')
+            alert('Te has registrado en ' + Config.appName + '! Por favor verifica tu email para ingresar')
             navigation.navigate('Onboarding/SignIn')
         } catch(err) {
             alert(err.message)
@@ -53,7 +54,7 @@ const SignIn = () => {
             <Container>
                 <Spacer.Medium />
                 <Text.TitleH1>
-                    PDV App - Registro
+                    {Config.appName}
             </Text.TitleH1>
             </Container>
             <Container>

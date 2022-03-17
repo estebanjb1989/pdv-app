@@ -2,7 +2,8 @@ import React, {
     useMemo
 } from 'react'
 import {
-    FlatList
+    FlatList,
+    Image,
 } from 'react-native'
 import {
     useRoute
@@ -14,12 +15,14 @@ import {
 import {
     useInventory,
     useBackButton,
-    useHeaderTitle
+    useHeaderTitle,
+    useIsMobile,
 } from '../../hook'
 import {
     Container,
     Text,
-    Loading
+    Loading,
+    Spacer,
 } from '../../component'
 import bsActions from '../../redux/modules/bottomSheet'
 import styles from './styles'
@@ -29,6 +32,7 @@ const DeliveryProduct = () => {
     const route = useRoute()
     const selectedCategory = route.params?.category
     const cart = useSelector(state => state.cart.list)
+    const isMobile = useIsMobile()
 
     const dispatch = useDispatch()
     useBackButton()
@@ -53,31 +57,43 @@ const DeliveryProduct = () => {
     }
 
     return (
-        <Container alignCenter>
-            <FlatList
-                keyExtractor={(item) => item.description}
-                data={products}
-                renderItem={({ item }) => (
-                    <Container
-                        style={styles.menuItem}
-                        onPress={() => {
-                            dispatch({
-                                type: CartTypes.SET_CART,
-                                payload: [
-                                    ...cart,
-                                    item,
-                                ]
-                            })
-                            dispatch(bsActions.open('Cart'))
-                        }}
-                    >
+        <FlatList
+            keyExtractor={(item) => item.description}
+            contentContainerStyle={styles.container}
+            data={products}
+            renderItem={({ item }) => (
+                <Container
+                    style={isMobile ? styles.menuItemMobile : styles.menuItem}
+                    onPress={() => {
+                        dispatch({
+                            type: CartTypes.SET_CART,
+                            payload: [
+                                ...cart,
+                                item,
+                            ]
+                        })
+                        dispatch(bsActions.open('Cart'))
+                    }}
+                >
+                    <Container flex spaceBetween alignCenter>
+                        <Spacer.Small />
                         <Text.Small>
                             {item.description}
                         </Text.Small>
+                        <Image source={{
+                            uri: 'https://via.placeholder.com/80'
+                        }} style={{
+                            width: 80,
+                            height: 80,
+                        }} />
+                        <Text.Small>
+                            {item.price || 0} ARS
+                        </Text.Small>
+                        <Spacer.Small />
                     </Container>
-                )}
-            />
-        </Container>
+                </Container>
+            )}
+        />
     )
 }
 

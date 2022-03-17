@@ -10,6 +10,7 @@ import Prices from "./Prices";
 import Inventory from "./Inventory";
 import Sales from "./Sales";
 import Onboarding from './Onboarding'
+import WorkingDay from './WorkingDay'
 
 export default {
     Adjustments,
@@ -23,4 +24,5 @@ export default {
     Prices,
     Sales,
     Onboarding,
+    WorkingDay,
 }

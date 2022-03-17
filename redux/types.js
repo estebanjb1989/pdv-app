@@ -29,3 +29,7 @@ export const InventoryTypes = {
 export const SalesTypes = {
   SET_SALES: 'sales/SET_SALES',
 }
+
+export const WorkingDayTypes = {
+  SET_WORKING_DAY: 'workingDay/SET_WORKING_DAY',
+}

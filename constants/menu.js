@@ -1,4 +1,4 @@
-export default [{
+export const MenuProvider = [{
     title: 'PDV',
     route: 'PDV',
     visible: true,
@@ -38,6 +38,35 @@ export default [{
     route: 'DeliveryCategory',
     order: 60,
     visible: true,
+}, {
+    title: 'Inicio de jornada',
+    route: 'WorkingDay',
+    visible: true,
+    order: 10,
+}, {
+    title: 'Salir',
+    route: 'Onboarding/SignIn',
+    order: 70,
+    visible: true,
+}]
+
+export const MenuClient = [{
+    title: 'Delivery',
+    route: 'DeliveryCategory',
+    visible: true,
+    order: 10,
+}, {
+    title: 'Salir',
+    route: 'Onboarding/SignIn',
+    order: 70,
+    visible: true,
+}]
+
+export const MenuProviderWorkingDay = [{
+    title: 'Inicio de jornada',
+    route: 'WorkingDay',
+    visible: true,
+    order: 10,
 }, {
     title: 'Salir',
     route: 'Onboarding/SignIn',

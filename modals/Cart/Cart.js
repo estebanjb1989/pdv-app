@@ -17,7 +17,11 @@ const Cart = () => {
             {
               key: 'description',
               title: 'Producto',
-            }
+            },
+            {
+              key: 'price',
+              title: 'Precio',
+            },
           ]}
         />
         <Spacer.Large />

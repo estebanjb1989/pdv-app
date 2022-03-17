@@ -23,8 +23,8 @@ import styles from './styles'
 const DeliveryCategory = () => {
     const navigation = useNavigation()
 
-    useBackButton(null)
-    useHeaderTitle('TuKiosko App')
+    useBackButton()
+    useHeaderTitle('Delivery')
     const isMobile = useIsMobile()
 
     const {

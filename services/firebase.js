@@ -83,3 +83,17 @@ export const fetchSales = async (onSuccess, onError) => {
         onError?.(err)
     }
 }
+
+export const fetchWorkingDay = async (onSuccess, onError) => {
+    const _dbRef = dbRef(getDatabase());
+    try {
+        const snapshot = await get(child(_dbRef, 'workingDay'))
+        if (snapshot.exists()) {
+            onSuccess?.(snapshot.val())
+        } else {
+            onSuccess?.({})
+        }
+    } catch (err) {
+        onError?.(err)
+    }
+}

@@ -9,7 +9,7 @@ import {
     handleFinish,
     calculateTotal,
     validateBarcode,
-} from '../../business/cart'
+} from '../../business/pdv'
 import styles from './styles'
 import BarcodeAsset from '../../assets/barcode.png'
 

@@ -1,5 +1,5 @@
 module.exports = {
-  "appName": "PDV App",
+  "appName": "PediloAppDev",
   "mode": "PROVIDER",
   "apiUrl": "",
   "env": "development",

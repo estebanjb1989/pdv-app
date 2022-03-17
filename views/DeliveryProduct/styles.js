@@ -13,6 +13,12 @@ const shadow = {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center'
+    },
     menuItem: {
         width: 128,
         height: 128,
@@ -23,7 +29,7 @@ const styles = StyleSheet.create({
         ...shadow,
     },
     menuItemMobile: {
-        width: '80%',
+        width: 240,
         height: 96,
         marginBottom: 16,
         alignItems: 'center',
