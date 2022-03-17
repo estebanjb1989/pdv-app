@@ -7,7 +7,6 @@ import Home from "./Home";
 import PDV from "./PDV";
 import Reception from "./Reception";
 import Prices from "./Prices";
-import Control from "./Control";
 import Inventory from "./Inventory";
 import Sales from "./Sales";
 import Onboarding from './Onboarding'
