@@ -3,7 +3,7 @@ import { TextInput, Image } from 'react-native'
 import { Container, Text, Spacer, Loading } from '../../component'
 import { useBackButton, useScanner, useHeaderTitle, useInventory } from '../../hook'
 import { useDispatch } from 'react-redux'
-import { getDatabase, ref as dbRef, set } from 'firebase/database';
+import { getDatabase, ref as dbRef, set } from 'firebase/database'
 import BarcodeAsset from '../../assets/barcode.png'
 
 const Control = () => {
@@ -82,6 +82,7 @@ const Control = () => {
                          {inventoryItemScanned.control} </Text.TitleH3>
                     <Spacer.Medium />
                     <TextInput
+                        defaultValue={inventoryItemScanned.control}
                         placeholder="Nuevo stock"
                         autoFocus
                         onChangeText={(text) => setControl(parseFloat(text))}
@@ -94,6 +95,7 @@ const Control = () => {
                         }}
                     />
                     <TextInput
+                        defaultValue={inventoryItemScanned.description}
                         placeholder="Nueva descripción"
                         autoFocus
                         onChangeText={(text) => setDescription(parseFloat(text))}
