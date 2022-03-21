@@ -20,7 +20,7 @@ const Control = () => {
         refreshOnLoad: true,
     })
 
-    useHeaderTitle("Stock")
+    useHeaderTitle("Control")
     useBackButton()
     useScanner((barcode) => {
         setBarcodeScanned(barcode)
@@ -51,7 +51,7 @@ const Control = () => {
         const reference = dbRef(db, 'inventory/' + inventoryItemScanned.barcode);
         await set(reference, {
             ...inventoryItemScanned,
-            control,
+            stock: control,
         });
         refreshInventory()
         setBarcodeScanned(null)
@@ -79,13 +79,13 @@ const Control = () => {
                     <Text.TitleH3>{inventoryItemScanned.description}</Text.TitleH3>
                     <Spacer.Small />
                     <Text.TitleH3>Stock actual:  
-                         {inventoryItemScanned.control} </Text.TitleH3>
+                         {inventoryItemScanned.stock} </Text.TitleH3>
                     <Spacer.Medium />
                     <TextInput
-                        defaultValue={inventoryItemScanned.control}
-                        placeholder="Nuevo stock"
+                        defaultValue={inventoryItemScanned.description}
+                        placeholder="Nueva descripción"
                         autoFocus
-                        onChangeText={(text) => setControl(parseFloat(text))}
+                        onChangeText={(text) => setDescription(parseFloat(text))}
                         onSubmitEditing={handleUpdate}
                         style={{
                             width: 240,
@@ -95,10 +95,10 @@ const Control = () => {
                         }}
                     />
                     <TextInput
-                        defaultValue={inventoryItemScanned.description}
-                        placeholder="Nueva descripción"
+                        defaultValue={inventoryItemScanned.stock}
+                        placeholder="Nuevo stock"
                         autoFocus
-                        onChangeText={(text) => setDescription(parseFloat(text))}
+                        onChangeText={(text) => setControl(parseFloat(text))}
                         onSubmitEditing={handleUpdate}
                         style={{
                             width: 240,

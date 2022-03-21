@@ -29,11 +29,6 @@ export default [{
     order: 40,
     visible: true,
 }, {
-    title: 'Control (WIP)',
-    route: 'Control',
-    order: 45,
-    visible: true,
-}, {
     title: 'Ajustes',
     route: 'Adjustments',
     order: 50,
