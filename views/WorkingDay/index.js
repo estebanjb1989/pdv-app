@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { TextInput } from 'react-native'
 import { Container, Text, Spacer, Loading, Button } from '../../component'
 import { useBackButton, useHeaderTitle, useWorkingDay } from '../../hook'
-import { getDatabase, ref as dbRef, set } from 'firebase/database';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const WorkingDay = () => {
@@ -13,7 +12,7 @@ const WorkingDay = () => {
     const {
         loadingWorkingDay,
         workingDay,
-        refreshWorkingDay,
+        updateWorkingDay,
     } = useWorkingDay({
         refreshOnLoad: true,
     })
@@ -25,31 +24,6 @@ const WorkingDay = () => {
 
     useHeaderTitle("Jornada")
     useBackButton()
-
-    const handleUpdate = async () => {
-        const db = getDatabase();
-        const reference = dbRef(db, 'workingDay');
-
-        const payload = {
-            ...workingDay,
-            updatedAt: Date.now(),
-            userEmail: credentials?.user?.email,
-        }
-
-        if (!workingDay?.started) {
-            payload.started = true
-            payload.finished = false
-            payload.moneyBegin = moneyBegin
-        }
-        else {
-            payload.started = false
-            payload.finished = true
-            payload.moneyEnd = moneyEnd
-        }
-
-        await set(reference, payload);
-        refreshWorkingDay()
-    }
 
     if (loadingWorkingDay) {
         return (
@@ -82,6 +56,10 @@ const WorkingDay = () => {
                 <Container>
                     <Text.TitleH3>FIN DE JORNADA</Text.TitleH3>
                     <Spacer.Medium />
+                    <Text.Small>CAJA INICIAL: {workingDay?.moneyBegin} ARS</Text.Small>
+                    <Spacer.Medium />
+                    <Text.Small>DINERO EN CAJA</Text.Small>
+                    <Spacer.Small />
                     <TextInput
                         defaultValue={workingDay?.moneyEnd}
                         placeholder="Dinero en caja"
@@ -100,7 +78,7 @@ const WorkingDay = () => {
             <Spacer.Medium />
             <Text.Body>{credentials?.user?.email}</Text.Body>
             <Spacer.Medium />
-            <Button.Primary width={240} title="Confirmar" onPress={handleUpdate} />
+            <Button.Primary width={240} title="Confirmar" onPress={() => updateWorkingDay(moneyBegin, moneyEnd)} />
         </Container>
     );
 }

@@ -39,7 +39,7 @@ export const MenuProvider = [{
     order: 60,
     visible: true,
 }, {
-    title: 'Inicio de jornada',
+    title: 'Fin de jornada',
     route: 'WorkingDay',
     visible: true,
     order: 10,

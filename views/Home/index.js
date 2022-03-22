@@ -20,11 +20,11 @@ const Home = () => {
     useBackButton(null)
 
     let menu = Config.mode === 'PROVIDER' ? MenuProvider : MenuClient
-    console.log(workingDay)
+    
     if (!workingDay?.started) {
         menu = MenuProviderWorkingDay
     }
-
+// vin clone -vin VIN__
     return (
         <Container flex spaceBetween alignCenter>
             <Container />

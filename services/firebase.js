@@ -84,10 +84,10 @@ export const fetchSales = async (onSuccess, onError) => {
     }
 }
 
-export const fetchWorkingDay = async (onSuccess, onError) => {
+export const fetchWorkingDay = async (credentials, onSuccess, onError) => {
     const _dbRef = dbRef(getDatabase());
     try {
-        const snapshot = await get(child(_dbRef, 'workingDay'))
+        const snapshot = await get(child(_dbRef, 'workingDay/' + credentials.user.email.split('@')[0]))
         if (snapshot.exists()) {
             onSuccess?.(snapshot.val())
         } else {
