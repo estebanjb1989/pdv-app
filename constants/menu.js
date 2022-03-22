@@ -9,6 +9,11 @@ export const MenuProvider = [{
     visible: true,
     order: 10,
 }, {
+    title: 'Control',
+    route: 'Control',
+    visible: true,
+    order: 10,
+}, {
     title: 'Ventas',
     route: 'Sales',
     visible: true,
@@ -22,11 +27,6 @@ export const MenuProvider = [{
     title: 'Inventario',
     route: 'Inventory',
     order: 40,
-    visible: true,
-}, {
-    title: 'Control (WIP)',
-    route: 'Control',
-    order: 45,
     visible: true,
 }, {
     title: 'Ajustes',

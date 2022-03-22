@@ -15,23 +15,11 @@ const Stack = createStackNavigator();
 const AppContainer = ({
     children
 }) => {
-    const dispatch = useDispatch()
-
     const {
         loadingWorkingDay,
     } = useWorkingDay({
         refreshOnLoad: true,
     })
-
-    useEffect(async () => {
-        const creds = await AsyncStorage.getItem('@credentials')
-        setCredentials(JSON.parse(creds))
-        setLoading(false)
-        dispatch({
-            type: SessionTypes.SET_USER,
-            payload: JSON.parse(creds)
-        })
-    }, [])
 
     if (loadingWorkingDay) {
         return <Loading />

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { fetchWorkingDay } from '../services/firebase'
-import { WorkingDayTypes } from '../redux/types'
+import { WorkingDayTypes, SessionTypes } from '../redux/types'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector, useDispatch } from 'react-redux'
 import { getDatabase, ref as dbRef, set, push } from 'firebase/database';
@@ -41,6 +41,11 @@ const useWorkingDay = (options) => {
         }
 
         const credentials = JSON.parse(creds)
+
+        dispatch({
+            type: SessionTypes.SET_USER,
+            payload: credentials
+        })
 
         setLoadingWorkingDay(true)
         fetchWorkingDay(credentials, (data) => {

@@ -1,22 +1,8 @@
-<<<<<<< HEAD
-import React from 'react'
-import { Container, Text } from '../../component'
-
-const Control = () => {
-    return (
-        <Container flex alignCenter justifyCenter>
-            <Text.TitleH3>Control de inventario</Text.TitleH3>
-        </Container>
-    )
-}
-
-export default Control
-=======
 import React, { useEffect } from 'react';
 import { TextInput, Image } from 'react-native'
+import { useSelector } from 'react-redux'
 import { Container, Text, Spacer, Loading } from '../../component'
 import { useBackButton, useScanner, useHeaderTitle, useInventory } from '../../hook'
-import { useDispatch } from 'react-redux'
 import { getDatabase, ref as dbRef, set } from 'firebase/database';
 import BarcodeAsset from '../../assets/barcode.png'
 
@@ -24,6 +10,7 @@ const Control = () => {
     const [barcodeScanned, setBarcodeScanned] = React.useState(null)
     const [inventoryItemScanned, setInventoryItemScanned] = React.useState(null)
     const [control, setControl] = React.useState(null)
+    const workingDay = useSelector(state => state.workingDay.data)
 
     const {
         loadingInventory,
@@ -64,7 +51,7 @@ const Control = () => {
         const reference = dbRef(db, 'inventory/' + inventoryItemScanned.barcode);
         await set(reference, {
             ...inventoryItemScanned,
-            control,
+            stock: control,
         });
         refreshInventory()
         setBarcodeScanned(null)
@@ -91,11 +78,12 @@ const Control = () => {
                 <Container alignCenter>
                     <Text.TitleH3>{inventoryItemScanned.description}</Text.TitleH3>
                     <Spacer.Small />
-                    <Text.TitleH3>Stock actual: {inventoryItemScanned.control} </Text.TitleH3>
+                    <Text.TitleH3>Stock actual: {inventoryItemScanned.stock} </Text.TitleH3>
                     <Spacer.Medium />
                     <TextInput
                         placeholder="Nuevo stock"
                         autoFocus
+                        defaultValue={inventoryItemScanned.stock}
                         onChangeText={(text) => setControl(parseFloat(text))}
                         onSubmitEditing={handleUpdate}
                         style={{
@@ -112,4 +100,3 @@ const Control = () => {
 }
 
 export default Control
->>>>>>> 8b61e01 (Cambios)
