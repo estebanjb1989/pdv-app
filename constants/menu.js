@@ -29,6 +29,11 @@ export const MenuProvider = [{
     order: 40,
     visible: true,
 }, {
+    title: 'Staff',
+    route: 'Staff',
+    order: 45,
+    visible: true,
+}, {
     title: 'Ajustes',
     route: 'Adjustments',
     order: 50,

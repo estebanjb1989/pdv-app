@@ -33,3 +33,7 @@ export const SalesTypes = {
 export const WorkingDayTypes = {
   SET_WORKING_DAY: 'workingDay/SET_WORKING_DAY',
 }
+
+export const UserTypes = {
+  SET_USERS: 'user/SET_USERS',
+}

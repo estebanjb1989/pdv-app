@@ -57,6 +57,7 @@ const Navigator = () => {
                     <Stack.Screen name="Inventory" component={Views.Inventory} />
                     <Stack.Screen name="Prices" component={Views.Prices} />
                     <Stack.Screen name="Sales" component={Views.Sales} />
+                    <Stack.Screen name="Staff" component={Views.Staff} />
                     <Stack.Screen name="WorkingDay" component={Views.WorkingDay} />
                     <Stack.Screen name="Onboarding/SignIn" component={Views.Onboarding.SignIn} />
                     <Stack.Screen name="Onboarding/SignUp" component={Views.Onboarding.SignUp} />
