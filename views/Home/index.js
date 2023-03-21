@@ -31,7 +31,7 @@ const Home = () => {
   // useHeaderTitle(Config.appName);
   // useBackButton(null);
   // useWaiterTables();
-  // useUserHeader();
+  useUserHeader();
   useDrawerToggler()
 
   const role = roles.find((rl) => rl.name === "fullescabio" /*Config.mode*/);
@@ -130,6 +130,7 @@ const Home = () => {
                   }}
                 >
                   <Container>
+                    <Spacer.Medium />
                     <Input placeholder="Buscar..." />
                   </Container>
                 </Container>

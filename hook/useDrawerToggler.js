@@ -16,10 +16,13 @@ const useDrawerToggler = (icon = undefined) => {
                         <Image source={DrawerAsset} style={{
                             width: 32,
                             height: 32,
-                            marginLeft: 12,
+                            marginLeft: 16,
                         }} />
                     </Container>
                 )
+            },
+            headerTitleStyle: {
+                color: "whitesmoke"
             }
         })
     }, [navigation])

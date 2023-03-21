@@ -37,8 +37,8 @@ const styles = StyleSheet.create({
         backgroundColor: colors.dark2,
         padding: 8,
         width: 260, 
-        height: 120,
         marginVertical: 8,
+        marginHorizontal: 8,
     }
 });
 

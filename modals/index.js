@@ -5,6 +5,7 @@ import AddMember from './AddMember'
 import WaiterTables from './WaiterTables'
 import User from './User'
 import AddClient from './Clients/AddClient'
+import ProductLookup from "./ProductLookup";
 
 export default [
   {
@@ -36,5 +37,10 @@ export default [
     id: 6,
     route: "AddClient",
     component: AddClient,
+  },
+  {
+    id: 7,
+    route: "ProductLookup",
+    component: ProductLookup,
   },
 ];

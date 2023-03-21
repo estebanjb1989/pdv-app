@@ -44,6 +44,12 @@ const TabsNavigation = () => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
+        tabBarStyle: {
+          height: 80,
+        },
+        tabBarItemStyle: {
+          paddingBottom: 16,
+        },
         tabBarIcon: ({ focused, color, size }) => {
           switch (route.name) {
             case "Home":
@@ -56,7 +62,7 @@ const TabsNavigation = () => {
               return null;
           }
         },
-        tabBarActiveTintColor: "tomato",
+        tabBarActiveTintColor: "yellow",
         tabBarInactiveTintColor: "gray",
       })}
     >
@@ -74,7 +80,7 @@ const DrawerNavigation = () => {
         headerShown: false,
         drawerStyle: {
           backgroundColor: "white",
-          width: "75%",
+          width: 220,
         },
         headerTitleStyle: {
           color: "whitesmoke",
