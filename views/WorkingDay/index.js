@@ -36,7 +36,7 @@ const WorkingDay = () => {
             <Spacer.Small />
             {!workingDay?.started ? (
                 <Container>
-                    <Text.TitleH3>INICIO DE JORNADA</Text.TitleH3>
+                    <Text.TitleH3>INICIAR JORNADA</Text.TitleH3>
                     <Spacer.Medium />
                     <TextInput
                         defaultValue={workingDay?.moneyBegin}
@@ -54,7 +54,7 @@ const WorkingDay = () => {
                 </Container>
             ) :
                 <Container>
-                    <Text.TitleH3>FIN DE JORNADA</Text.TitleH3>
+                    <Text.TitleH3>FINALIZAR JORNADA</Text.TitleH3>
                     <Spacer.Medium />
                     <Text.Small>CAJA INICIAL: {workingDay?.moneyBegin} ARS</Text.Small>
                     <Spacer.Medium />

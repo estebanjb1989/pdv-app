@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList, Image } from 'react-native'
 import { Button, Container, Text, Spacer, Loading } from '../../component'
-import { useBackButton, useScanner, useHeaderTitle, useInventory } from '../../hook'
+import { useBackButton, useScanner, useHeaderTitle, useInventory, useUserHeader, useDrawerToggler } from '../../hook'
 import { getDatabase, ref as dbRef, set } from 'firebase/database';
 import BarcodeAsset from '../../assets/barcode.png'
 
@@ -20,11 +20,12 @@ const Reception = () => {
         refreshOnLoad: true,
     })
 
-    useHeaderTitle("Recepcion")
     useBackButton()
     useScanner((barcode) => {
         setBarcodeScanned(barcode)
     })
+    useUserHeader();
+    useDrawerToggler()
 
     useEffect(() => {
         if (!barcodeScanned || !inventory?.length) {

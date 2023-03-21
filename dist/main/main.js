@@ -867,8 +867,8 @@ eval("\n\n__webpack_require__(/*! source-map-support/source-map-support.js */ \"
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/estebanjoaquin/work/pdv-app/node_modules/electron-webpack/out/electron-main-hmr/main-hmr */"./node_modules/electron-webpack/out/electron-main-hmr/main-hmr.js");
-module.exports = __webpack_require__(/*! /Users/estebanjoaquin/work/pdv-app/node_modules/@expo/electron-adapter/template/electron/main/index.js */"./node_modules/@expo/electron-adapter/template/electron/main/index.js");
+__webpack_require__(/*! /Users/estebanbringas/repos/pdv-app/node_modules/electron-webpack/out/electron-main-hmr/main-hmr */"./node_modules/electron-webpack/out/electron-main-hmr/main-hmr.js");
+module.exports = __webpack_require__(/*! /Users/estebanbringas/repos/pdv-app/node_modules/@expo/electron-adapter/template/electron/main/index.js */"./node_modules/@expo/electron-adapter/template/electron/main/index.js");
 
 
 /***/ }),

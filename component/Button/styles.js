@@ -9,8 +9,6 @@ const styles = StyleSheet.create({
     minHeight: 48,
     alignItems: "center",
     justifyContent: "center",
-    
-    borderRadius: 32,
     borderColor: colors.tertiary,
     borderWidth: 1,
     flexDirection: "row",
@@ -58,21 +56,21 @@ const styles = StyleSheet.create({
     height: 24,
     justifyContent: "center",
     borderBottomWidth: 1,
-    borderColor: colors.primary
+    borderColor: colors.tertiary
   },
 
   tertiaryTitle: {
     
-    color: colors.primary,
+    color: colors.tertiary,
     fontWeight: "600",
   },
 
   tertiaryLight: {
-    color: colors.primaryBrand,
+    color: colors.tertiary,
   },
 
   tertiaryLighter: {
-    color: colors.primaryBrand,
+    color: colors.tertiary,
     fontWeight: "600",
   },
 

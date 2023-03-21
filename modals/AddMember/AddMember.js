@@ -8,17 +8,17 @@ import styles from "./styles";
 const AddMember = ({
   onSubmit
 }) => {
-  const [email, setEmail] = useState(null)
-  const [role, setRole] = useState(null)
+  const [name, setName] = useState(null)
+  const [role, setRole] = useState('waiter')
 
   return (
     <Container padded style={styles.container}>
       <Container alignCenter>
-        <Text.TitleH3>Nuevo miembro</Text.TitleH3>
+        <Text.TitleH3>Alta de personal</Text.TitleH3>
         <Spacer.Medium />
         <Input
-          label="Email"
-          onChange={(text) => setEmail(text)}
+          label="Nombre"
+          onChange={(text) => setName(text)}
         />
         <Spacer.Medium />
         <Picker
@@ -29,13 +29,22 @@ const AddMember = ({
           <Picker.Item label="Mesero" value="waiter" />
           <Picker.Item label="Cajero" value="teller" />
           <Picker.Item label="Encargado" value="admin" />
+          <Picker.Item label="Reportes" value="reporter" />
         </Picker>
         <Spacer.Medium />
         <Button.Primary
           title="OK"
           onPress={() => {
+            if (!name?.length) {
+              alert("Por favor, ingrese el nombre")
+              return
+            }
+            if (!role?.length) {
+              alert("Por favor, ingrese el rol de usuario")
+              return
+            }
             onSubmit({
-              email,
+              name,
               role
             })
           }}

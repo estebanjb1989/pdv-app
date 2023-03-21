@@ -16,6 +16,7 @@ export const RequestTypes = {
 
 export const SessionTypes = {
   SET_USER: 'session/SET_USER',
+  SET_CURRENT_TABLE: 'session/SET_CURRENT_TABLE',
 }
 
 export const CartTypes = {

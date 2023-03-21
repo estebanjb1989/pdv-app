@@ -3,12 +3,13 @@ import colors from '../../constants/colors'
 
 const styles = StyleSheet.create({
     input: {
-        width: 240,
+        width: '100%',
         height: 50,
         paddingHorizontal: 12,
-        borderBottomWidth: 1,
-        borderColor: colors.primary,
-        color: colors.primary
+        borderWidth: 0,
+        color: 'black',
+        backgroundColor: 'whitesmoke',
+        borderRadius: 4,
     }
 })
 

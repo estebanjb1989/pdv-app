@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList, Image } from 'react-native'
 import { Button, Container, Text, Spacer, Loading } from '../../component'
-import { useBackButton, useScanner, useHeaderTitle, useInventory } from '../../hook'
+import { useBackButton, useScanner, useHeaderTitle, useInventory, useUserHeader, useDrawerToggler } from '../../hook'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
     updateCart,
@@ -32,11 +32,11 @@ const PDV = () => {
         refreshOnLoad: true,
     })
 
-    useHeaderTitle("PDV")
-    useBackButton()
     useScanner((barcode) => {
         setBarcodeScanned(barcode)
     })
+    useDrawerToggler()
+    useUserHeader()
 
     useEffect(() => {
         if (!barcodeScanned || !inventory?.length) {

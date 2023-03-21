@@ -1,6 +1,6 @@
 module.exports = {
-  "appName": "PDV App",
-  "mode": "PROVIDER",
+  "appName": "FullEscabio",
+  "mode": "admin",
   "apiUrl": "",
   "env": "development",
   "Firebase": {

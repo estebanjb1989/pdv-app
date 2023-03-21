@@ -4,15 +4,16 @@ import { Provider } from 'react-redux'
 import { getStore } from './redux/Store'
 import { initFirebase } from './services/firebase'
 import Navigator from './navigator'
-import BottomSheet from './component/BottomSheet'
+
 
 initFirebase()
 
 function App() {
   return (
     <Provider store={getStore()}>
-      <Navigator />
-      <BottomSheet />
+      <Navigator>
+      
+      </Navigator>
     </Provider>
   );
 }

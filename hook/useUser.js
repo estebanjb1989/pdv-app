@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native'
 import { fetchUsers } from '../services/firebase'
 import { UserTypes } from '../redux/types'
 import { useSelector, useDispatch } from 'react-redux'
-import { getDatabase, ref as dbRef, set } from 'firebase/database';
+import { getDatabase, ref as dbRef, set, remove, update } from 'firebase/database';
 
 const useUser = (options) => {
     const [loadingUsers, setLoadingUsers] = useState(false)
@@ -30,26 +30,30 @@ const useUser = (options) => {
 
     const submitMember = async (values) => {
         const db = getDatabase();
-        const reference = dbRef(db, 'user/' + values.email.split('@')[0]);
-        await set(reference, {
-            role: values.role,
-            email: values.email,
-        })
+        const reference = dbRef(db, 'user/' + values.name);
+        await set(reference, values)
         refreshUsers()
     }
 
     const submitRoles = async (selectedValues) => {
         const db = getDatabase();
         for (const key in selectedValues) {
-            const reference = dbRef(db, 'user/' + key.split('@')[0]);
+            const reference = dbRef(db, 'user/' + key);
             const payload = {
-                ...user,
                 role: selectedValues[key],
             }
-            await set(reference, payload);
+            await update(reference, payload);
         }
         refreshUsers()
         navigation.goBack()
+    }
+
+    const deleteUser = (values) => {
+        const db = getDatabase();
+        const reference = dbRef(db, 'user/' + values.name);
+        remove(reference).finally(() => {
+            refreshUsers()
+        })
     }
 
     React.useEffect(() => {
@@ -64,6 +68,7 @@ const useUser = (options) => {
         refreshUsers,
         submitMember,
         submitRoles,
+        deleteUser
     }
 }
 

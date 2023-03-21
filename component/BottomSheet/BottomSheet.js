@@ -20,7 +20,7 @@ const BottomSheet = () => {
   const handleClose = () => {
     dispatch(bsActions.close())
   };
-
+  
   useEffect(() => {
     if (modalOpen) {
       Keyboard.dismiss();
@@ -53,7 +53,7 @@ const BottomSheet = () => {
               <Container style={styles.head} alignCenter justifyCenter>
                 <View style={styles.swipeIndicator} />
               </Container>
-              <ModalComponent {...modalProps} />
+              <ModalComponent {...modalProps} handleClose={handleClose} />
             </Container>
           </KeyboardAvoidingView>
         )}

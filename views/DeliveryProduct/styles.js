@@ -1,16 +1,5 @@
 import { StyleSheet } from 'react-native'
-
-const shadow = {
-    shadowColor: "lightgrey",
-    shadowOffset: {
-        width: 0,
-        height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
-}
+import colors from '../../constants/colors';
 
 const styles = StyleSheet.create({
     container: {
@@ -20,22 +9,22 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     menuItem: {
-        width: 128,
+        width: 260,
         height: 128,
         borderRadius: 16,
         margin: 12,
         justifyContent: 'center',
         alignItems: 'center',
-        ...shadow,
+        backgroundColor: colors.dark2,
     },
     menuItemMobile: {
-        width: 240,
+        width: 260,
         height: 96,
         marginBottom: 16,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 4,
-        ...shadow,
+        backgroundColor: colors.dark2,
     }
 });
 

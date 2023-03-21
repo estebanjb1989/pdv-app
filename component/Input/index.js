@@ -4,6 +4,7 @@ import Container from '../Container'
 import Text from '../Text'
 import Spacer from '../Spacer'
 import styles from './styles'
+import colors from "../../constants/colors"
 
 const Input = ({
     label,
@@ -11,17 +12,18 @@ const Input = ({
     secure,
     placeholder,
     onChange,
+    style,
 }) => {
     return (
         <Container>
             <Spacer.Medium />
-            <Text.Small>{label}</Text.Small>
+            <Text.Small color={colors.secondary}>{label}</Text.Small>
             <Spacer.Small />
             <TextInput
                 placeholder={placeholder}
                 secureTextEntry={secure}
                 autoFocus={autoFocus}
-                style={styles.input}
+                style={[styles.input]}
                 onChangeText={onChange}
             />
         </Container>
