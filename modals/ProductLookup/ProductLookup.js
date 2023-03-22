@@ -4,12 +4,14 @@ import { Container, Spacer, Text, Button, Input } from "../../component";
 import styles from "./styles";
 import colors from "../../constants/colors";
 import { useInventory } from "../../hook";
+import { useSelector } from "react-redux";
 
-const ProductLookup = () => {
+const ProductLookup = ({ onSubmit }) => {
   const [results, setResults] = useState(null);
   const { loadingInventory, inventory } = useInventory({
     refreshOnLoad: true,
   });
+  const cart = useSelector(({ cart }) => cart.list)
 
   const handleChangeText = (value) => {
     if (value.length < 3) {
@@ -28,7 +30,7 @@ const ProductLookup = () => {
             width: 240,
           }}
         >
-          <Input placeholder="Buscar producto" onChange={handleChangeText} />
+          <Input autoFocus placeholder="Buscar producto" onChange={handleChangeText} />
         </Container>
         {/* <Container
           style={{
@@ -51,7 +53,7 @@ const ProductLookup = () => {
               padding: 24,
               marginBottom: 8,
             }}
-            onPress={() => alert("agregar al carrito")}
+            onPress={() => onSubmit(item, cart)}
           >
             <Text.Body>{item.description} ${item.price}</Text.Body>
           </Container>

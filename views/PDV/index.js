@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { FlatList, Image } from "react-native";
 import { Button, Container, Text, Spacer, Loading } from "../../component";
 import {
@@ -19,15 +19,16 @@ import {
 } from "../../business/pdv";
 import styles from "./styles";
 import BarcodeAsset from "../../assets/barcode.png";
-import { useDispatch } from "react-redux";
-import bsActions from '../../redux/modules/bottomSheet'
+import { useDispatch, useSelector } from "react-redux";
+import bsActions from "../../redux/modules/bottomSheet";
+import { CartTypes } from "../../redux/types";
 
 const PDV = () => {
-  const [items, setItems] = useState([]);
   const [barcodeScanned, setBarcodeScanned] = useState(null);
   const [inventoryItemScanned, setInventoryItemScanned] = useState(null);
   const [credentials, setCredentials] = useState(null);
   const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart.list);
 
   useEffect(async () => {
     const creds = await AsyncStorage.getItem("@credentials");
@@ -65,8 +66,18 @@ const PDV = () => {
     if (!inventoryItemScanned) {
       return;
     }
-    updateCart(inventoryItemScanned, items, setItems, inventory);
-  }, [inventoryItemScanned]);
+    updateCart(inventoryItemScanned, cart, inventory, dispatch);
+  }, [inventoryItemScanned, cart, inventory, dispatch]);
+
+  const handleLookupPress = useCallback(() => {
+    dispatch(
+      bsActions.open("ProductLookup", {
+        onSubmit: (product, currentCart) => {
+          updateCart(product, currentCart, inventory, dispatch);
+        },
+      })
+    );
+  }, [cart, inventory, dispatch]);
 
   if (loadingInventory) {
     return <Loading />;
@@ -78,7 +89,7 @@ const PDV = () => {
         <Container fullWidth>
           <FlatList
             keyExtractor={(item) => item.id}
-            data={items}
+            data={cart}
             ListHeaderComponent={
               <Container>
                 <Container row spaceBetween>
@@ -120,7 +131,7 @@ const PDV = () => {
                     backgroundColor: "lightgrey",
                   }}
                 />
-                {!items.length && (
+                {!cart.length && (
                   <Container flex alignCenter justifyCenter>
                     <Spacer.Medium />
                     <Image
@@ -183,7 +194,7 @@ const PDV = () => {
                     style={{
                       width: "10%",
                     }}
-                    onPress={handleDelete(items, item, setItems)}
+                    onPress={handleDelete(cart, item, dispatch)}
                   >
                     <Text.Body>❌</Text.Body>
                   </Container>
@@ -220,20 +231,18 @@ const PDV = () => {
           >
             <Container row alignCenter>
               <Button.Primary
-                disabled={items.length === 0}
+                disabled={cart.length === 0}
                 title="Cobrar"
                 width={80}
                 onPress={() =>
-                  handleFinish(credentials, items, setItems, refreshInventory)
+                  handleFinish(credentials, cart, dispatch, refreshInventory)
                 }
               />
               <Container style={{ marginLeft: 12 }}>
                 <Button.Primary
                   width={80}
                   title="Buscar"
-                  onPress={() => {
-                    dispatch(bsActions.open("ProductLookup"));
-                  }}
+                  onPress={handleLookupPress}
                 />
               </Container>
             </Container>
@@ -247,7 +256,7 @@ const PDV = () => {
           >
             <Text.Small>TOTAL</Text.Small>
             <Text.BodyBold fontSize={24}>
-              {calculateTotal(items)} ARS
+              {calculateTotal(cart)} ARS
             </Text.BodyBold>
           </Container>
         </Container>
