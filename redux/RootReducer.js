@@ -1,55 +1,65 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from "redux";
 
 import {
   reducer as errorReducer,
   initialState as errorInitialState,
-} from './modules/error'
+} from "./modules/error";
 
 import {
   reducer as fetchingReducer,
   initialState as fetchingInitialState,
-} from './modules/fetching'
+} from "./modules/fetching";
 
 import {
   reducer as sessionReducer,
   initialState as sessionInitialState,
-} from './modules/session'
+} from "./modules/session";
 
 import {
   reducer as bottomSheetReducer,
   initialState as bottomSheetInitialState,
-} from './modules/bottomSheet'
+} from "./modules/bottomSheet";
 
 import {
   reducer as msgBoxReducer,
   initialState as msgBoxInitialState,
-} from './modules/msgBox'
+} from "./modules/msgBox";
 
 // modules
 import {
   reducer as inventoryReducer,
   initialState as inventoryInitialState,
-} from './modules/inventory'
+} from "./modules/inventory";
 
 import {
   reducer as salesReducer,
   initialState as salesInitialState,
-} from './modules/sales'
+} from "./modules/sales";
 
 import {
   reducer as cartReducer,
   initialState as cartInitialState,
-} from './modules/cart'
+} from "./modules/cart";
 
 import {
   reducer as workingDayReducer,
   initialState as workingDayInitialState,
-} from './modules/workingDay'
+} from "./modules/workingDay";
 
 import {
   reducer as userReducer,
   initialState as userInitialState,
-} from './modules/user'
+} from "./modules/user";
+
+import {
+  reducer as clientReducer,
+  initialState as clientInitialState,
+} from "./modules/client";
+
+import {
+  reducer as buyReducer,
+  initialState as buyInitialState,
+} from "./modules/buy";
 
 const RootState = {
   error: errorInitialState,
@@ -63,7 +73,9 @@ const RootState = {
   cart: cartInitialState,
   workingDay: workingDayInitialState,
   user: userInitialState,
-}
+  client: clientInitialState,
+  buy: buyInitialState,
+};
 
 const RootReducer = combineReducers({
   error: errorReducer,
@@ -77,6 +89,8 @@ const RootReducer = combineReducers({
   cart: cartReducer,
   workingDay: workingDayReducer,
   user: userReducer,
-})
+  client: clientReducer,
+  buy: buyReducer,
+});
 
-export { RootReducer, RootState }
+export { RootReducer, RootState };

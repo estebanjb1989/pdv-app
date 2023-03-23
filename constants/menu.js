@@ -33,7 +33,7 @@ export const MenuProvider = [
   },
   {
     title: "Inventario",
-    route: "Inventory",
+    route: "Inventario",
     order: 40,
     visible: true,
   },
@@ -102,7 +102,7 @@ export const MenuProviderWorkingDay = [
 export const MenuReporter = [
   {
     title: "Inventario",
-    route: "Inventory",
+    route: "Inventario",
     order: 40,
     visible: true,
   },
@@ -139,7 +139,7 @@ export const MenuWaiter = [
 export const MenuFullEscabio = [
   {
     title: "ADLC",
-    route: "Clients",
+    route: "Clientes",
     visible: true,
     order: 10,
     type: "Lookup",
@@ -151,14 +151,14 @@ export const MenuFullEscabio = [
   },
   {
     title: "Productos",
-    route: "Inventory",
+    route: "Inventario",
     order: 20,
     visible: true,
     type: "Lookup",
   },
   {
     title: "Compras",
-    route: "Reception",
+    route: "Compras",
     visible: true,
     order: 30,
     type: "Lookup",

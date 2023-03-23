@@ -20,6 +20,7 @@ import useUserHeader from "../../hook/useUserHeader";
 import AddAsset from "../../assets/add.png";
 import ListAsset from "../../assets/list.png";
 import bsActions from "../../redux/modules/bottomSheet";
+import useClients from "../../hook/useClients";
 
 const Home = () => {
   const credentials = useSelector((state) => state.session.credentials);
@@ -33,6 +34,8 @@ const Home = () => {
   // useWaiterTables();
   useUserHeader();
   useDrawerToggler()
+
+  useClients();
 
   const role = roles.find((rl) => rl.name === "fullescabio" /*Config.mode*/);
   //const role = FullEscabioRole;
@@ -125,9 +128,6 @@ const Home = () => {
               </Container>
               {menuItem.type === "Lookup" && (
                 <Container
-                  style={{
-                    paddingRight: 48,
-                  }}
                 >
                   <Container>
                     <Spacer.Medium />

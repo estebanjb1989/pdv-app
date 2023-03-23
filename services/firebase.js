@@ -111,3 +111,32 @@ export const fetchUsers = async (onSuccess, onError) => {
         onError?.(err)
     }
 }
+
+export const fetchClients = async (onSuccess, onError) => {
+    const _dbRef = dbRef(getDatabase());
+    try {
+        const snapshot = await get(child(_dbRef, 'clients'))
+        if (snapshot.exists()) {
+            onSuccess?.(snapshot.val())
+        } else {
+            onSuccess?.({})
+        }
+    } catch (err) {
+        onError?.(err)
+    }
+}
+
+export const fetchBuy = async (onSuccess, onError) => {
+    const _dbRef = dbRef(getDatabase());
+    try {
+        const snapshot = await get(child(_dbRef, 'buy'))
+        if (snapshot.exists()) {
+            onSuccess?.(snapshot.val())
+        } else {
+            onSuccess?.({})
+        }
+    } catch (err) {
+        onError?.(err)
+    }
+}
+

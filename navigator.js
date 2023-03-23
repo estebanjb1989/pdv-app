@@ -17,6 +17,7 @@ import PDVAsset from "./assets/pdv.png";
 import ReceptionAsset from "./assets/reception.png";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import BottomSheet from './component/BottomSheet'
+import colors from './constants/colors'
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
@@ -62,8 +63,9 @@ const TabsNavigation = () => {
               return null;
           }
         },
-        tabBarActiveTintColor: "yellow",
+        tabBarActiveTintColor: colors.text,
         tabBarInactiveTintColor: "gray",
+        tabBarActiveBackgroundColor: colors.dark2,
       })}
     >
       <Tab.Screen name="Home" component={Views.Home} />
@@ -88,15 +90,18 @@ const DrawerNavigation = () => {
       }}
     >
       <Drawer.Screen name="Home" component={TabsNavigation} />
-      <Drawer.Screen name="Clientes" component={Views.Inventory} />
-      <Drawer.Screen name="ADLC" component={Views.Inventory} />
+      <Drawer.Screen name="Proveedores" component={Views.Clients} />
+      <Drawer.Screen name="Clientes" component={Views.Clients} />
+      <Drawer.Screen name="Compras" component={Views.Buy} />
+      <Drawer.Screen name="Ventas" component={Views.Sales} />
+      {/* <Drawer.Screen name="ADLC" component={Views.Inventory} />
       <Drawer.Screen name="Promos" component={Views.Inventory} />
       <Drawer.Screen name="Descuentos" component={Views.Inventory} />
-      <Drawer.Screen name="Novedades" component={Views.Inventory} />
-      <Drawer.Screen name="Productos" component={Views.Inventory} />
-      <Drawer.Screen name="Mis pedidos" component={Views.Inventory} />
+      <Drawer.Screen name="Novedades" component={Views.Inventory} /> */}
+      <Drawer.Screen name="Inventario" component={Views.Inventory} />
+      {/* <Drawer.Screen name="Mis pedidos" component={Views.Inventory} />
       <Drawer.Screen name="Mis datos" component={Views.Inventory} />
-      <Drawer.Screen name="Eventos" component={Views.Inventory} />
+      <Drawer.Screen name="Eventos" component={Views.Inventory} /> */}
     </Drawer.Navigator>
   );
 };

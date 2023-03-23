@@ -38,3 +38,11 @@ export const WorkingDayTypes = {
 export const UserTypes = {
   SET_USERS: 'user/SET_USERS',
 }
+
+export const ClientTypes = {
+  SET_LIST: 'client/SET_LIST',
+}
+
+export const BuyTypes = {
+  SET_LIST: 'buy/SET_LIST',
+}

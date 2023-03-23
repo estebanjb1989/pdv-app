@@ -12,6 +12,8 @@ import useWorkingDay from './useWorkingDay'
 import useUser from './useUser'
 import useUserHeader from './useUserHeader'
 import useDrawerToggler from './useDrawerToggler'
+import useClients from './useClients'
+import useBuy from './useBuy'
 
 export {
     useBackButton,
@@ -27,4 +29,6 @@ export {
     useUser,
     useUserHeader,
     useDrawerToggler,
+    useClients,
+    useBuy,
 }

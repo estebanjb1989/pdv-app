@@ -92,6 +92,7 @@ export const handleFinish = async (
   dispatch,
   refreshInventory
 ) => {
+  debugger
   let options = {
     buttons: ["Si", "No"],
     message: "Confirma la venta?",
@@ -107,7 +108,7 @@ export const handleFinish = async (
       soldOutAt: Date.now(),
     });
 
-    for (const item of items) {
+    /*for (const item of items) {
       reference = ref(db, "inventory/" + item.barcode);
       const qty = item.quantity;
       delete item.quantity;
@@ -116,7 +117,7 @@ export const handleFinish = async (
         stock: item.stock - qty,
       });
     }
-    refreshInventory();
+    refreshInventory();*/
     dispatch({ type: CartTypes.SET_CART, payload: [] });
   }
 };

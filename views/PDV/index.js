@@ -102,7 +102,7 @@ const PDV = () => {
                     style={{
                       width: "40%",
                     }}
-                  ></Container>
+                  ><Text.Small>PRODUCTO</Text.Small></Container>
                   <Container
                     style={{
                       width: "20%",
