@@ -8,6 +8,7 @@ import {
   DataTable,
   Loading,
   Input,
+  Button,
 } from "../../component";
 import {
   useBackButton,
@@ -18,19 +19,69 @@ import {
 } from "../../hook";
 
 const Inventory = () => {
-
   const { loadingInventory, inventory } = useInventory({
     refreshOnLoad: true,
   });
-  useDrawerToggler()
+  useDrawerToggler();
+  useBackButton();
 
   if (loadingInventory) {
     return <Loading />;
   }
 
   return (
-    <Container padded scrollEnabled>
-      {/* <Container row wrap spaceBetween>
+    <Container scrollEnabled>
+      <Container alignCenter>
+        <Spacer.Medium />
+        <Container row>
+          <Spacer.Small />
+          <Button.Primary width={240} title="Exportar Excel" />
+        </Container>
+        <Spacer.Medium />
+      </Container>
+      <Container alignCenter>
+        <DataTable
+          keyField="barcode"
+          dataSource={inventory}
+          columns={[
+            {
+              key: "category",
+              title: "Categoria",
+              width: "20%",
+            },
+            {
+              key: "barcode",
+              title: "Cod. Barra",
+              width: "20%",
+            },
+            {
+              key: "description",
+              title: "Descripcion",
+              width: "20%",
+            },
+            {
+              key: "price",
+              title: "Precio (ARS)",
+              width: "20%",
+              alignEnd: true,
+            },
+            {
+              key: "stock",
+              title: "Stock",
+              width: "20%",
+              alignEnd: true,
+            },
+          ]}
+        />
+      </Container>
+    </Container>
+  );
+};
+
+export default Inventory;
+
+{
+  /* <Container row wrap spaceBetween>
         <Container>
           <Input label="Categoria" />
           <Spacer.Medium />
@@ -61,42 +112,5 @@ const Inventory = () => {
           <Input label="Unidad de medida" />
           <Spacer.Medium />
         </Container>
-      </Container> */}
-      <DataTable
-        keyField="barcode"
-        dataSource={inventory}
-        columns={[
-          {
-            key: "category",
-            title: "Categoria",
-            width: "20%",
-          },
-          {
-            key: "barcode",
-            title: "Cod. Barra",
-            width: "20%",
-          },
-          {
-            key: "description",
-            title: "Descripcion",
-            width: "20%",
-          },
-          {
-            key: "price",
-            title: "Precio (ARS)",
-            width: "20%",
-            alignEnd: true,
-          },
-          {
-            key: "stock",
-            title: "Stock",
-            width: "20%",
-            alignEnd: true,
-          },
-        ]}
-      />
-    </Container>
-  );
-};
-
-export default Inventory;
+      </Container> */
+}

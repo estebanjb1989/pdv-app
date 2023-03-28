@@ -6,10 +6,10 @@ export const Theme = {
 };
 
 export const light = {
-  background: colors.dark,
-  card: colors.secondaryColor,
+  background: colors.dark2,
+  card: colors.dark,
   text: colors.tertiaryColor,
-  border: colors.primary,
+  border: colors.tertiary,
 };
 
 export const dark = {

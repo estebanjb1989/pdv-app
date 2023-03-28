@@ -3,69 +3,88 @@ import { Picker } from "react-native";
 import PropTypes from "prop-types";
 import { Container, Spacer, Text, Button, Input } from "../../component";
 import { useSelector } from "react-redux";
+import { useClients } from "../../hook";
 import styles from "./styles";
 
 const AddClient = ({ onSubmit }) => {
-  const [name, setName] = useState(null);
-  const [role, setRole] = useState("waiter");
+  const [firstname, setFirstname] = useState(null);
+  const [lastname, setLastname] = useState(null);
+  const [birthday, setBirthday] = useState(null);
+  const [email, setEmail] = useState(null);
+
+  const { submit } = useClients();
 
   return (
     <Container style={styles.container}>
       <Container alignCenter>
         <Container>
-          <Text.TitleH3>NUEVO AMIGO DE LA CASA</Text.TitleH3>
+          <Text.TitleH3>NUEVO CLIENTE</Text.TitleH3>
           <Spacer.Medium />
         </Container>
 
         <Container row spaceBetween>
           <Container>
-            <Input label="Nombre" onChange={(text) => setName(text)} />
+            <Input label="Nombre" onChange={(text) => setFirstname(text)} />
           </Container>
           <Spacer.Small />
           <Container>
-            <Input label="Apellido" onChange={(text) => setName(text)} />
+            <Input label="Apellido" onChange={(text) => setLastname(text)} />
           </Container>
         </Container>
 
-        <Container row spaceBetween>
+        <Container row>
           <Container>
-            <Input label="Direccion" onChange={(text) => setName(text)} />
+            <Input
+              style={{}}
+              label="Fecha de nacimiento"
+              onChange={(text) => setBirthday(text)}
+            />
           </Container>
           <Spacer.Small />
           <Container>
-            <Input label="Telefono" onChange={(text) => setName(text)} />
+            <Input
+              style={{}}
+              label="Email"
+              onChange={(text) => setEmail(text)}
+            />
           </Container>
         </Container>
 
-        <Container row spaceBetween>
-          <Container>
-            <Input label="Tipo Doc." onChange={(text) => setName(text)} />
-          </Container>
-          <Spacer.Small />
-          <Container>
-            <Input label="Doc." onChange={(text) => setName(text)} />
-          </Container>
+        <Container>
+          <Spacer.Medium />
+          <Text.TitleH3>Puntaje FullEscabio: 44%</Text.TitleH3>
+          <Text.TitleH3>Monto para siguiente nivel: $15000</Text.TitleH3>
         </Container>
-    
-        <Container fullWidth>
+
+        <Container>
           <Spacer.Large />
           <Button.Primary
+            width={240}
             title="Guardar"
             onPress={() => {
-              if (!name?.length) {
+              if (!firstname?.length) {
                 alert("Por favor, ingrese el nombre");
                 return;
               }
-              if (!role?.length) {
-                alert("Por favor, ingrese el rol de usuario");
+              if (!lastname?.length) {
+                alert("Por favor, ingrese el apellido");
                 return;
               }
-              onSubmit({
-                name,
-                role,
-              });
+              if (!email?.length) {
+                alert("Por favor, ingrese el email");
+                return;
+              }
+              const payload = {
+                firstname,
+                lastname,
+                birthday,
+                email,
+              };
+              submit(payload);
+              onSubmit(payload);
             }}
           />
+          <Spacer.Large />
         </Container>
       </Container>
     </Container>

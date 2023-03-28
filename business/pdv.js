@@ -1,6 +1,6 @@
 import { getDatabase, ref, push, set } from "firebase/database";
 import { CartTypes } from "../redux/types";
-const dialog = require("electron").remote.dialog;
+const dialog = null//require("electron").remote.dialog;
 
 export const validateBarcode = (barcode, inventory) => {
   const item = inventory.find((item) => item.barcode.toString() === barcode);
@@ -97,7 +97,7 @@ export const handleFinish = async (
     buttons: ["Si", "No"],
     message: "Confirma la venta?",
   };
-  const response = dialog.showMessageBoxSync(options);
+  const response = dialog?.showMessageBoxSync?.(options);
   if (response === 0) {
     const db = getDatabase();
     let reference = ref(db, "sales");

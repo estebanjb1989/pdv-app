@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image } from "react-native";
+import { Image } from "react-native"
 import { useDispatch } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { Button, Container, Text, Input, Spacer } from "../../../component";
@@ -13,8 +13,7 @@ import {
 import { SessionTypes } from "../../../redux/types";
 import config from "../../../constants/Config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import colors from "../../../constants/colors";
-import LogoAsset from "../../../assets/logo.jpeg";
+import LogoWideAsset from "../../../assets/logo-wide.png";
 
 const SignIn = () => {
   useHeaderHidden();
@@ -70,7 +69,9 @@ const SignIn = () => {
         payload: credentials,
       });
       await AsyncStorage.setItem("@credentials", JSON.stringify(credentials));
-      navigation.navigate("Home");
+      navigation.navigate("Drawer/Navigation", {
+        screen: "Drawer/Root",
+      });
     } catch (err) {
       alert(err.message);
     } finally {
@@ -82,14 +83,13 @@ const SignIn = () => {
     <Container flex alignCenter spaceBetween>
       <Container />
       <Container>
-        {/* <Image
-          source={LogoAsset}
+        <Image
+          source={LogoWideAsset}
           style={{
-            width: 128,
-            height: 128,
+            width: 250,
+            height: 80,
           }}
-        /> */}
-        <Text.TitleH1>FullEscabio</Text.TitleH1>
+        />
       </Container>
       <Container>
         <Input

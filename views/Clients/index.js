@@ -8,6 +8,7 @@ import {
   DataTable,
   Loading,
   Input,
+  Button
 } from "../../component";
 import {
   useBackButton,
@@ -19,61 +20,49 @@ import {
 } from "../../hook";
 
 const Clients = () => {
-  const { loading } = useClients({
+  const { loading, clients } = useClients({
     refreshOnLoad: true,
   });
-  const clients = [
-    {
-      id: 1,
-      name: "Juan Perez",
-      document_type: "dni",
-      document_number: "11222333",
-      is_adlc: 'NO',
-    },
-    {
-      id: 2,
-      name: "Victor Robles",
-      document_type: "passport",
-      document_number: "222333",
-      is_adlc: 'SI',
-    },
-  ];
   useDrawerToggler();
+  useBackButton();
 
   if (loading) {
     return <Loading />;
   }
 
   return (
-    <Container padded scrollEnabled>
+    <Container scrollEnabled>
+      <Container alignCenter>
+        <Spacer.Medium />
+        <Container row>
+          <Spacer.Small />
+          <Button.Primary width={240} title="Exportar Excel" />
+        </Container>
+        <Spacer.Medium />
+      </Container>
       <DataTable
         keyField="id"
         dataSource={clients}
         columns={[
           {
-            key: "id",
-            title: "ID",
-            width: "20%",
-          },
-          {
-            key: "name",
+            key: "firstname",
             title: "Nombre",
+            width: "20%",
+          },
+          {
+            key: "lastname",
+            title: "Apellido",
+            width: "20%",
+          },
+          {
+            key: "birthday",
+            title: "Fecha Nacimiento",
+            width: "20%",
+          },
+          {
+            key: "email",
+            title: "Email",
             width: "40%",
-          },
-          {
-            key: "document_type",
-            title: "Tipo doc.",
-            width: "20%",
-          },
-          {
-            key: "document_number",
-            title: "Nro. documento",
-            width: "20%",
-          },
-          {
-            key: "is_adlc",
-            title: "Es ADLC?",
-            width: "20%",
           },
         ]}
       />

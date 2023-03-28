@@ -33,7 +33,7 @@ const useClients = (options) => {
 
     const submit = async (values) => {
         const db = getDatabase();
-        const reference = dbRef(db, 'clients/' + values.name);
+        const reference = dbRef(db, 'clients/' + values.email.replace("@", " "));
         await set(reference, values)
         refresh()
     }

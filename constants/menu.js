@@ -138,7 +138,7 @@ export const MenuWaiter = [
 
 export const MenuFullEscabio = [
   {
-    title: "ADLC",
+    title: "Clientes",
     route: "Clientes",
     visible: true,
     order: 10,
@@ -151,16 +151,16 @@ export const MenuFullEscabio = [
   },
   {
     title: "Productos",
-    route: "Inventario",
+    route: "Productos",
     order: 20,
     visible: true,
     type: "Lookup",
-  },
-  {
+  }
+/*   {
     title: "Compras",
     route: "Compras",
     visible: true,
     order: 30,
     type: "Lookup",
-  },
+  }, */
 ];

@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Text, Spacer, Button, Input } from "../../component";
 import { Image } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useTheme } from "@react-navigation/native";
 import Config from "../../constants/Config";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,10 +10,11 @@ import {
   useBackButton,
   useHeaderRight,
   useDrawerToggler,
+  useHeaderLogoWide,
 } from "../../hook";
 import { SessionTypes } from "../../redux/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import styles from "./styles";
+import styles, { Cluster } from "./styles";
 import colors from "../../constants/colors";
 import roles from "../../constants/roles";
 import useUserHeader from "../../hook/useUserHeader";
@@ -23,17 +24,19 @@ import bsActions from "../../redux/modules/bottomSheet";
 import useClients from "../../hook/useClients";
 
 const Home = () => {
+  const theme = useTheme();
+  console.log(theme);
   const credentials = useSelector((state) => state.session.credentials);
   const workingDay = useSelector((state) => state.workingDay.data);
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const isMobile = useIsMobile();
 
-  // useHeaderTitle(Config.appName);
   // useBackButton(null);
   // useWaiterTables();
-  useUserHeader();
-  useDrawerToggler()
+
+  useDrawerToggler();
+  useHeaderLogoWide();
 
   useClients();
 
@@ -62,7 +65,7 @@ const Home = () => {
         {role.menu
           .sort((a, b) => a.order - b.order)
           .map((menuItem) => (
-            <Container
+            <Cluster
               key={menuItem.title}
               style={
                 !menuItem.type === "Lookup"
@@ -110,7 +113,9 @@ const Home = () => {
                     onPress={() => {
                       dispatch(
                         bsActions.open(menuItem.cta_add_link, {
-                          onSubmit: (values) => {},
+                          onSubmit: () => {
+                            dispatch(bsActions.close())
+                          },
                         })
                       );
                     }}
@@ -127,15 +132,14 @@ const Home = () => {
                 )}
               </Container>
               {menuItem.type === "Lookup" && (
-                <Container
-                >
+                <Container>
                   <Container>
                     <Spacer.Medium />
                     <Input placeholder="Buscar..." />
                   </Container>
                 </Container>
               )}
-            </Container>
+            </Cluster>
           ))}
       </Container>
       <Container>

@@ -43,7 +43,6 @@ const PDV = () => {
     setBarcodeScanned(barcode);
   });
   useDrawerToggler();
-  useUserHeader();
 
   useEffect(() => {
     if (!barcodeScanned || !inventory?.length) {
@@ -108,7 +107,7 @@ const PDV = () => {
                       width: "20%",
                     }}
                   >
-                    <Text.Small>P/U</Text.Small>
+                    <Text.Small>Precio</Text.Small>
                   </Container>
                   <Container
                     style={{
@@ -164,8 +163,7 @@ const PDV = () => {
                     }}
                   >
                     <Text.Body>
-                      {item.description} (Quedan{" "}
-                      {item.stock - item.quantity || 0})
+                      {item.description}
                     </Text.Body>
                   </Container>
                   <Container

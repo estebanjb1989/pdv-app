@@ -1,33 +1,48 @@
-import React from 'react'
-import { Image } from "react-native-web"
-import { Container, Text, Spacer } from '../component'
-import { useNavigation } from '@react-navigation/native'
-import DrawerAsset from "../assets/drawer.png"
+import React from "react";
+import { Image } from "react-native-web";
+import { Container, Text, Spacer } from "../component";
+import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+import DrawerAsset from "../assets/drawer.png";
+import { AvatarComponent } from "./useUserHeader";
 
-const useDrawerToggler = (icon = undefined) => {
-    const navigation = useNavigation()
+const useDrawerToggler = (icon = undefined, isHeaderLeft = false) => {
+  const navigation = useNavigation();
+  const user = useSelector(({ session }) => session.credentials);
 
-    React.useEffect(() => {
-        navigation.setOptions({
-            headerShown: true,
-            headerLeft: icon === null ? null : () => {
-                return (
-                    <Container onPress={navigation.toggleDrawer} row>
-                        <Image source={DrawerAsset} style={{
-                            width: 32,
-                            height: 32,
-                            marginLeft: 16,
-                        }} />
-                    </Container>
-                )
-            },
-            headerTitleStyle: {
-                color: "whitesmoke"
-            }
-        })
-    }, [navigation])
+  const Toggler = () => {
+    return (
+      <Container onPress={navigation.toggleDrawer} row>
+        <Image
+          source={DrawerAsset}
+          style={{
+            width: 40,
+            height: 40,
+            marginRight: 16,
+          }}
+        />
+      </Container>
+    );
+  };
 
-    return null
-}
+  React.useEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerLeft: () => (isHeaderLeft ? <Toggler /> : null),
+      headerRight: () =>
+        !isHeaderLeft ? (
+          <Container row>
+            <AvatarComponent />
+            <Toggler />
+          </Container>
+        ) : null,
+      headerTitleStyle: {
+        color: "whitesmoke",
+      },
+    });
+  }, [navigation, isHeaderLeft]);
 
-export default useDrawerToggler
+  return null;
+};
+
+export default useDrawerToggler;

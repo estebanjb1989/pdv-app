@@ -1,11 +1,11 @@
-
 import Message from "./Message";
-import Cart from './Cart'
-import AddMember from './AddMember'
-import WaiterTables from './WaiterTables'
-import User from './User'
-import AddClient from './Clients/AddClient'
+import Cart from "./Cart";
+import AddMember from "./AddMember";
+import WaiterTables from "./WaiterTables";
+import User from "./User";
+import AddClient from "./Clients/AddClient";
 import ProductLookup from "./ProductLookup";
+import ProductDetail from "./ProductDetail";
 
 export default [
   {
@@ -42,5 +42,10 @@ export default [
     id: 7,
     route: "ProductLookup",
     component: ProductLookup,
+  },
+  {
+    id: 8,
+    route: "ProductDetail",
+    component: ProductDetail,
   },
 ];
